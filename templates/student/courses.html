@@ -1,0 +1,71 @@
+{% extends "app_base.html" %}
+
+{% block title %}Enrolled Courses - SAMS Student{% endblock %}
+{% block page_title %}My Enrolled Academic Courses{% endblock %}
+
+{% block content %}
+<div class="container-fluid px-0">
+  <!-- Header Bar -->
+  <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
+    <div>
+      <h4 class="fw-bold mb-1 display-font">Semester Courses</h4>
+      <p class="text-muted mb-0 small">All subjects you are registered in for coursework, assignments, and practicals.</p>
+    </div>
+    <a href="{% url 'student_assignments' %}" class="btn btn-sams-primary">
+      <i class="bi bi-journal-text me-1"></i> View All Assignments
+    </a>
+  </div>
+
+  <div class="row g-4">
+    {% if courses %}
+      {% for c in courses %}
+        <div class="col-md-6 col-xl-4">
+          <div class="card card-sams h-100 p-4 d-flex flex-column justify-content-between">
+            <div>
+              <div class="d-flex justify-content-between align-items-start mb-3">
+                <span class="badge bg-teal bg-opacity-10 text-teal border border-teal-subtle px-2 py-1">
+                  Semester {{ c.semester }}
+                </span>
+                <span class="text-muted font-monospace small">#CRS-{{ c.course_id }}</span>
+              </div>
+              <h5 class="fw-bold text-dark mb-2">{{ c.course_name }}</h5>
+              <div class="d-flex align-items-center gap-2 text-muted small mb-3">
+                <i class="bi bi-person-workspace text-teal"></i>
+                <span>Faculty: <strong>{{ c.teacher_id.teacher_name }}</strong></span>
+              </div>
+              <div class="small text-muted mb-3">
+                <i class="bi bi-building me-1"></i> {{ c.teacher_id.department }}
+              </div>
+            </div>
+
+            <div>
+              <div class="py-3 border-top border-bottom mb-3 text-center bg-light rounded-2">
+                <div class="fw-bold fs-4 text-dark">{{ c.assignment_count }}</div>
+                <div class="text-muted small" style="font-size: 11px;">Active Assignment(s)</div>
+              </div>
+
+              <div class="d-flex gap-2">
+                <a href="{% url 'student_assignments' %}" class="btn btn-sm btn-sams-primary flex-grow-1">
+                  <i class="bi bi-file-earmark-arrow-up me-1"></i> Course Tasks
+                </a>
+                <a href="{% url 'student_marks_feedback' %}" class="btn btn-sm btn-light border flex-grow-1">
+                  <i class="bi bi-award me-1"></i> Grades
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    {% else %}
+      <div class="col-12 text-center py-5">
+        <div class="card card-sams p-5">
+          <i class="bi bi-journal-x fs-1 text-muted d-block mb-3"></i>
+          <h5 class="fw-bold text-dark">No Enrolled Courses Found</h5>
+          <p class="text-muted small mb-0">You are currently not enrolled in any semester courses. Please contact the system administrator to configure your course enrollment.</p>
+        </div>
+      </div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}
+

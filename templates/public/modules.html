@@ -1,0 +1,148 @@
+{% extends "base.html" %}
+
+{% block title %}System Modules - SAMS{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+  <div class="text-center max-w-700 mx-auto mb-5">
+    <span class="badge bg-light text-teal px-3 py-2 rounded-pill fw-semibold border mb-2">Role Architecture</span>
+    <h1 class="display-font mb-3">SAMS System Modules</h1>
+    <p class="text-muted lead fs-6">SAMS provides three dedicated sub-portals engineered around the academic responsibilities of Administrators, Teachers, and Students.</p>
+  </div>
+
+  <!-- Module 1: Admin -->
+  <div class="card card-sams p-4 mb-5 border-0">
+    <div class="row align-items-center g-4">
+      <div class="col-md-5">
+        <img src="/static/img/cards/admin_card.svg" alt="Admin Module" class="img-fluid rounded-3 border shadow-sm">
+      </div>
+      <div class="col-md-7">
+        <div class="d-flex align-items-center gap-2 mb-2">
+          <span class="badge bg-dark text-white px-2 py-1">Role #1</span>
+          <h2 class="display-font fs-2 mb-0" style="color: var(--c-deep-teal);">Administrator Module</h2>
+        </div>
+        <p class="text-muted">The central control hub that configures the academic environment, manages faculty rosters, oversees course allocations, and analyzes institution-wide submission statistics.</p>
+        
+        <div class="row g-2 mb-3">
+          <div class="col-sm-6">
+            <div class="p-2 border rounded-2 bg-light small">
+              <strong><i class="bi bi-mortarboard text-teal me-1"></i> Student Registry:</strong> View, add, update, and enroll students into semester subjects.
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <div class="p-2 border rounded-2 bg-light small">
+              <strong><i class="bi bi-person-badge text-teal me-1"></i> Faculty Management:</strong> Add and assign teachers to specific course offerings.
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <div class="p-2 border rounded-2 bg-light small">
+              <strong><i class="bi bi-journal-check text-teal me-1"></i> Global Monitoring:</strong> Inspect all assignments and live submission statuses.
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <div class="p-2 border rounded-2 bg-light small">
+              <strong><i class="bi bi-graph-up-arrow text-teal me-1"></i> Analytics:</strong> Submission rates, average marks, and late counts per course.
+            </div>
+          </div>
+        </div>
+
+        <a href="{% url 'admin_login' %}" class="btn btn-sams-primary">
+          <i class="bi bi-box-arrow-in-right me-1"></i> Access Admin Portal
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Module 2: Teacher -->
+  <div class="card card-sams p-4 mb-5 border-0">
+    <div class="row align-items-center g-4 flex-md-row-reverse">
+      <div class="col-md-5">
+        <img src="/static/img/cards/teacher_card.svg" alt="Teacher Module" class="img-fluid rounded-3 border shadow-sm">
+      </div>
+      <div class="col-md-7">
+        <div class="d-flex align-items-center gap-2 mb-2">
+          <span class="badge bg-teal text-white px-2 py-1" style="background-color: var(--c-teal) !important;">Role #2</span>
+          <h2 class="display-font fs-2 mb-0" style="color: var(--c-teal);">Faculty / Teacher Module</h2>
+        </div>
+        <p class="text-muted">Dedicated interface for instructors to design assignments, attach guidelines, monitor pending reviews, download student solution files, and award marks with remarks.</p>
+        
+        <div class="row g-2 mb-3">
+          <div class="col-sm-6">
+            <div class="p-2 border rounded-2 bg-light small">
+              <strong><i class="bi bi-plus-circle text-teal me-1"></i> Assignment Authoring:</strong> Set titles, descriptions, max marks, and strict due dates.
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <div class="p-2 border rounded-2 bg-light small">
+              <strong><i class="bi bi-cloud-arrow-down text-teal me-1"></i> Solution Inspection:</strong> Download student uploads directly from the dashboard.
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <div class="p-2 border rounded-2 bg-light small">
+              <strong><i class="bi bi-pen text-teal me-1"></i> Online Evaluation:</strong> Score solutions (0 to max) and enter personalized feedback.
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <div class="p-2 border rounded-2 bg-light small">
+              <strong><i class="bi bi-megaphone text-teal me-1"></i> Course Broadcasts:</strong> Post announcements to all students enrolled in their courses.
+            </div>
+          </div>
+        </div>
+
+        <a href="{% url 'teacher_login' %}" class="btn btn-sams-primary">
+          <i class="bi bi-box-arrow-in-right me-1"></i> Access Teacher Portal
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Module 3: Student -->
+  <div class="card card-sams p-4 border-0">
+    <div class="row align-items-center g-4">
+      <div class="col-md-5">
+        <img src="/static/img/cards/student_card.svg" alt="Student Module" class="img-fluid rounded-3 border shadow-sm">
+      </div>
+      <div class="col-md-7">
+        <div class="d-flex align-items-center gap-2 mb-2">
+          <span class="badge text-white px-2 py-1" style="background-color: var(--c-cyan) !important;">Role #3</span>
+          <h2 class="display-font fs-2 mb-0" style="color: var(--c-cyan);">Student Module</h2>
+        </div>
+        <p class="text-muted">A streamlined workspace where learners track semester courses, view task deadlines, upload homework in PDF/DOCX/ZIP formats, replace files before due dates, and track awarded marks.</p>
+        
+        <div class="row g-2 mb-3">
+          <div class="col-sm-6">
+            <div class="p-2 border rounded-2 bg-light small">
+              <strong><i class="bi bi-cloud-arrow-up text-teal me-1"></i> 1-Click Upload:</strong> Upload files up to 10MB with server-side mime &amp; size checks.
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <div class="p-2 border rounded-2 bg-light small">
+              <strong><i class="bi bi-arrow-repeat text-teal me-1"></i> Resubmission:</strong> Replace draft uploads anytime before the deadline.
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <div class="p-2 border rounded-2 bg-light small">
+              <strong><i class="bi bi-stopwatch text-teal me-1"></i> Deadline Alerts:</strong> Real-time alerts for impending submissions due in 48 hours.
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <div class="p-2 border rounded-2 bg-light small">
+              <strong><i class="bi bi-award text-teal me-1"></i> Gradebook:</strong> View marks scored, percentage, and faculty remarks.
+            </div>
+          </div>
+        </div>
+
+        <div class="d-flex gap-2">
+          <a href="{% url 'student_login' %}" class="btn btn-sams-primary">
+            <i class="bi bi-box-arrow-in-right me-1"></i> Student Login
+          </a>
+          <a href="{% url 'register' %}" class="btn btn-sams-outline">
+            <i class="bi bi-person-plus me-1"></i> Register as Student
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+{% endblock %}

@@ -1,0 +1,263 @@
+{% extends "app_base.html" %}
+
+{% block title %}Faculty Control Desk - SAMS{% endblock %}
+{% block page_title %}Faculty Command &amp; Evaluation Desk{% endblock %}
+
+{% block content %}
+<div class="container-fluid px-0">
+  <!-- Welcome Banner -->
+  <div class="card card-sams p-4 mb-4" style="background: linear-gradient(135deg, rgba(79,70,229,0.08) 0%, rgba(67,56,202,0.04) 100%); border-left: 4px solid var(--c-teacher-primary);">
+    <div class="d-flex flex-wrap align-items-center justify-content-between gap-3">
+      <div>
+        <div class="d-flex align-items-center gap-2 mb-1">
+          <span class="badge badge-faculty px-2 py-1">FACULTY PORTAL</span>
+          <span class="badge bg-light text-dark border">Department of {{ teacher.department }}</span>
+        </div>
+        <h3 class="fw-bold mb-1 display-font text-dark">Welcome, {{ teacher.teacher_name }}</h3>
+        <p class="text-muted mb-0 small">Dedicated faculty control workspace for coursework management, submission reviews, and online evaluations.</p>
+      </div>
+      <div class="d-flex flex-wrap gap-2">
+        <a href="{% url 'teacher_assignment_add' %}" class="btn btn-sams-primary">
+          <i class="bi bi-plus-circle me-1"></i> Create Assignment
+        </a>
+        <a href="{% url 'teacher_submissions' %}" class="btn btn-sams-outline">
+          <i class="bi bi-file-earmark-check me-1"></i> Submissions Desk
+        </a>
+        <a href="{% url 'teacher_announcements' %}" class="btn btn-light border">
+          <i class="bi bi-megaphone me-1"></i> Broadcast
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Metric KPI Cards -->
+  <div class="row g-3 mb-4">
+    <div class="col-sm-6 col-xl-3">
+      <div class="card card-sams h-100 p-3">
+        <div class="d-flex align-items-center justify-content-between">
+          <div>
+            <span class="text-muted text-uppercase fw-semibold" style="font-size: 11px; letter-spacing: 0.05em;">Assigned Courses</span>
+            <h2 class="fw-bold my-1 text-dark">{{ total_courses }}</h2>
+            <a href="{% url 'teacher_courses' %}" class="text-teal small text-decoration-none fw-medium">
+              View Courses &rarr;
+            </a>
+          </div>
+          <div class="rounded-4 d-flex align-items-center justify-content-center" style="width: 50px; height: 50px; background: rgba(79, 70, 229, 0.1); color: var(--c-teacher-primary);">
+            <i class="bi bi-journal-bookmark-fill fs-3"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-sm-6 col-xl-3">
+      <div class="card card-sams h-100 p-3">
+        <div class="d-flex align-items-center justify-content-between">
+          <div>
+            <span class="text-muted text-uppercase fw-semibold" style="font-size: 11px; letter-spacing: 0.05em;">Assignments Created</span>
+            <h2 class="fw-bold my-1 text-dark">{{ total_assignments }}</h2>
+            <a href="{% url 'teacher_assignments' %}" class="text-teal small text-decoration-none fw-medium">
+              Manage Tasks &rarr;
+            </a>
+          </div>
+          <div class="rounded-4 d-flex align-items-center justify-content-center" style="width: 50px; height: 50px; background: rgba(14, 116, 144, 0.1); color: var(--c-cyan);">
+            <i class="bi bi-folder2-open fs-3"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-sm-6 col-xl-3">
+      <div class="card card-sams h-100 p-3">
+        <div class="d-flex align-items-center justify-content-between">
+          <div>
+            <span class="text-muted text-uppercase fw-semibold" style="font-size: 11px; letter-spacing: 0.05em;">Total Submissions</span>
+            <h2 class="fw-bold my-1 text-dark">{{ total_submissions }}</h2>
+            <a href="{% url 'teacher_submissions' %}" class="text-teal small text-decoration-none fw-medium">
+              Submissions Roster &rarr;
+            </a>
+          </div>
+          <div class="rounded-4 d-flex align-items-center justify-content-center" style="width: 50px; height: 50px; background: rgba(22, 163, 74, 0.1); color: var(--c-green);">
+            <i class="bi bi-file-earmark-check fs-3"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-sm-6 col-xl-3">
+      <div class="card card-sams h-100 p-3 border-warning">
+        <div class="d-flex align-items-center justify-content-between">
+          <div>
+            <span class="text-warning text-uppercase fw-bold" style="font-size: 11px; letter-spacing: 0.05em;">Needs Grading</span>
+            <h2 class="fw-bold my-1 text-warning">{{ pending_evaluations }}</h2>
+            <a href="{% url 'teacher_submissions' %}?status=pending" class="text-warning small text-decoration-none fw-bold">
+              Review Queue &rarr;
+            </a>
+          </div>
+          <div class="rounded-4 d-flex align-items-center justify-content-center" style="width: 50px; height: 50px; background: rgba(217, 119, 6, 0.1); color: var(--c-amber);">
+            <i class="bi bi-pencil-square fs-3"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Course Workspaces Overview (Course-wise Separation) -->
+  <div class="card card-sams mb-4">
+    <div class="card-header-sams">
+      <div class="d-flex align-items-center gap-2">
+        <i class="bi bi-journal-bookmark-fill text-teal fs-5"></i>
+        <h6 class="mb-0 fw-bold">My Course Workspaces (Separated by Subject)</h6>
+      </div>
+      <a href="{% url 'teacher_courses' %}" class="small text-teal text-decoration-none">View All Courses &rarr;</a>
+    </div>
+    <div class="card-body p-3">
+      <div class="row g-3">
+        {% for c in courses %}
+          <div class="col-md-4">
+            <div class="p-3 rounded-3 border bg-white h-100 d-flex flex-column justify-content-between">
+              <div>
+                <div class="d-flex justify-content-between align-items-center mb-1">
+                  <span class="badge bg-teal bg-opacity-10 text-teal border border-teal-subtle" style="font-size: 11px;">Sem {{ c.semester }}</span>
+                  <span class="text-muted font-monospace" style="font-size: 11px;">#CRS-{{ c.course_id }}</span>
+                </div>
+                <h6 class="fw-bold text-dark mb-2">{{ c.course_name }}</h6>
+              </div>
+              <div class="d-flex gap-2 pt-2 border-top">
+                <a href="{% url 'teacher_assignments' %}?course={{ c.course_id }}" class="btn btn-sm btn-light border flex-grow-1" style="font-size: 12px;">
+                  <i class="bi bi-folder2 text-teal"></i> Tasks
+                </a>
+                <a href="{% url 'teacher_submissions' %}?course={{ c.course_id }}" class="btn btn-sm btn-light border flex-grow-1" style="font-size: 12px;">
+                  <i class="bi bi-check2-circle text-teal"></i> Submissions
+                </a>
+                <a href="{% url 'teacher_students' %}?course={{ c.course_id }}" class="btn btn-sm btn-light border flex-grow-1" style="font-size: 12px;">
+                  <i class="bi bi-people text-teal"></i> Students
+                </a>
+              </div>
+            </div>
+          </div>
+        {% empty %}
+          <div class="col-12 text-center py-4 text-muted small">
+            No courses assigned to your profile yet.
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+
+  <!-- Content Split: Recent Submissions & Deadlines Tracker -->
+  <div class="row g-4">
+    <!-- Submissions Needing Review -->
+    <div class="col-lg-8">
+      <div class="card card-sams">
+        <div class="card-header-sams">
+          <div class="d-flex align-items-center gap-2">
+            <i class="bi bi-file-earmark-text text-teal fs-5"></i>
+            <h6 class="mb-0 fw-bold">Recent Submissions for Your Courses</h6>
+          </div>
+          <a href="{% url 'teacher_submissions' %}" class="small text-teal text-decoration-none">Full Submissions Desk &rarr;</a>
+        </div>
+        <div class="table-responsive">
+          <table class="table table-hover align-middle mb-0">
+            <thead class="table-light small text-uppercase">
+              <tr>
+                <th class="ps-4">Student</th>
+                <th>Assignment</th>
+                <th>Submitted</th>
+                <th>Status</th>
+                <th>Score</th>
+                <th class="text-end pe-4">Action</th>
+              </tr>
+            </thead>
+            <tbody class="small">
+              {% if recent_submissions %}
+                {% for sub in recent_submissions %}
+                  <tr>
+                    <td class="ps-4 py-3">
+                      <div class="fw-bold text-dark">{{ sub.student_id.student_name }}</div>
+                      <span class="text-muted font-monospace" style="font-size: 11px;">Roll: {{ sub.student_id.roll_no }}</span>
+                    </td>
+                    <td>
+                      <div class="fw-semibold text-dark">{{ sub.assignment_id.title }}</div>
+                      <span class="text-muted" style="font-size: 11px;">{{ sub.assignment_id.course_id.course_name }}</span>
+                    </td>
+                    <td>
+                      <span class="text-muted">{{ sub.submitted_at|date:"d M, h:i A" }}</span>
+                    </td>
+                    <td>
+                      <span class="badge-status {{ sub.status_badge_class }}">{{ sub.status }}</span>
+                    </td>
+                    <td>
+                      {% if sub.evaluation %}
+                        <span class="badge bg-success bg-opacity-10 text-success border border-success-subtle fw-bold">
+                          {{ sub.evaluation.marks }}/{{ sub.assignment_id.max_marks }}
+                        </span>
+                      {% else %}
+                        <span class="badge bg-warning bg-opacity-10 text-dark border border-warning-subtle">
+                          Needs Review
+                        </span>
+                      {% endif %}
+                    </td>
+                    <td class="text-end pe-4">
+                      <a href="{% url 'teacher_grade_submission' sub.submission_id %}" class="btn btn-sm btn-sams-primary">
+                        <i class="bi bi-pencil-square me-1"></i> Grade
+                      </a>
+                    </td>
+                  </tr>
+                {% endfor %}
+              {% else %}
+                <tr>
+                  <td colspan="6" class="text-center py-4 text-muted">
+                    <i class="bi bi-inbox fs-2 d-block mb-1"></i>
+                    No submissions uploaded for your courses yet.
+                  </td>
+                </tr>
+              {% endif %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Active Deadlines Tracker -->
+    <div class="col-lg-4">
+      <div class="card card-sams">
+        <div class="card-header-sams">
+          <div class="d-flex align-items-center gap-2">
+            <i class="bi bi-clock-history text-teal fs-5"></i>
+            <h6 class="mb-0 fw-bold">Active Deadlines</h6>
+          </div>
+          <a href="{% url 'teacher_assignments' %}" class="btn btn-sm btn-light border">Manage</a>
+        </div>
+        <div class="card-body p-3">
+          {% if upcoming_deadlines %}
+            <div class="list-group list-group-flush">
+              {% for assign in upcoming_deadlines %}
+                <div class="list-group-item px-1 py-3 border-bottom">
+                  <div class="d-flex justify-content-between align-items-start mb-1">
+                    <h6 class="mb-0 fw-bold small text-dark">{{ assign.title }}</h6>
+                    <span class="badge bg-light text-dark border">{{ assign.max_marks }} M</span>
+                  </div>
+                  <div class="text-muted small mb-2">{{ assign.course_id.course_name }}</div>
+                  <div class="d-flex align-items-center justify-content-between">
+                    <span class="small text-teal fw-medium">
+                      <i class="bi bi-alarm me-1"></i> Due: {{ assign.due_date|date:"d M, h:i A" }}
+                    </span>
+                    <a href="{% url 'teacher_assignment_submissions' assign.assignment_id %}" class="btn btn-sm btn-light border py-0 px-2" style="font-size: 11px;">
+                      Roster <i class="bi bi-arrow-right"></i>
+                    </a>
+                  </div>
+                </div>
+              {% endfor %}
+            </div>
+          {% else %}
+            <div class="text-center py-4 text-muted small">
+              <i class="bi bi-calendar-check fs-2 d-block mb-1"></i>
+              No upcoming active deadlines right now.
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

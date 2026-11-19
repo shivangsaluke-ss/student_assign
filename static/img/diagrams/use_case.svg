@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 560" fill="none">
+  <rect width="960" height="560" rx="16" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="2"/>
+  <text x="480" y="40" text-anchor="middle" font-family="sans-serif" font-weight="900" font-size="24" fill="#0B3C49">SAMS: System Use-Case Diagram</text>
+
+  <!-- System boundary -->
+  <rect x="230" y="60" width="500" height="470" rx="12" fill="white" stroke="#0B3C49" stroke-width="2" stroke-dasharray="4 2"/>
+  <text x="480" y="85" text-anchor="middle" font-family="sans-serif" font-weight="bold" font-size="16" fill="#0B3C49">Student Assignment Management System Boundary</text>
+
+  <!-- Actor: Admin -->
+  <g transform="translate(80, 110)">
+    <circle cx="30" cy="25" r="18" fill="#0B3C49"/>
+    <line x1="30" y1="43" x2="30" y2="90" stroke="#0B3C49" stroke-width="4"/>
+    <line x1="5" y1="60" x2="55" y2="60" stroke="#0B3C49" stroke-width="4"/>
+    <line x1="30" y1="90" x2="10" y2="125" stroke="#0B3C49" stroke-width="4"/>
+    <line x1="30" y1="90" x2="50" y2="125" stroke="#0B3C49" stroke-width="4"/>
+    <text x="30" y="145" text-anchor="middle" font-family="sans-serif" font-weight="bold" font-size="14" fill="#0B3C49">Admin</text>
+  </g>
+
+  <!-- Actor: Student -->
+  <g transform="translate(80, 340)">
+    <circle cx="30" cy="25" r="18" fill="#0E7490"/>
+    <line x1="30" y1="43" x2="30" y2="90" stroke="#0E7490" stroke-width="4"/>
+    <line x1="5" y1="60" x2="55" y2="60" stroke="#0E7490" stroke-width="4"/>
+    <line x1="30" y1="90" x2="10" y2="125" stroke="#0E7490" stroke-width="4"/>
+    <line x1="30" y1="90" x2="50" y2="125" stroke="#0E7490" stroke-width="4"/>
+    <text x="30" y="145" text-anchor="middle" font-family="sans-serif" font-weight="bold" font-size="14" fill="#0E7490">Student</text>
+  </g>
+
+  <!-- Actor: Teacher -->
+  <g transform="translate(820, 220)">
+    <circle cx="30" cy="25" r="18" fill="#0F766E"/>
+    <line x1="30" y1="43" x2="30" y2="90" stroke="#0F766E" stroke-width="4"/>
+    <line x1="5" y1="60" x2="55" y2="60" stroke="#0F766E" stroke-width="4"/>
+    <line x1="30" y1="90" x2="10" y2="125" stroke="#0F766E" stroke-width="4"/>
+    <line x1="30" y1="90" x2="50" y2="125" stroke="#0F766E" stroke-width="4"/>
+    <text x="30" y="145" text-anchor="middle" font-family="sans-serif" font-weight="bold" font-size="14" fill="#0F766E">Teacher</text>
+  </g>
+
+  <!-- Use cases (oavals) -->
+  <g transform="translate(270, 105)">
+    <ellipse cx="100" cy="25" rx="95" ry="22" fill="#F1F5F9" stroke="#0B3C49" stroke-width="1.5"/>
+    <text x="100" y="30" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#0F172A">Manage Courses &amp; Teachers</text>
+  </g>
+  <g transform="translate(270, 165)">
+    <ellipse cx="100" cy="25" rx="95" ry="22" fill="#F1F5F9" stroke="#0B3C49" stroke-width="1.5"/>
+    <text x="100" y="30" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#0F172A">Enroll Students &amp; View Audit</text>
+  </g>
+  <g transform="translate(270, 225)">
+    <ellipse cx="100" cy="25" rx="95" ry="22" fill="#F1F5F9" stroke="#0F766E" stroke-width="1.5"/>
+    <text x="100" y="30" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#0F172A">Create &amp; Update Assignments</text>
+  </g>
+  <g transform="translate(500, 225)">
+    <ellipse cx="100" cy="25" rx="95" ry="22" fill="#F1F5F9" stroke="#0F766E" stroke-width="1.5"/>
+    <text x="100" y="30" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#0F172A">Grade &amp; Give Feedback</text>
+  </g>
+  <g transform="translate(270, 290)">
+    <ellipse cx="100" cy="25" rx="95" ry="22" fill="#F1F5F9" stroke="#0E7490" stroke-width="1.5"/>
+    <text x="100" y="30" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#0F172A">Upload &amp; Resubmit Assignment</text>
+  </g>
+  <g transform="translate(270, 355)">
+    <ellipse cx="100" cy="25" rx="95" ry="22" fill="#F1F5F9" stroke="#0E7490" stroke-width="1.5"/>
+    <text x="100" y="30" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#0F172A">View Feedback &amp; Marks</text>
+  </g>
+  <g transform="translate(380, 420)">
+    <ellipse cx="100" cy="25" rx="95" ry="22" fill="#FEF3C7" stroke="#D97706" stroke-width="1.5"/>
+    <text x="100" y="30" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#B45309">Authenticate (Login / Register)</text>
+  </g>
+
+  <!-- Connectors -->
+  <line x1="140" y1="160" x2="270" y2="130" stroke="#0B3C49" stroke-width="1.5"/>
+  <line x1="140" y1="160" x2="270" y2="190" stroke="#0B3C49" stroke-width="1.5"/>
+  <line x1="140" y1="160" x2="380" y2="445" stroke="#0B3C49" stroke-width="1.5"/>
+
+  <line x1="140" y1="390" x2="270" y2="315" stroke="#0E7490" stroke-width="1.5"/>
+  <line x1="140" y1="390" x2="270" y2="380" stroke="#0E7490" stroke-width="1.5"/>
+  <line x1="140" y1="390" x2="380" y2="445" stroke="#0E7490" stroke-width="1.5"/>
+
+  <line x1="820" y1="270" x2="470" y2="250" stroke="#0F766E" stroke-width="1.5"/>
+  <line x1="820" y1="270" x2="700" y2="250" stroke="#0F766E" stroke-width="1.5"/>
+  <line x1="820" y1="270" x2="580" y2="445" stroke="#0F766E" stroke-width="1.5"/>
+</svg>

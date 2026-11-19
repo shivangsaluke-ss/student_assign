@@ -1,0 +1,356 @@
+{% extends "base.html" %}
+
+{% block title %}Sign In - SAMS Multi-Portal{% endblock %}
+
+{% block extra_css %}
+<style>
+  .login-card {
+    border-radius: 18px;
+    box-shadow: 0 10px 30px rgba(11, 60, 73, 0.1);
+    border: 1px solid rgba(11, 60, 73, 0.08);
+    overflow: hidden;
+    background: #ffffff;
+  }
+  .role-tabs {
+    display: flex;
+    background: #F1F5F9;
+    padding: 6px;
+    border-radius: 12px;
+    gap: 6px;
+  }
+  .role-tab-btn {
+    flex: 1;
+    border: none;
+    background: transparent;
+    padding: 10px 12px;
+    border-radius: 9px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #64748B;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+  }
+  .role-tab-btn:hover {
+    color: #1E293B;
+  }
+  .role-tab-btn.active[data-role="teacher"] {
+    background: #4F46E5;
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.28);
+  }
+  .role-tab-btn.active[data-role="student"] {
+    background: #0E7490;
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(14, 116, 144, 0.28);
+  }
+  .role-tab-btn.active[data-role="admin"] {
+    background: #0B3C49;
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(11, 60, 73, 0.28);
+  }
+  .role-demo-card {
+    border-radius: 12px;
+    border: 1.5px solid #E2E8F0;
+    background: #ffffff;
+    padding: 12px 14px;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    text-align: left;
+    width: 100%;
+  }
+  .role-demo-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.06);
+  }
+  .role-demo-card.teacher-card:hover, .role-demo-card.teacher-card.selected {
+    border-color: #4F46E5;
+    background: #F5F3FF;
+  }
+  .role-demo-card.student-card:hover, .role-demo-card.student-card.selected {
+    border-color: #0E7490;
+    background: #ECFEFF;
+  }
+  .role-demo-card.admin-card:hover, .role-demo-card.admin-card.selected {
+    border-color: #0B3C49;
+    background: #F1F5F9;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container py-5 my-auto">
+  <div class="row justify-content-center">
+    <div class="col-lg-5 col-md-7 col-sm-10">
+
+      <!-- Main Login Card -->
+      <div class="card login-card p-4 p-md-5">
+
+        <!-- Role Selector Tabs -->
+        <div class="role-tabs mb-4" id="roleTabs">
+          <button type="button" class="role-tab-btn" data-role="student" onclick="selectRole('student')">
+            <i class="bi bi-mortarboard-fill"></i> Student
+          </button>
+          <button type="button" class="role-tab-btn" data-role="teacher" onclick="selectRole('teacher')">
+            <i class="bi bi-person-workspace"></i> Teacher
+          </button>
+          <button type="button" class="role-tab-btn" data-role="admin" onclick="selectRole('admin')">
+            <i class="bi bi-shield-lock-fill"></i> Admin
+          </button>
+        </div>
+
+        <!-- Dynamic Role Header -->
+        <div class="text-center mb-4">
+          <div class="d-inline-flex align-items-center justify-content-center rounded-circle p-3 mb-2" id="roleIconWrap" style="width: 58px; height: 58px; background: #EEF2FF;">
+            <i class="bi bi-person-workspace fs-3" id="roleIcon" style="color: #4F46E5;"></i>
+          </div>
+          <div class="mb-1">
+            <span class="badge px-3 py-1 text-uppercase" id="roleBadge" style="font-size: 11px; letter-spacing: 0.05em; background: #EEF2FF; color: #4338CA; border: 1px solid #C7D2FE;">
+              Faculty Desk
+            </span>
+          </div>
+          <h3 class="fw-bold mb-1 display-font" id="roleTitle" style="color: #1E1B4B;">Faculty &amp; Teacher Portal</h3>
+          <p class="text-muted small mb-0" id="roleSubtitle">Sign in to manage course assignments, view student submissions, and grade coursework.</p>
+        </div>
+
+        <!-- Login Form -->
+        <form method="POST" action="{% url 'login' %}" id="loginForm" novalidate>
+          {% csrf_token %}
+          <input type="hidden" name="role" id="selectedRoleInput" value="{{ initial_role|default:'teacher' }}">
+
+          {% if form.non_field_errors %}
+            <div class="alert alert-danger small py-2 mb-3">{{ form.non_field_errors }}</div>
+          {% endif %}
+
+          <div class="mb-3">
+            <label class="form-label small fw-semibold text-dark d-flex justify-content-between">
+              <span id="emailLabel">Faculty Email Address</span>
+            </label>
+            <div class="input-group">
+              <span class="input-group-text bg-light border-end-0"><i class="bi bi-envelope text-muted"></i></span>
+              <input type="email" name="email" id="emailInput" class="form-control border-start-0" placeholder="e.g. priya.sharma@gtu.ac.in" required>
+            </div>
+            {% if form.email.errors %}
+              <div class="text-danger small mt-1">{{ form.email.errors.0 }}</div>
+            {% endif %}
+          </div>
+
+          <div class="mb-4">
+            <label class="form-label small fw-semibold text-dark">Password</label>
+            <div class="input-group">
+              <span class="input-group-text bg-light border-end-0"><i class="bi bi-lock text-muted"></i></span>
+              <input type="password" name="password" id="passwordInput" class="form-control border-start-0 border-end-0" placeholder="Enter password" required>
+              <button class="btn btn-outline-secondary border-start-0 bg-light" type="button" onclick="togglePasswordVisibility()" title="Toggle visibility">
+                <i class="bi bi-eye" id="passwordToggleIcon"></i>
+              </button>
+            </div>
+            {% if form.password.errors %}
+              <div class="text-danger small mt-1">{{ form.password.errors.0 }}</div>
+            {% endif %}
+          </div>
+
+          <button type="submit" class="btn w-100 py-2 fw-semibold text-white" id="submitBtn" style="background-color: #4F46E5; border-radius: 8px;">
+            <i class="bi bi-box-arrow-in-right me-1"></i> <span id="submitBtnText">Sign In to Faculty Desk</span>
+          </button>
+        </form>
+
+        <!-- New Student Registration Prompt -->
+        <div class="text-center mt-3 pt-3 border-top" id="registerPrompt">
+          <span class="text-muted small">Are you a new student? </span>
+          <a href="{% url 'register' %}" class="small fw-semibold text-teal text-decoration-none">Create a Student Account</a>
+        </div>
+
+      </div>
+
+      <!-- UNDER-DISPLAY: SEPARATE ROLE CARDS FOR 1-CLICK DEMO LOGIN -->
+      <div class="mt-4">
+        <div class="d-flex align-items-center justify-content-between mb-3 px-1">
+          <span class="fw-bold small text-uppercase text-muted" style="font-size: 11px; letter-spacing: 0.05em;">
+            <i class="bi bi-lightning-charge-fill text-warning me-1"></i> 1-Click Role Logins (Under Display)
+          </span>
+          <span class="text-muted" style="font-size: 11px;">Click to auto-fill &amp; switch</span>
+        </div>
+
+        <div class="row g-2">
+          <!-- Teacher Card -->
+          <div class="col-12">
+            <button type="button" class="role-demo-card teacher-card d-flex align-items-center justify-content-between" onclick="fillRoleCreds('teacher', 'priya.sharma@gtu.ac.in', 'teacher123')">
+              <div class="d-flex align-items-center gap-3">
+                <div class="rounded-circle d-flex align-items-center justify-content-center flex-shrink-0" style="width: 38px; height: 38px; background: #EEF2FF; color: #4F46E5;">
+                  <i class="bi bi-person-workspace fs-5"></i>
+                </div>
+                <div>
+                  <div class="fw-bold text-dark small">Teacher Portal &bull; Dr. Priya Sharma</div>
+                  <div class="text-muted font-monospace" style="font-size: 11px;">priya.sharma@gtu.ac.in &bull; (teacher123)</div>
+                </div>
+              </div>
+              <span class="badge" style="background: #EEF2FF; color: #4338CA; border: 1px solid #C7D2FE; font-size: 11px;">
+                Use Faculty Login &rarr;
+              </span>
+            </button>
+          </div>
+
+          <!-- Student Card -->
+          <div class="col-12">
+            <button type="button" class="role-demo-card student-card d-flex align-items-center justify-content-between" onclick="fillRoleCreds('student', 'shivang@student.gtu.ac.in', 'student123')">
+              <div class="d-flex align-items-center gap-3">
+                <div class="rounded-circle d-flex align-items-center justify-content-center flex-shrink-0" style="width: 38px; height: 38px; background: #ECFEFF; color: #0E7490;">
+                  <i class="bi bi-mortarboard fs-5"></i>
+                </div>
+                <div>
+                  <div class="fw-bold text-dark small">Student Portal &bull; Saluke Shivang (Sem 5)</div>
+                  <div class="text-muted font-monospace" style="font-size: 11px;">shivang@student.gtu.ac.in &bull; (student123)</div>
+                </div>
+              </div>
+              <span class="badge" style="background: #ECFEFF; color: #0E7490; border: 1px solid #A5F3FC; font-size: 11px;">
+                Use Student Login &rarr;
+              </span>
+            </button>
+          </div>
+
+          <!-- Admin Card -->
+          <div class="col-12">
+            <button type="button" class="role-demo-card admin-card d-flex align-items-center justify-content-between" onclick="fillRoleCreds('admin', 'admin@sams.gtu.ac.in', 'admin123')">
+              <div class="d-flex align-items-center gap-3">
+                <div class="rounded-circle d-flex align-items-center justify-content-center flex-shrink-0" style="width: 38px; height: 38px; background: #F1F5F9; color: #0B3C49;">
+                  <i class="bi bi-shield-lock fs-5"></i>
+                </div>
+                <div>
+                  <div class="fw-bold text-dark small">Admin Panel &bull; System Administrator</div>
+                  <div class="text-muted font-monospace" style="font-size: 11px;">admin@sams.gtu.ac.in &bull; (admin123)</div>
+                </div>
+              </div>
+              <span class="badge" style="background: #F1F5F9; color: #0B3C49; border: 1px solid #CBD5E1; font-size: 11px;">
+                Use Admin Login &rarr;
+              </span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+const roleConfig = {
+  teacher: {
+    badge: 'Faculty Portal',
+    badgeStyle: 'background: #EEF2FF; color: #4338CA; border: 1px solid #C7D2FE;',
+    iconWrapStyle: 'background: #EEF2FF;',
+    iconClass: 'bi bi-person-workspace fs-3',
+    iconColor: '#4F46E5',
+    title: 'Faculty & Teacher Portal',
+    titleColor: '#1E1B4B',
+    subtitle: 'Sign in to author tasks, manage curriculum courses, and grade student submissions.',
+    emailLabel: 'Faculty Email Address',
+    emailPlaceholder: 'e.g. priya.sharma@gtu.ac.in',
+    submitText: 'Sign In to Faculty Desk',
+    submitBg: '#4F46E5',
+    showRegister: false
+  },
+  student: {
+    badge: 'Student Portal',
+    badgeStyle: 'background: #ECFEFF; color: #0E7490; border: 1px solid #A5F3FC;',
+    iconWrapStyle: 'background: #ECFEFF;',
+    iconClass: 'bi bi-mortarboard-fill fs-3',
+    iconColor: '#0E7490',
+    title: 'Student Learning Hub',
+    titleColor: '#083344',
+    subtitle: 'Sign in to access semester courses, submit assignment solutions, and check grades.',
+    emailLabel: 'Student Registered Email',
+    emailPlaceholder: 'e.g. shivang@student.gtu.ac.in',
+    submitText: 'Sign In as Student',
+    submitBg: '#0F766E',
+    showRegister: true
+  },
+  admin: {
+    badge: 'Administrator Control',
+    badgeStyle: 'background: #F1F5F9; color: #0B3C49; border: 1px solid #CBD5E1;',
+    iconWrapStyle: 'background: #F1F5F9;',
+    iconClass: 'bi bi-shield-lock-fill fs-3',
+    iconColor: '#0B3C49',
+    title: 'Administrator Control Desk',
+    titleColor: '#0B3C49',
+    subtitle: 'Sign in to configure department faculty, students, course allocations, and analytics.',
+    emailLabel: 'Administrator Email',
+    emailPlaceholder: 'e.g. admin@sams.gtu.ac.in',
+    submitText: 'Sign In as Administrator',
+    submitBg: '#0B3C49',
+    showRegister: false
+  }
+};
+
+function selectRole(role) {
+  if (!roleConfig[role]) role = 'teacher';
+
+  // Update tabs
+  document.querySelectorAll('.role-tab-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.getAttribute('data-role') === role);
+  });
+
+  const cfg = roleConfig[role];
+
+  // Update header elements
+  const badge = document.getElementById('roleBadge');
+  badge.textContent = cfg.badge;
+  badge.setAttribute('style', `font-size: 11px; letter-spacing: 0.05em; ${cfg.badgeStyle}`);
+
+  const iconWrap = document.getElementById('roleIconWrap');
+  iconWrap.setAttribute('style', `width: 58px; height: 58px; ${cfg.iconWrapStyle}`);
+
+  const icon = document.getElementById('roleIcon');
+  icon.className = cfg.iconClass;
+  icon.style.color = cfg.iconColor;
+
+  const title = document.getElementById('roleTitle');
+  title.textContent = cfg.title;
+  title.style.color = cfg.titleColor;
+
+  document.getElementById('roleSubtitle').textContent = cfg.subtitle;
+  document.getElementById('emailLabel').textContent = cfg.emailLabel;
+  document.getElementById('emailInput').placeholder = cfg.emailPlaceholder;
+
+  const submitBtn = document.getElementById('submitBtn');
+  submitBtn.style.backgroundColor = cfg.submitBg;
+  document.getElementById('submitBtnText').textContent = cfg.submitText;
+
+  document.getElementById('selectedRoleInput').value = role;
+
+  // Toggle register link visibility for students
+  const regPrompt = document.getElementById('registerPrompt');
+  if (regPrompt) {
+    regPrompt.style.display = cfg.showRegister ? 'block' : 'none';
+  }
+}
+
+function fillRoleCreds(role, email, password) {
+  selectRole(role);
+  document.getElementById('emailInput').value = email;
+  document.getElementById('passwordInput').value = password;
+}
+
+function togglePasswordVisibility() {
+  const pwdInput = document.getElementById('passwordInput');
+  const icon = document.getElementById('passwordToggleIcon');
+  if (pwdInput.type === 'password') {
+    pwdInput.type = 'text';
+    icon.className = 'bi bi-eye-slash';
+  } else {
+    pwdInput.type = 'password';
+    icon.className = 'bi bi-eye';
+  }
+}
+
+// Initialize on page load based on initial_role URL param
+document.addEventListener('DOMContentLoaded', () => {
+  const urlParams = new URLSearchParams(window.location.search);
+  const initialRole = urlParams.get('role') || '{{ initial_role }}' || 'student';
+  selectRole(initialRole);
+});
+</script>
+{% endblock %}

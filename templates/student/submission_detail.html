@@ -1,0 +1,120 @@
+{% extends "app_base.html" %}
+
+{% block title %}Submission Details - {{ submission.assignment_id.title }}{% endblock %}
+{% block page_title %}Submission Overview &amp; Status{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-9 col-lg-8">
+    <!-- Assignment & Submission Header -->
+    <div class="card card-sams p-4 mb-4">
+      <div class="d-flex justify-content-between align-items-start mb-3">
+        <div>
+          <span class="badge bg-teal bg-opacity-10 text-teal border border-teal-subtle px-2 py-1 mb-2">
+            {{ submission.assignment_id.course_id.course_name }} &bull; Semester {{ submission.assignment_id.course_id.semester }}
+          </span>
+          <h4 class="fw-bold text-dark mb-1">{{ submission.assignment_id.title }}</h4>
+          <p class="text-muted small mb-0">Faculty Instructor: <strong>{{ submission.assignment_id.course_id.teacher_id.teacher_name }}</strong></p>
+        </div>
+        <span class="badge-status {{ submission.status_badge_class }} fs-6 px-3 py-2">
+          {{ submission.status }}
+        </span>
+      </div>
+
+      <div class="row g-3 p-3 bg-light rounded-3 small mb-3">
+        <div class="col-sm-6">
+          <div class="text-muted">Assignment Due Date:</div>
+          <div class="fw-bold text-dark">{{ submission.assignment_id.due_date|date:"d M Y, h:i A" }}</div>
+        </div>
+        <div class="col-sm-6">
+          <div class="text-muted">Turned In On:</div>
+          <div class="fw-bold text-dark">{{ submission.submitted_at|date:"d M Y, h:i A" }}</div>
+          <div class="{% if submission.is_late %}text-danger{% else %}text-success{% endif %} fw-semibold" style="font-size: 11px;">
+            {% if submission.is_late %}
+              <i class="bi bi-clock-history me-1"></i> Submitted after cutoff (Late)
+            {% else %}
+              <i class="bi bi-check2-circle me-1"></i> Submitted on time
+            {% endif %}
+          </div>
+        </div>
+      </div>
+
+      <!-- Uploaded Solution File Box -->
+      <div class="d-flex align-items-center justify-content-between p-3 border rounded-3 bg-white">
+        <div class="d-flex align-items-center gap-3 overflow-hidden">
+          <div class="rounded-3 bg-teal bg-opacity-10 p-2 text-teal">
+            <i class="bi bi-file-earmark-check fs-3"></i>
+          </div>
+          <div class="text-truncate">
+            <div class="fw-bold text-dark text-truncate small">{{ submission.filename }}</div>
+            <span class="text-muted" style="font-size: 11px;">Your active submission file</span>
+          </div>
+        </div>
+        <a href="{% url 'download_file' 'submission' submission.submission_id %}" class="btn btn-sams-primary btn-sm flex-shrink-0">
+          <i class="bi bi-download me-1"></i> Download Solution
+        </a>
+      </div>
+    </div>
+
+    <!-- Evaluation / Marks Section -->
+    {% if evaluation %}
+      <div class="card card-sams mb-4 border-success">
+        <div class="card-header-sams" style="background: rgba(22, 163, 74, 0.05);">
+          <div class="d-flex align-items-center gap-2">
+            <i class="bi bi-award-fill text-success fs-5"></i>
+            <h5 class="mb-0 fw-bold text-success">Teacher Evaluation &amp; Grade</h5>
+          </div>
+          <span class="badge bg-success text-white px-3 py-1">Score Released</span>
+        </div>
+        <div class="card-body p-4">
+          <div class="row g-3 align-items-center mb-4">
+            <div class="col-sm-6 text-center border-end">
+              <div class="text-muted text-uppercase fw-semibold small" style="font-size: 11px;">Score Awarded</div>
+              <div class="display-font fs-1 fw-bold text-success my-1">
+                {{ evaluation.marks }} <span class="fs-4 text-muted">/ {{ submission.assignment_id.max_marks }}</span>
+              </div>
+              <div class="text-muted small">Graded on {{ evaluation.evaluated_on|date:"d M Y" }}</div>
+            </div>
+            <div class="col-sm-6">
+              <div class="text-muted text-uppercase fw-semibold small mb-2" style="font-size: 11px;">Faculty Remarks &amp; Feedback:</div>
+              <div class="p-3 bg-light rounded-3 border small text-dark" style="min-height: 80px; font-style: italic;">
+                "{{ evaluation.feedback }}"
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    {% else %}
+      <div class="card card-sams mb-4 p-4 text-center">
+        <div class="rounded-circle bg-warning bg-opacity-10 text-warning d-inline-flex align-items-center justify-content-center mx-auto mb-3" style="width: 56px; height: 56px;">
+          <i class="bi bi-hourglass-split fs-2"></i>
+        </div>
+        <h5 class="fw-bold text-dark mb-1">Awaiting Evaluation</h5>
+        <p class="text-muted small mb-0">Your solution file has been safely received. The faculty instructor will review and grade your work shortly.</p>
+      </div>
+    {% endif %}
+
+    <!-- Actions Footer -->
+    <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 pt-2">
+      <a href="{% url 'student_assignments' %}" class="btn btn-light border">
+        <i class="bi bi-arrow-left me-1"></i> Back to Assignments
+      </a>
+
+      <div class="d-flex gap-2">
+        {% if can_replace %}
+          <a href="{% url 'student_submit' submission.assignment_id.assignment_id %}" class="btn btn-sams-outline">
+            <i class="bi bi-arrow-repeat me-1"></i> Replace File
+          </a>
+        {% endif %}
+
+        {% if can_delete %}
+          <a href="{% url 'student_submission_delete' submission.submission_id %}" class="btn btn-sams-danger">
+            <i class="bi bi-trash3 me-1"></i> Delete Submission
+          </a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+

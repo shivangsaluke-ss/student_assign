@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Dashboard - SAMS{% endblock %}</title>
+
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+
+  <link rel="stylesheet" href="/static/css/main.css">
+  {% block extra_css %}{% endblock %}
+</head>
+<body class="{% if user_role == 'teacher' %}teacher-portal{% elif user_role == 'admin' %}admin-portal{% elif user_role == 'student' %}student-portal{% endif %}">
+
+  <div class="app-container">
+    <!-- Left Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-header d-flex align-items-center justify-content-between">
+        {% if user_role == 'admin' or user.is_superuser %}
+          <a class="sams-logo-text" href="{% url 'admin_dashboard' %}">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="#F59E0B">
+              <path d="M12 1L3 5V11C3 16.55 6.84 21.74 12 23C17.16 21.74 21 16.55 21 11V5L12 1Z"/>
+            </svg>
+            <span class="logo-admin-text">SAMS Admin</span>
+          </a>
+          <span class="badge badge-admin-header text-uppercase">ADMIN</span>
+        {% elif user_role == 'teacher' %}
+          <a class="sams-logo-text" href="{% url 'teacher_dashboard' %}">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="#4F46E5">
+              <path d="M12 3L1 9L12 15L21 10.09V17H23V9M5 13.18V17.18C5 19.5 8.13 21.36 12 21.36C15.87 21.36 19 19.5 19 17.18V13.18L12 17L5 13.18Z"/>
+            </svg>
+            <span class="logo-teacher-text">SAMS Faculty</span>
+          </a>
+          <span class="badge badge-faculty text-uppercase">TEACHER</span>
+        {% else %}
+          <a class="sams-logo-text" href="{% url 'student_dashboard' %}">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="#0F766E">
+              <path d="M12 3L1 9L12 15L21 10.09V17H23V9M5 13.18V17.18C5 19.5 8.13 21.36 12 21.36C15.87 21.36 19 19.5 19 17.18V13.18L12 17L5 13.18Z"/>
+            </svg>
+            <span class="logo-student-text">SAMS Student</span>
+          </a>
+          <span class="badge badge-student-header text-uppercase">STUDENT</span>
+        {% endif %}
+      </div>
+
+      <ul class="sidebar-menu">
+        {% if user_role == 'admin' or user.is_superuser %}
+          <li class="sidebar-item">
+            <a href="{% url 'admin_dashboard' %}" class="sidebar-link {% if request.resolver_match.url_name == 'admin_dashboard' %}active{% endif %}">
+              <i class="bi bi-grid-1x2-fill"></i> Dashboard
+            </a>
+          </li>
+          <li class="sidebar-item">
+            <a href="{% url 'admin_courses' %}" class="sidebar-link {% if 'course' in request.resolver_match.url_name %}active{% endif %}">
+              <i class="bi bi-book"></i> Courses
+            </a>
+          </li>
+          <li class="sidebar-item">
+            <a href="{% url 'admin_teachers' %}" class="sidebar-link {% if 'teacher' in request.resolver_match.url_name and 'admin' in request.resolver_match.url_name %}active{% endif %}">
+              <i class="bi bi-person-workspace"></i> Teachers
+            </a>
+          </li>
+          <li class="sidebar-item">
+            <a href="{% url 'admin_students' %}" class="sidebar-link {% if 'student' in request.resolver_match.url_name and 'admin' in request.resolver_match.url_name %}active{% endif %}">
+              <i class="bi bi-mortarboard"></i> Students
+            </a>
+          </li>
+          <li class="sidebar-item">
+            <a href="{% url 'admin_enrollments' %}" class="sidebar-link {% if 'enroll' in request.resolver_match.url_name %}active{% endif %}">
+              <i class="bi bi-link-45deg"></i> Enrolments
+            </a>
+          </li>
+          <li class="sidebar-item">
+            <a href="{% url 'admin_assignments' %}" class="sidebar-link {% if request.resolver_match.url_name == 'admin_assignments' %}active{% endif %}">
+              <i class="bi bi-journal-text"></i> Assignments
+            </a>
+          </li>
+          <li class="sidebar-item">
+            <a href="{% url 'admin_submissions' %}" class="sidebar-link {% if request.resolver_match.url_name == 'admin_submissions' %}active{% endif %}">
+              <i class="bi bi-file-earmark-arrow-up"></i> Submissions
+            </a>
+          </li>
+          <li class="sidebar-item">
+            <a href="{% url 'admin_reports' %}" class="sidebar-link {% if request.resolver_match.url_name == 'admin_reports' %}active{% endif %}">
+              <i class="bi bi-bar-chart-line"></i> Analytics &amp; Reports
+            </a>
+          </li>
+          <li class="sidebar-item">
+            <a href="{% url 'admin_profile' %}" class="sidebar-link {% if request.resolver_match.url_name == 'admin_profile' %}active{% endif %}">
+              <i class="bi bi-shield-lock"></i> Admin Profile
+            </a>
+          </li>
+
+        {% elif user_role == 'teacher' %}
+          <li class="sidebar-item">
+            <a href="{% url 'teacher_dashboard' %}" class="sidebar-link {% if request.resolver_match.url_name == 'teacher_dashboard' %}active{% endif %}">
+              <i class="bi bi-speedometer2"></i> Faculty Overview
+            </a>
+          </li>
+          <li class="sidebar-item">
+            <a href="{% url 'teacher_courses' %}" class="sidebar-link {% if request.resolver_match.url_name == 'teacher_courses' %}active{% endif %}">
+              <i class="bi bi-journal-bookmark-fill"></i> My Courses
+            </a>
+          </li>
+          <li class="sidebar-item">
+            <a href="{% url 'teacher_assignments' %}" class="sidebar-link {% if request.resolver_match.url_name == 'teacher_assignments' or request.resolver_match.url_name == 'teacher_assignment_add' or request.resolver_match.url_name == 'teacher_assignment_edit' %}active{% endif %}">
+              <i class="bi bi-folder2-open"></i> Manage Assignments
+            </a>
+          </li>
+          <li class="sidebar-item">
+            <a href="{% url 'teacher_submissions' %}" class="sidebar-link {% if 'submission' in request.resolver_match.url_name %}active{% endif %}">
+              <i class="bi bi-file-earmark-check-fill"></i> Submissions &amp; Grading
+            </a>
+          </li>
+          <li class="sidebar-item">
+            <a href="{% url 'teacher_students' %}" class="sidebar-link {% if request.resolver_match.url_name == 'teacher_students' %}active{% endif %}">
+              <i class="bi bi-people-fill"></i> Enrolled Students
+            </a>
+          </li>
+          <li class="sidebar-item">
+            <a href="{% url 'teacher_announcements' %}" class="sidebar-link {% if request.resolver_match.url_name == 'teacher_announcements' %}active{% endif %}">
+              <i class="bi bi-megaphone-fill"></i> Announcements
+            </a>
+          </li>
+
+        {% elif user_role == 'student' %}
+          <li class="sidebar-item">
+            <a href="{% url 'student_dashboard' %}" class="sidebar-link {% if request.resolver_match.url_name == 'student_dashboard' %}active{% endif %}">
+              <i class="bi bi-grid-1x2-fill"></i> Student Hub
+            </a>
+          </li>
+          <li class="sidebar-item">
+            <a href="{% url 'student_courses' %}" class="sidebar-link {% if request.resolver_match.url_name == 'student_courses' %}active{% endif %}">
+              <i class="bi bi-journals"></i> Enrolled Courses
+            </a>
+          </li>
+          <li class="sidebar-item">
+            <a href="{% url 'student_assignments' %}" class="sidebar-link {% if request.resolver_match.url_name == 'student_assignments' %}active{% endif %}">
+              <i class="bi bi-file-earmark-check"></i> Assignments &amp; Upload
+            </a>
+          </li>
+          <li class="sidebar-item">
+            <a href="{% url 'student_marks_feedback' %}" class="sidebar-link {% if request.resolver_match.url_name == 'student_marks_feedback' %}active{% endif %}">
+              <i class="bi bi-award"></i> Marks &amp; Feedback
+            </a>
+          </li>
+        {% endif %}
+
+        <li class="sidebar-item mt-4 pt-3 border-top">
+          <a href="{% url 'home' %}" class="sidebar-link">
+            <i class="bi bi-arrow-left"></i> Public Home
+          </a>
+        </li>
+      </ul>
+
+      <!-- User footer -->
+      <div class="sidebar-footer">
+        <div class="d-flex align-items-center justify-content-between">
+          <div class="d-flex align-items-center gap-2 overflow-hidden">
+            <div class="rounded-circle bg-teal text-white d-flex align-items-center justify-content-center fw-bold" style="width: 36px; height: 36px; background-color: var(--c-teal); flex-shrink: 0;">
+              {{ user.first_name|default:user.username|slice:":1"|upper }}
+            </div>
+            <div class="text-truncate">
+              <div class="fw-semibold text-truncate small" style="color: var(--c-deep-teal);">
+                {{ user.first_name|default:user.username }}
+              </div>
+              <div class="text-muted" style="font-size: 11px;">
+                {% if user_role == 'student' %}Roll: {{ user_profile.roll_no }}{% else %}{{ user.email }}{% endif %}
+              </div>
+            </div>
+          </div>
+          <a href="{% url 'logout' %}" class="text-muted hover-teal" title="Logout" style="font-size: 18px;">
+            <i class="bi bi-box-arrow-right"></i>
+          </a>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <div class="main-content">
+      <!-- Topbar -->
+      <header class="topbar">
+        <div class="d-flex align-items-center gap-3">
+          <button class="btn btn-sm btn-light d-lg-none" id="sidebarToggle">
+            <i class="bi bi-list fs-5"></i>
+          </button>
+          <h5 class="mb-0 fw-bold display-font" style="font-size: 20px;">{% block page_title %}Dashboard{% endblock %}</h5>
+        </div>
+
+        <div class="d-flex align-items-center gap-2 gap-sm-3">
+          {% if user_role == 'admin' or user.is_superuser %}
+            <!-- Admin Role Switcher (Admin can preview Teacher or Student view) -->
+            <div class="dropdown">
+              <button class="btn btn-sm role-switch-btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" title="Preview Portal as Teacher or Student">
+                <i class="bi bi-shield-lock-fill text-warning me-1"></i>
+                <span class="d-none d-md-inline me-1">Admin Switch View</span>
+                <span class="badge role-current-badge">ADMIN</span>
+              </button>
+              <ul class="dropdown-menu dropdown-menu-end shadow border-0 p-2" style="width: 270px; border-radius: 14px;">
+                <li class="px-3 py-2 border-bottom mb-1">
+                  <span class="fw-bold small text-uppercase text-muted" style="font-size: 11px;">Admin Role Switcher</span>
+                  <div class="text-muted" style="font-size: 11px;">Preview portals without logging out</div>
+                </li>
+                <li>
+                  <a class="dropdown-item py-2 px-3 d-flex align-items-center gap-2 rounded-2 active-role" href="{% url 'admin_dashboard' %}">
+                    <div class="rounded-circle d-flex align-items-center justify-content-center flex-shrink-0" style="width: 30px; height: 30px; background: #0F172A; color: #F59E0B;">
+                      <i class="bi bi-shield-lock-fill" style="font-size: 14px;"></i>
+                    </div>
+                    <div class="overflow-hidden">
+                      <div class="fw-semibold small text-truncate">Administrator Desk</div>
+                      <span class="text-muted" style="font-size: 10px;">(Current Active Session)</span>
+                    </div>
+                    <i class="bi bi-check-circle-fill ms-auto text-warning"></i>
+                  </a>
+                </li>
+                <li>
+                  <a class="dropdown-item py-2 px-3 d-flex align-items-center gap-2 rounded-2" href="{% url 'switch_role' 'teacher' %}">
+                    <div class="rounded-circle d-flex align-items-center justify-content-center flex-shrink-0" style="width: 30px; height: 30px; background: #EEF2FF; color: #4F46E5;">
+                      <i class="bi bi-person-workspace" style="font-size: 14px;"></i>
+                    </div>
+                    <div class="overflow-hidden">
+                      <div class="fw-semibold small text-truncate">View as Faculty</div>
+                      <span class="text-muted" style="font-size: 10px;">Dr. Priya Sharma</span>
+                    </div>
+                  </a>
+                </li>
+                <li>
+                  <a class="dropdown-item py-2 px-3 d-flex align-items-center gap-2 rounded-2" href="{% url 'switch_role' 'student' %}">
+                    <div class="rounded-circle d-flex align-items-center justify-content-center flex-shrink-0" style="width: 30px; height: 30px; background: #ECFEFF; color: #0F766E;">
+                      <i class="bi bi-mortarboard-fill" style="font-size: 14px;"></i>
+                    </div>
+                    <div class="overflow-hidden">
+                      <div class="fw-semibold small text-truncate">View as Student</div>
+                      <span class="text-muted" style="font-size: 10px;">Saluke Shivang</span>
+                    </div>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          {% elif request.session.impersonated_by_admin %}
+            <!-- Return to Admin Desk Button (when Admin is viewing as Teacher or Student) -->
+            <a href="{% url 'switch_role' 'admin' %}" class="btn btn-sm btn-dark text-warning border-warning shadow-sm" title="Return to your Administrator Desk">
+              <i class="bi bi-shield-lock-fill me-1"></i>
+              <span class="d-none d-sm-inline">Return to Admin Desk</span>
+              <span class="d-sm-none">Exit to Admin</span>
+            </a>
+          {% endif %}
+
+          <!-- Notification Dropdown -->
+          <div class="dropdown">
+            <div class="notification-bell" data-bs-toggle="dropdown" aria-expanded="false" title="Notifications">
+              <i class="bi bi-bell fs-5 text-dark"></i>
+              {% if unread_count > 0 %}
+                <span class="badge-unread">{{ unread_count }}</span>
+              {% endif %}
+            </div>
+            <ul class="dropdown-menu dropdown-menu-end shadow border-0 p-2" style="width: 320px; border-radius: 12px;">
+              <li class="d-flex align-items-center justify-content-between px-3 py-2 border-bottom">
+                <span class="fw-bold small text-uppercase text-muted">Notifications</span>
+                <span class="badge bg-light text-dark">{{ unread_count }} alert(s)</span>
+              </li>
+              {% if notifications %}
+                {% for n in notifications %}
+                  <li>
+                    <a class="dropdown-item py-2 px-3 rounded-2 text-wrap" href="{{ n.link }}">
+                      <div class="fw-semibold small text-{{ n.type }}">{{ n.title }}</div>
+                      <div class="text-muted" style="font-size: 12px;">{{ n.message }}</div>
+                    </a>
+                  </li>
+                {% endfor %}
+              {% else %}
+                <li class="p-3 text-center text-muted small">No new notifications. You're all caught up!</li>
+              {% endif %}
+            </ul>
+          </div>
+
+          <!-- User Quick Menu -->
+          <div class="dropdown">
+            <button class="btn btn-light btn-sm d-flex align-items-center gap-2 rounded-pill px-3 py-1 border" data-bs-toggle="dropdown">
+              <i class="bi bi-person-circle"></i>
+              <span class="small fw-medium">{{ user.first_name|default:user.username }}</span>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0">
+              <li><h6 class="dropdown-header">Signed in as <strong>{{ user_role|title }}</strong></h6></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item small text-danger" href="{% url 'logout' %}"><i class="bi bi-box-arrow-right me-2"></i> Log out</a></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+
+      <!-- Page alerts banner -->
+      <div class="px-4 pt-3">
+        {% if messages %}
+          {% for message in messages %}
+            <div class="alert alert-{{ message.tags|default:'info' }} alert-dismissible fade show shadow-sm mb-3" role="alert">
+              {{ message }}
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+          {% endfor %}
+        {% endif %}
+      </div>
+
+      <!-- Content Body -->
+      <div class="content-body">
+        {% block content %}{% endblock %}
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap 5 JS Bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="/static/js/main.js"></script>
+  {% block extra_js %}{% endblock %}
+</body>
+</html>

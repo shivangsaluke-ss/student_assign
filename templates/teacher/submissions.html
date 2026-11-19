@@ -1,0 +1,258 @@
+{% extends "app_base.html" %}
+
+{% block title %}Submissions Desk - SAMS Faculty{% endblock %}
+{% block page_title %}Student Submissions &amp; Grading Desk{% endblock %}
+
+{% block content %}
+<div class="container-fluid px-0">
+  <!-- Header Bar -->
+  <div class="card card-sams p-4 mb-4" style="background: linear-gradient(135deg, rgba(79,70,229,0.08) 0%, rgba(67,56,202,0.04) 100%); border-left: 4px solid var(--c-teacher-primary);">
+    <div class="d-flex flex-wrap align-items-center justify-content-between gap-3">
+      <div>
+        <h4 class="fw-bold mb-1 display-font text-dark">Faculty Grading &amp; Evaluation Desk</h4>
+        <p class="text-muted mb-0 small">Review incoming student solutions, download work files, score submissions, and submit academic feedback.</p>
+      </div>
+      <div class="d-flex gap-2">
+        <a href="{% url 'teacher_assignments' %}" class="btn btn-sams-outline btn-sm">
+          <i class="bi bi-folder2-open me-1"></i> Manage Tasks
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Metric Counters -->
+  <div class="row g-3 mb-4">
+    <div class="col-sm-6 col-xl-3">
+      <div class="card card-sams h-100 p-3">
+        <div class="d-flex align-items-center justify-content-between">
+          <div>
+            <span class="text-muted text-uppercase fw-semibold" style="font-size: 11px;">Total Submissions</span>
+            <h3 class="fw-bold my-1 text-dark">{{ total_count }}</h3>
+            <span class="text-muted small">Across all your courses</span>
+          </div>
+          <div class="rounded-4 d-flex align-items-center justify-content-center" style="width: 48px; height: 48px; background: rgba(79, 70, 229, 0.1); color: var(--c-teacher-primary);">
+            <i class="bi bi-file-earmark-arrow-up fs-4"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-sm-6 col-xl-3">
+      <div class="card card-sams h-100 p-3 border-warning">
+        <div class="d-flex align-items-center justify-content-between">
+          <div>
+            <span class="text-warning text-uppercase fw-bold" style="font-size: 11px;">Needs Grading</span>
+            <h3 class="fw-bold my-1 text-warning">{{ pending_count }}</h3>
+            <a href="?status=pending{% if selected_course_id %}&course={{ selected_course_id }}{% endif %}" class="text-warning small text-decoration-none fw-medium">
+              Review Queue &rarr;
+            </a>
+          </div>
+          <div class="rounded-4 d-flex align-items-center justify-content-center" style="width: 48px; height: 48px; background: rgba(217, 119, 6, 0.1); color: var(--c-amber);">
+            <i class="bi bi-pencil-square fs-4"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-sm-6 col-xl-3">
+      <div class="card card-sams h-100 p-3">
+        <div class="d-flex align-items-center justify-content-between">
+          <div>
+            <span class="text-muted text-uppercase fw-semibold" style="font-size: 11px;">Graded &amp; Scored</span>
+            <h3 class="fw-bold my-1 text-success">{{ evaluated_count }}</h3>
+            <span class="text-muted small">Feedback published</span>
+          </div>
+          <div class="rounded-4 d-flex align-items-center justify-content-center" style="width: 48px; height: 48px; background: rgba(22, 163, 74, 0.1); color: var(--c-green);">
+            <i class="bi bi-award fs-4"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-sm-6 col-xl-3">
+      <div class="card card-sams h-100 p-3">
+        <div class="d-flex align-items-center justify-content-between">
+          <div>
+            <span class="text-muted text-uppercase fw-semibold" style="font-size: 11px;">Turned In Late</span>
+            <h3 class="fw-bold my-1 text-danger">{{ late_count }}</h3>
+            <span class="text-muted small">Submitted after cutoff</span>
+          </div>
+          <div class="rounded-4 d-flex align-items-center justify-content-center" style="width: 48px; height: 48px; background: rgba(229, 72, 77, 0.1); color: var(--c-coral);">
+            <i class="bi bi-clock-history fs-4"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Course Tabs (Separates Course-wise Submissions!) -->
+  <div class="d-flex flex-wrap align-items-center gap-2 mb-3">
+    <span class="fw-bold small text-muted text-uppercase me-2" style="font-size: 11px;">Course Filter:</span>
+    <a href="?{% if status_filter %}status={{ status_filter }}{% endif %}{% if search_q %}&q={{ search_q }}{% endif %}"
+       class="badge-filter-pill {% if not selected_course_id %}active{% endif %}">
+      <i class="bi bi-grid-fill"></i> All Courses
+    </a>
+    {% for c in courses %}
+      <a href="?course={{ c.course_id }}{% if status_filter %}&status={{ status_filter }}{% endif %}{% if search_q %}&q={{ search_q }}{% endif %}"
+         class="badge-filter-pill {% if selected_course_id == c.course_id|stringformat:'s' %}active{% endif %}">
+        <i class="bi bi-book"></i> {{ c.course_name }} (Sem {{ c.semester }})
+      </a>
+    {% endfor %}
+  </div>
+
+  <!-- Status Filter Pills & Search Bar -->
+  <div class="card card-sams p-3 mb-4">
+    <div class="row g-2 align-items-center justify-content-between">
+      <div class="col-md-7 d-flex flex-wrap align-items-center gap-2">
+        <span class="text-muted small fw-semibold">Status:</span>
+        <a href="?{% if selected_course_id %}course={{ selected_course_id }}&{% endif %}{% if search_q %}q={{ search_q }}{% endif %}"
+           class="btn btn-sm {% if not status_filter %}btn-dark{% else %}btn-light border{% endif %}">
+          All ({{ total_count }})
+        </a>
+        <a href="?status=pending{% if selected_course_id %}&course={{ selected_course_id }}{% endif %}{% if search_q %}&q={{ search_q }}{% endif %}"
+           class="btn btn-sm {% if status_filter == 'pending' %}btn-warning text-dark fw-bold{% else %}btn-light border{% endif %}">
+          <i class="bi bi-clock me-1"></i> Needs Grading ({{ pending_count }})
+        </a>
+        <a href="?status=evaluated{% if selected_course_id %}&course={{ selected_course_id }}{% endif %}{% if search_q %}&q={{ search_q }}{% endif %}"
+           class="btn btn-sm {% if status_filter == 'evaluated' %}btn-success text-white fw-bold{% else %}btn-light border{% endif %}">
+          <i class="bi bi-check-circle me-1"></i> Graded ({{ evaluated_count }})
+        </a>
+        <a href="?status=late{% if selected_course_id %}&course={{ selected_course_id }}{% endif %}{% if search_q %}&q={{ search_q }}{% endif %}"
+           class="btn btn-sm {% if status_filter == 'late' %}btn-danger text-white fw-bold{% else %}btn-light border{% endif %}">
+          <i class="bi bi-exclamation-triangle me-1"></i> Late ({{ late_count }})
+        </a>
+      </div>
+
+      <div class="col-md-5">
+        <form method="GET" class="input-group">
+          {% if selected_course_id %}
+            <input type="hidden" name="course" value="{{ selected_course_id }}">
+          {% endif %}
+          {% if status_filter %}
+            <input type="hidden" name="status" value="{{ status_filter }}">
+          {% endif %}
+          <input type="text" name="q" value="{{ search_q }}" class="form-control form-control-sm" placeholder="Search student name, roll no, task...">
+          <button type="submit" class="btn btn-sams-primary btn-sm">
+            <i class="bi bi-search"></i>
+          </button>
+          {% if search_q %}
+            <a href="?{% if selected_course_id %}course={{ selected_course_id }}{% endif %}{% if status_filter %}&status={{ status_filter }}{% endif %}" class="btn btn-light border btn-sm">Reset</a>
+          {% endif %}
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Submissions Table Card -->
+  <div class="card card-sams">
+    <div class="card-header-sams">
+      <div class="d-flex align-items-center gap-2">
+        <i class="bi bi-file-earmark-check-fill text-teal fs-5"></i>
+        <h6 class="mb-0 fw-bold">Student Submissions Roster ({{ page_obj.paginator.count }})</h6>
+      </div>
+    </div>
+    <div class="table-responsive">
+      <table class="table table-hover align-middle mb-0">
+        <thead class="table-light small text-uppercase">
+          <tr>
+            <th class="ps-4">Student</th>
+            <th>Course &amp; Task</th>
+            <th>Uploaded At</th>
+            <th>Status</th>
+            <th>Score</th>
+            <th>File</th>
+            <th class="text-end pe-4">Action</th>
+          </tr>
+        </thead>
+        <tbody class="small">
+          {% if page_obj %}
+            {% for sub in page_obj %}
+              <tr>
+                <td class="ps-4 py-3">
+                  <div class="fw-bold text-dark">{{ sub.student_id.student_name }}</div>
+                  <span class="text-muted font-monospace" style="font-size: 11px;">Roll: {{ sub.student_id.roll_no }}</span>
+                </td>
+                <td>
+                  <span class="badge bg-light text-dark border mb-1" style="font-size: 10px;">
+                    {{ sub.assignment_id.course_id.course_name }}
+                  </span>
+                  <div class="fw-bold text-dark">{{ sub.assignment_id.title }}</div>
+                </td>
+                <td>
+                  <div class="text-dark">{{ sub.submitted_at|date:"d M Y" }}</div>
+                  <div class="text-muted" style="font-size: 11px;">{{ sub.submitted_at|date:"h:i A" }}</div>
+                </td>
+                <td>
+                  <span class="badge-status {{ sub.status_badge_class }}">
+                    {{ sub.status }}
+                  </span>
+                </td>
+                <td>
+                  {% if sub.evaluation %}
+                    <span class="badge bg-success bg-opacity-10 text-success border border-success-subtle fw-bold fs-6">
+                      {{ sub.evaluation.marks }}/{{ sub.assignment_id.max_marks }}
+                    </span>
+                  {% else %}
+                    <span class="badge bg-warning bg-opacity-10 text-dark border border-warning-subtle">
+                      Pending
+                    </span>
+                  {% endif %}
+                </td>
+                <td>
+                  <a href="{% url 'download_file' 'submission' sub.submission_id %}" class="btn btn-sm btn-light border" title="Download: {{ sub.filename }}">
+                    <i class="bi bi-download me-1 text-teal"></i> Download
+                  </a>
+                </td>
+                <td class="text-end pe-4">
+                  <a href="{% url 'teacher_grade_submission' sub.submission_id %}" class="btn btn-sm btn-sams-primary">
+                    {% if sub.evaluation %}
+                      <i class="bi bi-pencil-square me-1"></i> Edit Score
+                    {% else %}
+                      <i class="bi bi-award me-1"></i> Grade Now
+                    {% endif %}
+                  </a>
+                </td>
+              </tr>
+            {% endfor %}
+          {% else %}
+            <tr>
+              <td colspan="7" class="text-center py-5 text-muted">
+                <i class="bi bi-inbox fs-1 d-block mb-2"></i>
+                <h6 class="fw-bold text-dark">No Submissions Found</h6>
+                <p class="small mb-0">No student submissions match your active filter criteria.</p>
+              </td>
+            </tr>
+          {% endif %}
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Pagination -->
+    {% if page_obj.has_other_pages %}
+      <div class="card-footer bg-white border-top p-3 d-flex justify-content-between align-items-center">
+        <span class="small text-muted">
+          Showing page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+        </span>
+        <ul class="pagination pagination-sm mb-0">
+          {% if page_obj.has_previous %}
+            <li class="page-item">
+              <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if selected_course_id %}&course={{ selected_course_id }}{% endif %}{% if status_filter %}&status={{ status_filter }}{% endif %}{% if search_q %}&q={{ search_q }}{% endif %}">&laquo;</a>
+            </li>
+          {% endif %}
+          {% for p in page_obj.paginator.page_range %}
+            <li class="page-item {% if p == page_obj.number %}active{% endif %}">
+              <a class="page-link" href="?page={{ p }}{% if selected_course_id %}&course={{ selected_course_id }}{% endif %}{% if status_filter %}&status={{ status_filter }}{% endif %}{% if search_q %}&q={{ search_q }}{% endif %}">{{ p }}</a>
+            </li>
+          {% endfor %}
+          {% if page_obj.has_next %}
+            <li class="page-item">
+              <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if selected_course_id %}&course={{ selected_course_id }}{% endif %}{% if status_filter %}&status={{ status_filter }}{% endif %}{% if search_q %}&q={{ search_q }}{% endif %}">&raquo;</a>
+            </li>
+          {% endif %}
+        </ul>
+      </div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}
+

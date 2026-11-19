@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}Project Team - SAMS (GTU BCA Sem 5){% endblock %}
+
+{% block content %}
+<div class="container py-5">
+  <div class="text-center max-w-700 mx-auto mb-5">
+    <span class="badge bg-light text-teal px-3 py-2 rounded-pill fw-semibold border mb-2">BCA Semester 5 Minor Project</span>
+    <h1 class="display-font mb-3">Project Team Members</h1>
+    <p class="text-muted lead fs-6">Gujarat Technological University (GTU) &bull; Minor Project &bull; Academic Year 2026</p>
+  </div>
+
+  <!-- Team Members Grid -->
+  <div class="row g-4 justify-content-center mb-5">
+    {% for member in members %}
+      <div class="col-md-4">
+        <div class="card card-sams h-100 p-4 border-0 text-center">
+          <div class="rounded-circle mx-auto d-flex align-items-center justify-content-center fw-bold text-white mb-3 shadow" style="width: 80px; height: 80px; font-size: 28px; background: linear-gradient(135deg, var(--c-deep-teal), var(--c-teal));">
+            {{ member.name|slice:":1" }}
+          </div>
+          <h3 class="display-font fs-4 mb-1 text-teal">{{ member.name }}</h3>
+          <div class="badge bg-light text-dark border px-3 py-1 mb-3">
+            Roll No: <strong>{{ member.roll }}</strong>
+          </div>
+          <p class="text-muted small mb-2">{{ member.role }}</p>
+          <div class="text-muted small mt-auto pt-3 border-top">
+            <span class="fw-semibold">{{ member.class }}</span> &bull; GTU Affiliated
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+
+  <!-- Project Guidance Card -->
+  <div class="card card-sams p-4 border-0 bg-white">
+    <div class="row align-items-center">
+      <div class="col-md-8">
+        <h4 class="display-font fs-4 mb-2 text-teal"><i class="bi bi-award me-2"></i>Minor Project Declaration</h4>
+        <p class="text-muted small mb-0">
+          This web application was designed, engineered, and demonstrated as part of the minor project curriculum requirements for <strong>Bachelor of Computer Applications (BCA) Semester 5</strong> under <strong>Gujarat Technological University (GTU)</strong>. All role access controls, database normalization, and frontend styling adhere to the highest academic standards.
+        </p>
+      </div>
+      <div class="col-md-4 text-center mt-3 mt-md-0">
+        <span class="badge bg-teal text-white p-3 fs-6 rounded-pill">
+          <i class="bi bi-patch-check-fill me-1"></i> Verified BCA Minor Project
+        </span>
+      </div>
+    </div>
+  </div>
+
+</div>
+{% endblock %}

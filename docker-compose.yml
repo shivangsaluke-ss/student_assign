@@ -1,0 +1,17 @@
+services:
+  web:
+    build: .
+    container_name: sams_web
+    restart: always
+    ports:
+      - "8000:8000"
+    environment:
+      - DEBUG=False
+      - SECRET_KEY=django-insecure-sams-gtu-bca-sem5-minor-project-key-2026
+      - ALLOWED_HOSTS=*
+    volumes:
+      - sams_media:/app/media
+
+volumes:
+  sams_media:
+

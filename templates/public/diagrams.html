@@ -1,0 +1,126 @@
+{% extends "base.html" %}
+
+{% block title %}System Architecture &amp; UML Diagrams - SAMS{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+  <div class="text-center max-w-700 mx-auto mb-5">
+    <span class="badge bg-light text-teal px-3 py-2 rounded-pill fw-semibold border mb-2">GTU BCA Minor Project Documentation</span>
+    <h1 class="display-font mb-3">System Architecture &amp; UML Diagrams</h1>
+    <p class="text-muted lead fs-6">Complete architectural diagrams detailing the data flow, actor boundaries, relational schema, and execution sequence of SAMS.</p>
+  </div>
+
+  <!-- Navigation Tabs -->
+  <ul class="nav nav-pills justify-content-center mb-5 gap-2" id="diagramTabs" role="tablist">
+    <li class="nav-item" role="presentation">
+      <button class="nav-link active px-4 py-2 rounded-pill border" id="flow-tab" data-bs-toggle="pill" data-bs-target="#flow-pane" type="button" role="tab">System Flow</button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link px-4 py-2 rounded-pill border" id="usecase-tab" data-bs-toggle="pill" data-bs-target="#usecase-pane" type="button" role="tab">Use-Case</button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link px-4 py-2 rounded-pill border" id="class-tab" data-bs-toggle="pill" data-bs-target="#class-pane" type="button" role="tab">Class Diagram</button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link px-4 py-2 rounded-pill border" id="seq-tab" data-bs-toggle="pill" data-bs-target="#seq-pane" type="button" role="tab">Sequence Diagram</button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link px-4 py-2 rounded-pill border" id="er-tab" data-bs-toggle="pill" data-bs-target="#er-pane" type="button" role="tab">ER Diagram</button>
+    </li>
+  </ul>
+
+  <!-- Tab Contents -->
+  <div class="tab-content" id="diagramTabsContent">
+    <!-- 1. System Flow -->
+    <div class="tab-pane fade show active" id="flow-pane" role="tabpanel">
+      <div class="card card-sams p-4 border-0">
+        <div class="d-flex align-items-center justify-content-between mb-3 border-bottom pb-3">
+          <div>
+            <h3 class="display-font fs-4 mb-1 text-teal">Overall System Flow &amp; Lifecycle</h3>
+            <p class="text-muted small mb-0">Illustrates end-to-end assignment processing from administrative subject setup to marks publication and status return.</p>
+          </div>
+          <a href="/static/img/diagrams/system_flow.svg" target="_blank" class="btn btn-sm btn-sams-outline">
+            <i class="bi bi-arrows-fullscreen me-1"></i> Full Resolution
+          </a>
+        </div>
+        <div class="text-center p-3 bg-light rounded-3">
+          <img src="/static/img/diagrams/system_flow.svg" alt="System Flow Diagram" class="img-fluid rounded border shadow-sm" style="max-height: 520px;">
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. Use Case -->
+    <div class="tab-pane fade" id="usecase-pane" role="tabpanel">
+      <div class="card card-sams p-4 border-0">
+        <div class="d-flex align-items-center justify-content-between mb-3 border-bottom pb-3">
+          <div>
+            <h3 class="display-font fs-4 mb-1 text-teal">Use-Case Diagram</h3>
+            <p class="text-muted small mb-0">Actor boundaries depicting Admin, Teacher, and Student interactions with system functions.</p>
+          </div>
+          <a href="/static/img/diagrams/use_case.svg" target="_blank" class="btn btn-sm btn-sams-outline">
+            <i class="bi bi-arrows-fullscreen me-1"></i> Full Resolution
+          </a>
+        </div>
+        <div class="text-center p-3 bg-light rounded-3">
+          <img src="/static/img/diagrams/use_case.svg" alt="Use Case Diagram" class="img-fluid rounded border shadow-sm" style="max-height: 520px;">
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. Class Diagram -->
+    <div class="tab-pane fade" id="class-pane" role="tabpanel">
+      <div class="card card-sams p-4 border-0">
+        <div class="d-flex align-items-center justify-content-between mb-3 border-bottom pb-3">
+          <div>
+            <h3 class="display-font fs-4 mb-1 text-teal">UML Class Diagram</h3>
+            <p class="text-muted small mb-0">Object-oriented model representing 8 core entities, primary attributes, methods, and relationship cardinalities.</p>
+          </div>
+          <a href="/static/img/diagrams/class_diagram.svg" target="_blank" class="btn btn-sm btn-sams-outline">
+            <i class="bi bi-arrows-fullscreen me-1"></i> Full Resolution
+          </a>
+        </div>
+        <div class="text-center p-3 bg-light rounded-3">
+          <img src="/static/img/diagrams/class_diagram.svg" alt="Class Diagram" class="img-fluid rounded border shadow-sm" style="max-height: 520px;">
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. Sequence Diagram -->
+    <div class="tab-pane fade" id="seq-pane" role="tabpanel">
+      <div class="card card-sams p-4 border-0">
+        <div class="d-flex align-items-center justify-content-between mb-3 border-bottom pb-3">
+          <div>
+            <h3 class="display-font fs-4 mb-1 text-teal">Sequence Diagram</h3>
+            <p class="text-muted small mb-0">Step-by-step chronology of messages exchanged between Teacher, SAMS Core engine, and Student.</p>
+          </div>
+          <a href="/static/img/diagrams/sequence_diagram.svg" target="_blank" class="btn btn-sm btn-sams-outline">
+            <i class="bi bi-arrows-fullscreen me-1"></i> Full Resolution
+          </a>
+        </div>
+        <div class="text-center p-3 bg-light rounded-3">
+          <img src="/static/img/diagrams/sequence_diagram.svg" alt="Sequence Diagram" class="img-fluid rounded border shadow-sm" style="max-height: 520px;">
+        </div>
+      </div>
+    </div>
+
+    <!-- 5. ER Diagram -->
+    <div class="tab-pane fade" id="er-pane" role="tabpanel">
+      <div class="card card-sams p-4 border-0">
+        <div class="d-flex align-items-center justify-content-between mb-3 border-bottom pb-3">
+          <div>
+            <h3 class="display-font fs-4 mb-1 text-teal">Entity-Relationship (ER) Diagram</h3>
+            <p class="text-muted small mb-0">Relational database design representing exactly the 8 MySQL tables, primary keys, foreign keys, and indexes.</p>
+          </div>
+          <a href="/static/img/diagrams/er_diagram.svg" target="_blank" class="btn btn-sm btn-sams-outline">
+            <i class="bi bi-arrows-fullscreen me-1"></i> Full Resolution
+          </a>
+        </div>
+        <div class="text-center p-3 bg-light rounded-3">
+          <img src="/static/img/diagrams/er_diagram.svg" alt="ER Diagram" class="img-fluid rounded border shadow-sm" style="max-height: 520px;">
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+{% endblock %}

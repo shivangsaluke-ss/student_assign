@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 380 200" fill="none">
+  <defs>
+    <linearGradient id="studGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0E7490" stop-opacity="0.1"/>
+      <stop offset="100%" stop-color="#D97706" stop-opacity="0.2"/>
+    </linearGradient>
+  </defs>
+  <rect width="380" height="200" rx="16" fill="url(#studGrad)"/>
+  <g transform="translate(55, 25)">
+    <rect x="25" y="20" width="150" height="98" rx="8" fill="#1E293B" stroke="#334155" stroke-width="3"/>
+    <rect x="35" y="30" width="130" height="74" rx="4" fill="#0B3C49"/>
+    <polygon points="10,118 190,118 180,128 20,128" fill="#94A3B8"/>
+    
+    <circle cx="100" cy="62" r="20" fill="white" fill-opacity="0.2"/>
+    <path d="M92 66 L100 56 L108 66 M100 56 V73" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    
+    <g transform="translate(160, 10)">
+      <path d="M35 15 L65 30 L35 45 L5 30 Z" fill="#0E7490"/>
+      <path d="M15 35 V50 C15 58 55 58 55 50 V35" fill="#0B3C49"/>
+      <line x1="65" y1="30" x2="70" y2="50" stroke="#D97706" stroke-width="2"/>
+      <circle cx="70" cy="52" r="3" fill="#D97706"/>
+    </g>
+  </g>
+</svg>

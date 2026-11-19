@@ -1,0 +1,141 @@
+{% extends "app_base.html" %}
+
+{% block title %}Student Submissions - SAMS Admin{% endblock %}
+{% block page_title %}Submissions Audit{% endblock %}
+
+{% block content %}
+<div class="container-fluid px-0">
+  <!-- Header Bar -->
+  <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
+    <div>
+      <h4 class="fw-bold mb-1 display-font">Submissions Record Audit</h4>
+      <p class="text-muted mb-0 small">Comprehensive log of all student uploaded assignment files and grading status.</p>
+    </div>
+  </div>
+
+  <!-- Filter Bar -->
+  <div class="card card-sams p-3 mb-4">
+    <form method="GET" class="row g-2 align-items-center">
+      <div class="col-md-5">
+        <select name="course" class="form-select">
+          <option value="">All Courses</option>
+          {% for c in courses %}
+            <option value="{{ c.course_id }}" {% if course_filter == c.course_id|stringformat:"i" %}selected{% endif %}>
+              {{ c.course_name }} (Sem {{ c.semester }})
+            </option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="col-md-4">
+        <select name="status" class="form-select">
+          <option value="">All Statuses</option>
+          <option value="Submitted" {% if filter_status == 'Submitted' %}selected{% endif %}>Submitted (On-time)</option>
+          <option value="Late" {% if filter_status == 'Late' %}selected{% endif %}>Late Submission</option>
+          <option value="Evaluated" {% if filter_status == 'Evaluated' %}selected{% endif %}>Evaluated</option>
+          <option value="Returned" {% if filter_status == 'Returned' %}selected{% endif %}>Returned to Student</option>
+          <option value="pending" {% if filter_status == 'pending' %}selected{% endif %}>Awaiting Grading (Pending)</option>
+        </select>
+      </div>
+      <div class="col-md-3 d-flex gap-2">
+        <button type="submit" class="btn btn-sams-primary w-100">Filter</button>
+        {% if course_filter or filter_status %}
+          <a href="{% url 'admin_submissions' %}" class="btn btn-light border">Reset</a>
+        {% endif %}
+      </div>
+    </form>
+  </div>
+
+  <!-- Table Card -->
+  <div class="card card-sams">
+    <div class="table-responsive">
+      <table class="table table-hover align-middle mb-0">
+        <thead class="table-light small text-uppercase">
+          <tr>
+            <th class="ps-4">Student</th>
+            <th>Assignment</th>
+            <th>Course</th>
+            <th>Uploaded At</th>
+            <th>Status</th>
+            <th>Grade Score</th>
+            <th class="text-end pe-4">File</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% if page_obj %}
+            {% for sub in page_obj %}
+              <tr>
+                <td class="ps-4">
+                  <div class="fw-bold text-dark">{{ sub.student_id.student_name }}</div>
+                  <span class="text-muted small font-monospace" style="font-size: 11px;">Roll: {{ sub.student_id.roll_no }}</span>
+                </td>
+                <td>
+                  <div class="fw-semibold text-dark">{{ sub.assignment_id.title }}</div>
+                  <span class="text-muted" style="font-size: 11px;">Max: {{ sub.assignment_id.max_marks }} Marks</span>
+                </td>
+                <td>
+                  <span class="small text-muted">{{ sub.assignment_id.course_id.course_name }}</span>
+                </td>
+                <td>
+                  <span class="small text-muted">{{ sub.submitted_at|date:"d M Y, h:i A" }}</span>
+                </td>
+                <td>
+                  <span class="badge-status {{ sub.status_badge_class }}">
+                    {{ sub.status }}
+                  </span>
+                </td>
+                <td>
+                  {% if sub.evaluation %}
+                    <span class="badge bg-success bg-opacity-10 text-success border border-success-subtle fw-bold">
+                      {{ sub.evaluation.marks }} / {{ sub.assignment_id.max_marks }}
+                    </span>
+                  {% else %}
+                    <span class="badge bg-warning bg-opacity-10 text-warning border border-warning-subtle">
+                      Pending
+                    </span>
+                  {% endif %}
+                </td>
+                <td class="text-end pe-4">
+                  <a href="{% url 'download_file' 'submission' sub.submission_id %}" class="btn btn-sm btn-light border" title="Download submitted file">
+                    <i class="bi bi-download me-1"></i> File
+                  </a>
+                </td>
+              </tr>
+            {% endfor %}
+          {% else %}
+            <tr>
+              <td colspan="7" class="text-center py-5 text-muted">
+                <i class="bi bi-file-earmark-x fs-2 d-block mb-2"></i>
+                No submissions matching your filter.
+              </td>
+            </tr>
+          {% endif %}
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Pagination -->
+    {% if page_obj.has_other_pages %}
+      <div class="card-footer bg-white border-top d-flex align-items-center justify-content-between p-3">
+        <span class="text-muted small">
+          Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+        </span>
+        <ul class="pagination pagination-sm mb-0">
+          {% if page_obj.has_previous %}
+            <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}&course={{ course_filter }}&status={{ filter_status }}">Previous</a></li>
+          {% endif %}
+          {% for num in page_obj.paginator.page_range %}
+            {% if page_obj.number == num %}
+              <li class="page-item active"><span class="page-link" style="background-color: var(--c-teal); border-color: var(--c-teal);">{{ num }}</span></li>
+            {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+              <li class="page-item"><a class="page-link" href="?page={{ num }}&course={{ course_filter }}&status={{ filter_status }}">{{ num }}</a></li>
+            {% endif %}
+          {% endfor %}
+          {% if page_obj.has_next %}
+            <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}&course={{ course_filter }}&status={{ filter_status }}">Next</a></li>
+          {% endif %}
+        </ul>
+      </div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

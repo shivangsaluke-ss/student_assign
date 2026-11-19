@@ -1,0 +1,93 @@
+{% extends "app_base.html" %}
+
+{% block title %}{{ title }} - SAMS Faculty{% endblock %}
+{% block page_title %}{{ title }}{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-9 col-lg-7">
+    <div class="card card-sams">
+      <div class="card-header-sams">
+        <div class="d-flex align-items-center gap-2">
+          <i class="bi bi-file-earmark-plus text-teal fs-5"></i>
+          <h5 class="mb-0 fw-bold">{{ title }}</h5>
+        </div>
+        <a href="{% url 'teacher_assignments' %}" class="btn btn-sm btn-light border">
+          <i class="bi bi-arrow-left me-1"></i> Back to Tasks
+        </a>
+      </div>
+      <div class="card-body p-4">
+        <form method="POST" enctype="multipart/form-data" novalidate>
+          {% csrf_token %}
+
+          {% if form.non_field_errors %}
+            <div class="alert alert-danger small">{{ form.non_field_errors }}</div>
+          {% endif %}
+
+          <div class="mb-3">
+            <label class="form-label fw-semibold small text-muted">TARGET COURSE <span class="text-danger">*</span></label>
+            {{ form.course_id }}
+            {% if form.course_id.errors %}
+              <div class="text-danger small mt-1">{{ form.course_id.errors|first }}</div>
+            {% endif %}
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label fw-semibold small text-muted">ASSIGNMENT TITLE <span class="text-danger">*</span></label>
+            {{ form.title }}
+            {% if form.title.errors %}
+              <div class="text-danger small mt-1">{{ form.title.errors|first }}</div>
+            {% endif %}
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label fw-semibold small text-muted">DESCRIPTION &amp; PROBLEM STATEMENT <span class="text-danger">*</span></label>
+            {{ form.description }}
+            {% if form.description.errors %}
+              <div class="text-danger small mt-1">{{ form.description.errors|first }}</div>
+            {% endif %}
+          </div>
+
+          <div class="row g-3 mb-3">
+            <div class="col-md-6">
+              <label class="form-label fw-semibold small text-muted">SUBMISSION DEADLINE <span class="text-danger">*</span></label>
+              {{ form.due_date }}
+              {% if form.due_date.errors %}
+                <div class="text-danger small mt-1">{{ form.due_date.errors|first }}</div>
+              {% endif %}
+            </div>
+            <div class="col-md-6">
+              <label class="form-label fw-semibold small text-muted">MAXIMUM MARKS <span class="text-danger">*</span></label>
+              {{ form.max_marks }}
+              {% if form.max_marks.errors %}
+                <div class="text-danger small mt-1">{{ form.max_marks.errors|first }}</div>
+              {% endif %}
+            </div>
+          </div>
+
+          <div class="mb-4">
+            <label class="form-label fw-semibold small text-muted">ATTACH QUESTION PAPER / REFERENCE BRIEF (Optional)</label>
+            {{ form.attachment }}
+            {% if form.attachment.errors %}
+              <div class="text-danger small mt-1">{{ form.attachment.errors|first }}</div>
+            {% endif %}
+            <div class="form-text small text-muted">Supported formats: PDF, DOC, DOCX, ZIP, PNG, JPG (Max 10 MB).</div>
+            {% if is_edit and assignment.file_path %}
+              <div class="mt-2 small text-teal">
+                <i class="bi bi-paperclip me-1"></i> Current file: {{ assignment.filename }}
+              </div>
+            {% endif %}
+          </div>
+
+          <div class="d-flex justify-content-end gap-2 pt-2 border-top">
+            <a href="{% url 'teacher_assignments' %}" class="btn btn-light px-4 border">Cancel</a>
+            <button type="submit" class="btn btn-sams-primary px-4">
+              <i class="bi bi-cloud-arrow-up me-1"></i> Publish Assignment
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
