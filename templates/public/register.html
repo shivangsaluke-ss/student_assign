@@ -1,0 +1,163 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{% if role == 'teacher' %}Teacher / Faculty Registration{% else %}Student Registration{% endif %} | SAMS{% endblock %}
+
+{% block content %}
+<div class="container py-5 mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+      <div class="glass-card p-4 p-md-5 mt-3 border-info border-opacity-25">
+        
+        <!-- Role Switcher (Student & Teacher only - Admin is excluded) -->
+        <div class="d-flex justify-content-center mb-4">
+          <div class="btn-group p-1 rounded-pill" style="background: rgba(11, 23, 26, 0.85); border: 1px solid var(--color-glass-border);">
+            <a href="?role=student" class="btn btn-sm rounded-pill px-4 py-2 {% if role != 'teacher' %}btn-cosmic-primary text-white{% else %}text-muted-cosmic text-decoration-none{% endif %}">
+              <i class="bi bi-mortarboard me-1"></i> Student Register
+            </a>
+            <a href="?role=teacher" class="btn btn-sm rounded-pill px-4 py-2 {% if role == 'teacher' %}btn-cosmic-primary text-white{% else %}text-muted-cosmic text-decoration-none{% endif %}">
+              <i class="bi bi-person-video3 me-1"></i> Teacher / Faculty Register
+            </a>
+          </div>
+        </div>
+
+        {% if role == 'teacher' %}
+          <!-- Teacher Registration Form -->
+          <div class="text-center mb-4">
+            <div class="role-card-icon mx-auto mb-3" style="background: rgba(212, 163, 115, 0.15); color: var(--color-boat-wood); border: 1px solid rgba(212, 163, 115, 0.35);">
+              <i class="bi bi-person-video3"></i>
+            </div>
+            <h2 class="h3 fw-bold text-white mb-1">Teacher / Faculty Signup</h2>
+            <p class="text-muted-cosmic small mb-0">Create an instructor account to manage courses, assignments, and grading</p>
+          </div>
+
+          <form method="POST" action="{% url 'register' %}" autocomplete="off" id="teacherRegForm">
+            {% csrf_token %}
+            <input type="hidden" name="role" value="teacher">
+
+            <div class="mb-3">
+              <label class="form-label-cosmic">Faculty Full Name</label>
+              {{ teacher_form.teacher_name }}
+              {% if teacher_form.teacher_name.errors %}
+                <div class="invalid-feedback-cosmic">{{ teacher_form.teacher_name.errors.0 }}</div>
+              {% endif %}
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label-cosmic">Institutional Email Address</label>
+              {{ teacher_form.teacher_email }}
+              {% if teacher_form.teacher_email.errors %}
+                <div class="invalid-feedback-cosmic">{{ teacher_form.teacher_email.errors.0 }}</div>
+              {% endif %}
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label-cosmic">Department</label>
+              {{ teacher_form.department }}
+              {% if teacher_form.department.errors %}
+                <div class="invalid-feedback-cosmic">{{ teacher_form.department.errors.0 }}</div>
+              {% endif %}
+            </div>
+
+            <div class="row g-3 mb-4">
+              <div class="col-sm-6">
+                <label class="form-label-cosmic">Password</label>
+                {{ teacher_form.teacher_password }}
+                {% if teacher_form.teacher_password.errors %}
+                  <div class="invalid-feedback-cosmic">{{ teacher_form.teacher_password.errors.0 }}</div>
+                {% endif %}
+              </div>
+              <div class="col-sm-6">
+                <label class="form-label-cosmic">Confirm Password</label>
+                {{ teacher_form.confirm_password }}
+                {% if teacher_form.confirm_password.errors %}
+                  <div class="invalid-feedback-cosmic">{{ teacher_form.confirm_password.errors.0 }}</div>
+                {% endif %}
+              </div>
+            </div>
+
+            <button type="submit" class="btn-cosmic-primary w-100 py-3 fw-bold">
+              <i class="bi bi-check2-circle"></i> Complete Faculty Registration
+            </button>
+          </form>
+
+        {% else %}
+          <!-- Student Registration Form -->
+          <div class="text-center mb-4">
+            <div class="role-card-icon mx-auto mb-3" style="background: rgba(56, 163, 122, 0.15); color: #38a37a; border: 1px solid rgba(56, 163, 122, 0.35);">
+              <i class="bi bi-person-plus-fill"></i>
+            </div>
+            <h2 class="h3 fw-bold text-white mb-1">Student Account Signup</h2>
+            <p class="text-muted-cosmic small mb-0">Join the BCA Semester 5 SAMS digital assignment portal</p>
+          </div>
+
+          <form method="POST" action="{% url 'register' %}" autocomplete="off" id="studentRegForm">
+            {% csrf_token %}
+            <input type="hidden" name="role" value="student">
+
+            <div class="mb-3">
+              <label class="form-label-cosmic">Full Name</label>
+              {{ student_form.student_name }}
+              {% if student_form.student_name.errors %}
+                <div class="invalid-feedback-cosmic">{{ student_form.student_name.errors.0 }}</div>
+              {% endif %}
+            </div>
+
+            <div class="row g-3 mb-3">
+              <div class="col-sm-6">
+                <label class="form-label-cosmic">Institutional Email</label>
+                {{ student_form.student_email }}
+                {% if student_form.student_email.errors %}
+                  <div class="invalid-feedback-cosmic">{{ student_form.student_email.errors.0 }}</div>
+                {% endif %}
+              </div>
+              <div class="col-sm-6">
+                <label class="form-label-cosmic">Roll Number</label>
+                {{ student_form.roll_no }}
+                {% if student_form.roll_no.errors %}
+                  <div class="invalid-feedback-cosmic">{{ student_form.roll_no.errors.0 }}</div>
+                {% endif %}
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label-cosmic">Semester</label>
+              {{ student_form.semester }}
+              {% if student_form.semester.errors %}
+                <div class="invalid-feedback-cosmic">{{ student_form.semester.errors.0 }}</div>
+              {% endif %}
+            </div>
+
+            <div class="row g-3 mb-4">
+              <div class="col-sm-6">
+                <label class="form-label-cosmic">Password</label>
+                {{ student_form.student_password }}
+                {% if student_form.student_password.errors %}
+                  <div class="invalid-feedback-cosmic">{{ student_form.student_password.errors.0 }}</div>
+                {% endif %}
+              </div>
+              <div class="col-sm-6">
+                <label class="form-label-cosmic">Confirm Password</label>
+                {{ student_form.confirm_password }}
+                {% if student_form.confirm_password.errors %}
+                  <div class="invalid-feedback-cosmic">{{ student_form.confirm_password.errors.0 }}</div>
+                {% endif %}
+              </div>
+            </div>
+
+            <button type="submit" class="btn-cosmic-primary w-100 py-3 fw-bold">
+              <i class="bi bi-check2-circle"></i> Complete Student Registration
+            </button>
+          </form>
+        {% endif %}
+
+        <hr class="my-4 border-secondary border-opacity-10">
+        <div class="text-center small text-muted-cosmic">
+          Already have an account?
+          <a href="{% url 'login' %}" class="text-info fw-semibold text-decoration-none ms-1">Sign in here</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

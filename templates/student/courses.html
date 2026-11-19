@@ -1,0 +1,55 @@
+{% extends 'app_base.html' %}
+{% load static %}
+
+{% block title %}My Enrolled Courses | Student SAMS{% endblock %}
+{% block page_title %}My Enrolled Courses{% endblock %}
+
+{% block content %}
+<div class="glass-card p-4">
+  <div class="d-flex align-items-center justify-content-between mb-4 flex-wrap gap-2">
+    <div>
+      <h3 class="h5 fw-bold text-white mb-0">Enrolled Semester {{ student.semester }} Subjects</h3>
+      <div class="small text-muted-cosmic">Active courses assigned to your curriculum</div>
+    </div>
+  </div>
+
+  <div class="row g-4">
+    {% for enroll in enrollments %}
+    <div class="col-md-6 col-lg-4">
+      <div class="glass-card p-4 h-100 d-flex flex-column justify-content-between">
+        <div>
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <span class="badge bg-primary">Sem {{ enroll.course_id.semester }}</span>
+            <span class="small text-muted-cosmic">Enrolled: {{ enroll.enroll_date|date:"d M Y" }}</span>
+          </div>
+          <h4 class="h5 fw-bold text-white mb-2">{{ enroll.course_id.course_name }}</h4>
+          <div class="p-3 rounded-3 mb-3" style="background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08);">
+            <div class="small text-muted-cosmic mb-1">Assigned Faculty:</div>
+            <div class="fw-semibold text-white d-flex align-items-center gap-2">
+              <i class="bi bi-person-video3 text-warning"></i>
+              <span>{{ enroll.course_id.teacher_id.teacher_name }}</span>
+            </div>
+            <div class="small text-muted-cosmic mt-1">Dept: {{ enroll.course_id.teacher_id.department }}</div>
+          </div>
+        </div>
+
+        <div class="d-flex justify-content-between align-items-center border-top border-secondary border-opacity-10 pt-3">
+          <span class="small text-muted-cosmic">{{ enroll.course_id.assignments.count }} assignments</span>
+          <a href="{% url 'student_assignments' %}" class="btn btn-sm btn-outline-info rounded-pill px-3">
+            View Tasks <i class="bi bi-arrow-right ms-1"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+    {% empty %}
+    <div class="col-12 text-center py-5">
+      <div class="empty-state">
+        <div class="empty-state-icon"><i class="bi bi-book"></i></div>
+        <div class="empty-state-title">No Enrolled Courses Found</div>
+        <div class="empty-state-text">You are not yet enrolled in any courses for Semester {{ student.semester }}. Please contact your administrator.</div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

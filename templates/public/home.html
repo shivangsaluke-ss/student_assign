@@ -1,0 +1,218 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Student Assignment Management System | Submit Smart. Grade Faster.{% endblock %}
+
+{% block content %}
+<!-- Video-Referenced Hero Section -->
+<section class="hero-wrapper">
+  <!-- Video background from reference/design.mp4 with poster fallback -->
+  <video class="hero-video-bg" autoplay muted loop playsinline poster="{% static 'img/hero.jpg' %}">
+    <source src="{% static 'video/design.mp4' %}" type="video/mp4">
+  </video>
+  <div class="hero-overlay"></div>
+
+  <!-- Concentric Water Ripples from Reference Video -->
+  <div class="ripple-wave-container">
+    <div class="ripple-wave"></div>
+    <div class="ripple-wave"></div>
+    <div class="ripple-wave"></div>
+  </div>
+
+  <div class="hero-content">
+    <!-- Kicker -->
+    <div class="hero-kicker">
+      <span class="kicker-dot"></span>
+      <span>STUDENT ASSIGNMENT</span>
+    </div>
+
+    <!-- Main Headline -->
+    <h1 class="hero-headline">
+      SUBMIT SMART.<br>
+      <span class="text-gradient">GRADE FASTER.</span>
+    </h1>
+
+    <!-- Subline -->
+    <p class="hero-subline">
+      One portal for admins, teachers and students to create, submit and grade assignments online.
+    </p>
+
+    <!-- Call to Actions -->
+    <div class="hero-cta-group">
+      {% if user.is_authenticated %}
+        {% if user_role == 'admin' %}
+          <a href="{% url 'admin_dashboard' %}" class="btn-cosmic-primary">
+            <i class="bi bi-speedometer2"></i> Enter Admin Portal
+          </a>
+        {% elif user_role == 'teacher' %}
+          <a href="{% url 'teacher_dashboard' %}" class="btn-cosmic-primary">
+            <i class="bi bi-person-video3"></i> Enter Teacher Portal
+          </a>
+        {% elif user_role == 'student' %}
+          <a href="{% url 'student_dashboard' %}" class="btn-cosmic-primary">
+            <i class="bi bi-mortarboard"></i> Enter Student Portal
+          </a>
+        {% endif %}
+      {% else %}
+        <a href="{% url 'login' %}" class="btn-cosmic-primary">
+          <i class="bi bi-box-arrow-in-right"></i> Login
+        </a>
+      {% endif %}
+      <a href="{% url 'modules' %}" class="btn-cosmic-glass">
+        <i class="bi bi-layers-fill"></i> Explore Modules
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Role Highlights Section -->
+<section class="section-padding">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-badge">Role Architecture</span>
+      <h2 class="section-title">Designed for Every Campus Role</h2>
+      <p class="section-desc">Unified access control ensuring each user interacts only with their designated responsibilities.</p>
+    </div>
+
+    <div class="row g-4">
+      <!-- Admin Card -->
+      <div class="col-md-4">
+        <div class="glass-card role-card admin-card">
+          <div class="role-card-icon">
+            <i class="bi bi-shield-lock-fill"></i>
+          </div>
+          <h3 class="h4 fw-bold text-white mb-2">Admin Portal</h3>
+          <p class="text-muted-cosmic small mb-3">Complete academic oversight, course mapping and institutional analytics.</p>
+          <ul class="list-unstyled small text-slate-300 d-flex flex-column gap-2 mb-4">
+            <li><i class="bi bi-check2-circle text-info me-2"></i>Manage Courses, Teachers & Students</li>
+            <li><i class="bi bi-check2-circle text-info me-2"></i>Map Teachers to Academic Courses</li>
+            <li><i class="bi bi-check2-circle text-info me-2"></i>Monitor Global Submissions & Deadlines</li>
+            <li><i class="bi bi-check2-circle text-info me-2"></i>Comprehensive Performance Analytics</li>
+          </ul>
+          <div class="mt-auto">
+            <a href="{% url 'login' %}?role=admin" class="btn btn-outline-info rounded-pill w-100 btn-sm">
+              Admin Access <i class="bi bi-arrow-right ms-1"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Teacher Card -->
+      <div class="col-md-4">
+        <div class="glass-card role-card teacher-card">
+          <div class="role-card-icon">
+            <i class="bi bi-person-workspace"></i>
+          </div>
+          <h3 class="h4 fw-bold text-white mb-2">Teacher Portal</h3>
+          <p class="text-muted-cosmic small mb-3">Create assignments, review submissions, and award grades with instant feedback.</p>
+          <ul class="list-unstyled small text-slate-300 d-flex flex-column gap-2 mb-4">
+            <li><i class="bi bi-check2-circle text-warning me-2"></i>Create & Update Assignments with Attachments</li>
+            <li><i class="bi bi-check2-circle text-warning me-2"></i>Filter Submitted, Late, & Pending Work</li>
+            <li><i class="bi bi-check2-circle text-warning me-2"></i>Online Grading & Constructive Remarks</li>
+            <li><i class="bi bi-check2-circle text-warning me-2"></i>Publish Course Broadcast Announcements</li>
+          </ul>
+          <div class="mt-auto">
+            <a href="{% url 'login' %}?role=teacher" class="btn btn-outline-warning rounded-pill w-100 btn-sm">
+              Teacher Access <i class="bi bi-arrow-right ms-1"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Student Card -->
+      <div class="col-md-4">
+        <div class="glass-card role-card student-card">
+          <div class="role-card-icon">
+            <i class="bi bi-mortarboard-fill"></i>
+          </div>
+          <h3 class="h4 fw-bold text-white mb-2">Student Portal</h3>
+          <p class="text-muted-cosmic small mb-3">Track deadlines, upload files effortlessly, and view teacher remarks.</p>
+          <ul class="list-unstyled small text-slate-300 d-flex flex-column gap-2 mb-4">
+            <li><i class="bi bi-check2-circle text-success me-2"></i>Browse Enrolled Courses & Due Dates</li>
+            <li><i class="bi bi-check2-circle text-success me-2"></i>Drag-and-Drop Submissions & Resubmissions</li>
+            <li><i class="bi bi-check2-circle text-success me-2"></i>Track Real-time Status Badges</li>
+            <li><i class="bi bi-check2-circle text-success me-2"></i>Instant Feedback & Grade Review</li>
+          </ul>
+          <div class="mt-auto">
+            <a href="{% url 'login' %}?role=student" class="btn btn-outline-success rounded-pill w-100 btn-sm">
+              Student Access <i class="bi bi-arrow-right ms-1"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Lifecycle Stages Section -->
+<section class="py-5" style="background: rgba(15, 23, 42, 0.5);">
+  <div class="container">
+    <div class="section-header mb-4">
+      <span class="section-badge">Standardized Lifecycle</span>
+      <h2 class="section-title">5-Stage Submission Status Pipeline</h2>
+      <p class="section-desc">Clear, color-coded visual stages reflecting the exact submission state at any given moment.</p>
+    </div>
+
+    <div class="row g-3 justify-content-center text-center">
+      <div class="col-6 col-md-2">
+        <div class="p-3 rounded-4 glass-card h-100">
+          <span class="badge-status badge-pending mb-2"><span class="status-dot"></span> Pending</span>
+          <div class="small text-muted-cosmic">Assigned but not yet uploaded by student.</div>
+        </div>
+      </div>
+      <div class="col-6 col-md-2">
+        <div class="p-3 rounded-4 glass-card h-100">
+          <span class="badge-status badge-submitted mb-2"><span class="status-dot"></span> Submitted</span>
+          <div class="small text-muted-cosmic">Uploaded on time, awaiting evaluation.</div>
+        </div>
+      </div>
+      <div class="col-6 col-md-2">
+        <div class="p-3 rounded-4 glass-card h-100">
+          <span class="badge-status badge-late mb-2"><span class="status-dot"></span> Late</span>
+          <div class="small text-muted-cosmic">Uploaded after the specified deadline.</div>
+        </div>
+      </div>
+      <div class="col-6 col-md-2">
+        <div class="p-3 rounded-4 glass-card h-100">
+          <span class="badge-status badge-evaluated mb-2"><span class="status-dot"></span> Evaluated</span>
+          <div class="small text-muted-cosmic">Marks & remarks awarded by teacher.</div>
+        </div>
+      </div>
+      <div class="col-6 col-md-2">
+        <div class="p-3 rounded-4 glass-card h-100">
+          <span class="badge-status badge-returned mb-2"><span class="status-dot"></span> Returned</span>
+          <div class="small text-muted-cosmic">Final status: Student has reviewed marks.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Demo Logins Strip -->
+<section class="section-padding">
+  <div class="container">
+    <div class="glass-card p-4 p-md-5 border-info border-opacity-25" style="background: linear-gradient(135deg, rgba(15, 23, 42, 0.85), rgba(8, 16, 40, 0.95));">
+      <div class="row align-items-center g-4">
+        <div class="col-lg-7">
+          <span class="badge bg-info text-dark rounded-pill mb-2 px-3 py-1">Quick Evaluation</span>
+          <h3 class="fw-bold text-white mb-2">Ready to test the system?</h3>
+          <p class="text-muted-cosmic mb-0">Use pre-configured demo credentials to explore Admin, Teacher, and Student features right away.</p>
+        </div>
+        <div class="col-lg-5 text-lg-end">
+          <div class="d-flex flex-wrap gap-2 justify-content-lg-end">
+            <a href="{% url 'login' %}?demo=admin" class="btn btn-sm btn-outline-info rounded-pill px-3 py-2">
+              <i class="bi bi-shield-lock me-1"></i>Admin Demo
+            </a>
+            <a href="{% url 'login' %}?demo=teacher" class="btn btn-sm btn-outline-warning rounded-pill px-3 py-2">
+              <i class="bi bi-person-video3 me-1"></i>Teacher Demo
+            </a>
+            <a href="{% url 'login' %}?demo=student" class="btn btn-sm btn-outline-success rounded-pill px-3 py-2">
+              <i class="bi bi-mortarboard me-1"></i>Student Demo
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

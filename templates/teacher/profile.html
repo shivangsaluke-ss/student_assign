@@ -1,0 +1,49 @@
+{% extends 'app_base.html' %}
+{% load static %}
+
+{% block title %}Teacher Profile | SAMS{% endblock %}
+{% block page_title %}Faculty Profile{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-lg-6 col-md-8">
+    <div class="glass-card p-4 p-md-5">
+      <div class="text-center mb-4">
+        <div class="rounded-circle mx-auto d-flex align-items-center justify-content-center text-white mb-3" style="width: 72px; height: 72px; background: linear-gradient(135deg, var(--color-coral-500), var(--color-cosmic-700)); font-size: 2rem;">
+          <i class="bi bi-person-video3"></i>
+        </div>
+        <h3 class="h4 fw-bold text-white mb-1">{{ teacher.teacher_name }}</h3>
+        <span class="badge bg-warning text-dark px-3 py-1 text-uppercase">{{ teacher.department }}</span>
+      </div>
+
+      <div class="p-3 rounded-4 mb-4" style="background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08);">
+        <div class="row g-3 small">
+          <div class="col-sm-4 text-muted-cosmic">Teacher ID</div>
+          <div class="col-sm-8 text-white font-monospace">#{{ teacher.teacher_id }}</div>
+
+          <div class="col-sm-4 text-muted-cosmic">Faculty Email</div>
+          <div class="col-sm-8 text-white">{{ teacher.teacher_email }}</div>
+
+          <div class="col-sm-4 text-muted-cosmic">Department</div>
+          <div class="col-sm-8 text-white">{{ teacher.department }}</div>
+
+          <div class="col-sm-4 text-muted-cosmic">Username</div>
+          <div class="col-sm-8 text-white">{{ user.username }}</div>
+
+          <div class="col-sm-4 text-muted-cosmic">Active Courses</div>
+          <div class="col-sm-8"><span class="badge bg-primary">{{ teacher.courses.count }} Teaching</span></div>
+        </div>
+      </div>
+
+      <div class="d-flex justify-content-center gap-2">
+        <a href="{% url 'teacher_dashboard' %}" class="btn-cosmic-glass">
+          <i class="bi bi-grid-fill me-1"></i>Back to Dashboard
+        </a>
+        <a href="{% url 'logout' %}" class="btn btn-outline-danger rounded-pill px-4">
+          <i class="bi bi-box-arrow-left me-1"></i>Logout
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

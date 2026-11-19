@@ -1,0 +1,103 @@
+{% extends 'app_base.html' %}
+{% load static %}
+
+{% block title %}Submit Assignment | Student SAMS{% endblock %}
+{% block page_title %}Submit Assignment{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-lg-8 col-md-10">
+    <div class="glass-card p-4 p-md-5">
+      <div class="d-flex align-items-center gap-3 mb-4">
+        <a href="{% url 'student_assignments' %}" class="btn btn-sm btn-outline-secondary rounded-circle" style="width: 36px; height: 36px; display: inline-flex; align-items: center; justify-content: center;">
+          <i class="bi bi-arrow-left"></i>
+        </a>
+        <div>
+          <h3 class="h5 fw-bold text-white mb-0">{{ assignment.title }}</h3>
+          <span class="small text-muted-cosmic">{{ assignment.course_id.course_name }}</span>
+        </div>
+      </div>
+
+      <!-- Assignment Details Card -->
+      <div class="p-4 rounded-4 mb-4" style="background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08);">
+        <div class="row g-3 mb-3">
+          <div class="col-sm-6">
+            <span class="small text-muted-cosmic d-block">Deadline</span>
+            <strong class="text-white">{{ assignment.due_date|date:"d M Y, h:i A" }}</strong>
+            {% if assignment.is_past_due %}
+              <span class="badge bg-danger bg-opacity-25 text-danger border border-danger border-opacity-50 d-inline-block mt-1">Deadline Passed (Will be marked Late)</span>
+            {% else %}
+              <span class="badge bg-success bg-opacity-25 text-success border border-success border-opacity-50 d-inline-block mt-1">Active ({{ assignment.due_date|timeuntil }} remaining)</span>
+            {% endif %}
+          </div>
+          <div class="col-sm-6">
+            <span class="small text-muted-cosmic d-block">Maximum Points</span>
+            <span class="badge bg-primary fs-6">{{ assignment.max_marks }} Marks</span>
+          </div>
+        </div>
+
+        <div class="border-top border-secondary border-opacity-10 pt-3">
+          <span class="small text-muted-cosmic d-block mb-1">Instructions:</span>
+          <p class="small text-slate-300 mb-0">{{ assignment.description }}</p>
+        </div>
+
+        {% if assignment.file_path %}
+        <div class="border-top border-secondary border-opacity-10 pt-3 mt-3">
+          <span class="small text-muted-cosmic d-block mb-1">Teacher Resource:</span>
+          <a href="{{ MEDIA_URL }}{{ assignment.file_path }}" target="_blank" class="btn btn-sm btn-outline-info rounded-pill px-3">
+            <i class="bi bi-paperclip me-1"></i>Download Assignment Guidelines
+          </a>
+        </div>
+        {% endif %}
+      </div>
+
+      {% if existing_sub %}
+      <div class="alert alert-warning bg-opacity-10 border-warning border-opacity-25 d-flex align-items-center gap-2 mb-4">
+        <i class="bi bi-exclamation-triangle-fill text-warning fs-5"></i>
+        <div class="small">
+          <strong>Existing Submission Detected:</strong> You submitted on {{ existing_sub.submitted_at|date:"d M Y, h:i A" }}. Uploading a new file will replace your previous file.
+        </div>
+      </div>
+      {% endif %}
+
+      <!-- Upload Form with Drag and Drop -->
+      <form method="POST" enctype="multipart/form-data" id="uploadForm">
+        {% csrf_token %}
+        {{ form.submission_file }}
+
+        <div class="upload-dropzone mb-3" id="dropzone">
+          <div class="upload-icon">
+            <i class="bi bi-cloud-arrow-up-fill"></i>
+          </div>
+          <h4 class="h6 fw-bold text-white mb-1">Click to browse or drag and drop your file here</h4>
+          <p class="text-muted-cosmic small mb-3">Supported formats: PDF, DOC, DOCX, ZIP, JPG, PNG (Max size: 10 MB)</p>
+          <div class="d-flex justify-content-center gap-2 flex-wrap mb-2">
+            <span class="badge bg-secondary bg-opacity-25 border border-secondary border-opacity-50">.pdf</span>
+            <span class="badge bg-secondary bg-opacity-25 border border-secondary border-opacity-50">.docx</span>
+            <span class="badge bg-secondary bg-opacity-25 border border-secondary border-opacity-50">.zip</span>
+            <span class="badge bg-secondary bg-opacity-25 border border-secondary border-opacity-50">.jpg / .png</span>
+          </div>
+
+          <div class="file-info mt-3"></div>
+
+          <div class="upload-progress-bar-wrap d-none" id="progressWrap">
+            <div class="upload-progress-bar" id="progressBar"></div>
+          </div>
+        </div>
+
+        {% if form.submission_file.errors %}
+          <div class="invalid-feedback-cosmic mb-3">{{ form.submission_file.errors.0 }}</div>
+        {% endif %}
+
+        <div class="d-flex justify-content-end gap-2">
+          <a href="{% url 'student_assignments' %}" class="btn-cosmic-glass">Cancel</a>
+          <button type="submit" class="btn-cosmic-primary" id="submitBtn">
+            <i class="bi bi-cloud-arrow-up-fill me-1"></i>
+            {% if existing_sub %}Resubmit Assignment{% else %}Submit Assignment{% endif %}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

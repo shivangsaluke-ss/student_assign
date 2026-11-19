@@ -1,0 +1,74 @@
+{% extends 'app_base.html' %}
+{% load static %}
+
+{% block title %}Manage Courses | Admin SAMS{% endblock %}
+{% block page_title %}Manage Courses{% endblock %}
+
+{% block content %}
+<div class="glass-card p-4">
+  <div class="d-flex align-items-center justify-content-between mb-4 flex-wrap gap-2">
+    <div>
+      <h3 class="h5 fw-bold text-white mb-0">Academic Courses Directory</h3>
+      <div class="small text-muted-cosmic">Manage curriculum subjects, faculty mapping, and enrolled semesters</div>
+    </div>
+    <a href="{% url 'admin_course_add' %}" class="btn-cosmic-primary btn-cosmic-sm">
+      <i class="bi bi-plus-lg me-1"></i>Add New Course
+    </a>
+  </div>
+
+  <div class="table-responsive-cosmic">
+    <table class="table-cosmic">
+      <thead>
+        <tr>
+          <th>Course ID</th>
+          <th>Course Name</th>
+          <th>Assigned Teacher</th>
+          <th>Semester</th>
+          <th>Students</th>
+          <th>Assignments</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for course in courses %}
+        <tr>
+          <td><code>#{{ course.course_id }}</code></td>
+          <td><strong class="text-white">{{ course.course_name }}</strong></td>
+          <td>
+            <div class="d-flex align-items-center gap-2">
+              <i class="bi bi-person-video3 text-warning"></i>
+              <span>{{ course.teacher_id.teacher_name }}</span>
+            </div>
+            <small class="text-muted-cosmic">Dept: {{ course.teacher_id.department }}</small>
+          </td>
+          <td><span class="badge bg-secondary">Sem {{ course.semester }}</span></td>
+          <td><span class="badge bg-dark border border-secondary border-opacity-25">{{ course.students_count }} students</span></td>
+          <td><span class="badge bg-dark border border-secondary border-opacity-25">{{ course.assignments_count }} tasks</span></td>
+          <td>
+            <div class="d-flex gap-2">
+              <a href="{% url 'admin_course_edit' course.course_id %}" class="btn btn-sm btn-outline-info rounded-pill px-2 py-1" title="Edit Course">
+                <i class="bi bi-pencil"></i>
+              </a>
+              <a href="{% url 'admin_course_delete' course.course_id %}" class="btn btn-sm btn-outline-danger rounded-pill px-2 py-1" title="Delete Course">
+                <i class="bi bi-trash"></i>
+              </a>
+            </div>
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="7" class="text-center py-5">
+            <div class="empty-state">
+              <div class="empty-state-icon"><i class="bi bi-book"></i></div>
+              <div class="empty-state-title">No Courses Created Yet</div>
+              <div class="empty-state-text">Get started by adding the first curriculum course.</div>
+              <a href="{% url 'admin_course_add' %}" class="btn-cosmic-primary btn-cosmic-sm">Add Course</a>
+            </div>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

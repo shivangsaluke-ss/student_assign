@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 380 200" fill="none">
+  <defs>
+    <linearGradient id="adminGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0B3C49" stop-opacity="0.1"/>
+      <stop offset="100%" stop-color="#0F766E" stop-opacity="0.2"/>
+    </linearGradient>
+  </defs>
+  <rect width="380" height="200" rx="16" fill="url(#adminGrad)"/>
+  <g transform="translate(50, 30)">
+    <rect x="0" y="0" width="170" height="120" rx="12" fill="#0B3C49" opacity="0.95"/>
+    <rect x="10" y="10" width="150" height="24" rx="6" fill="#0F766E"/>
+    <circle cx="24" cy="22" r="4" fill="#E5484D"/>
+    <circle cx="36" cy="22" r="4" fill="#D97706"/>
+    <circle cx="48" cy="22" r="4" fill="#16A34A"/>
+    <rect x="18" y="48" width="24" height="55" rx="4" fill="#0E7490" opacity="0.8"/>
+    <rect x="52" y="65" width="24" height="38" rx="4" fill="#16A34A" opacity="0.9"/>
+    <rect x="86" y="38" width="24" height="65" rx="4" fill="#D97706" opacity="0.9"/>
+    <rect x="120" y="55" width="24" height="48" rx="4" fill="#E5484D" opacity="0.8"/>
+    
+    <g transform="translate(155, 40)">
+      <circle cx="42" cy="42" r="38" fill="white" filter="drop-shadow(0 4px 10px rgba(11,60,73,0.2))"/>
+      <path d="M42 20 L62 28 V46 C62 58 42 66 42 66 C42 66 22 58 22 46 V28 Z" fill="#0F766E"/>
+      <path d="M35 43 L40 48 L50 36" stroke="white" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </g>
+  </g>
+</svg>

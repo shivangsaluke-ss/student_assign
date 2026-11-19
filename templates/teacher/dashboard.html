@@ -1,0 +1,146 @@
+{% extends 'app_base.html' %}
+{% load static %}
+
+{% block title %}Teacher Dashboard | SAMS{% endblock %}
+{% block page_title %}Teacher Portal Dashboard{% endblock %}
+
+{% block content %}
+<!-- Welcome & Quick Stats -->
+<div class="row g-4 mb-4">
+  <div class="col-sm-6 col-xl-3">
+    <div class="glass-card p-4 h-100">
+      <div class="d-flex align-items-center justify-content-between mb-2">
+        <span class="text-muted-cosmic small fw-bold text-uppercase">Assigned Courses</span>
+        <div class="rounded-3 p-2 bg-primary bg-opacity-10 text-primary fs-5"><i class="bi bi-book-half"></i></div>
+      </div>
+      <div class="fs-2 fw-bold text-white">{{ courses.count }}</div>
+      <div class="small text-muted-cosmic mt-1">Teaching Sem 5</div>
+    </div>
+  </div>
+
+  <div class="col-sm-6 col-xl-3">
+    <div class="glass-card p-4 h-100">
+      <div class="d-flex align-items-center justify-content-between mb-2">
+        <span class="text-muted-cosmic small fw-bold text-uppercase">Total Assignments</span>
+        <div class="rounded-3 p-2 bg-info bg-opacity-10 text-info fs-5"><i class="bi bi-pencil-square"></i></div>
+      </div>
+      <div class="fs-2 fw-bold text-white">{{ total_assignments }}</div>
+      <div class="small text-muted-cosmic mt-1">Published tasks</div>
+    </div>
+  </div>
+
+  <div class="col-sm-6 col-xl-3">
+    <div class="glass-card p-4 h-100">
+      <div class="d-flex align-items-center justify-content-between mb-2">
+        <span class="text-muted-cosmic small fw-bold text-uppercase">Pending Reviews</span>
+        <div class="rounded-3 p-2 bg-warning bg-opacity-10 text-warning fs-5"><i class="bi bi-hourglass-split"></i></div>
+      </div>
+      <div class="fs-2 fw-bold text-warning">{{ pending_count }}</div>
+      <div class="small text-muted-cosmic mt-1">Awaiting evaluation</div>
+    </div>
+  </div>
+
+  <div class="col-sm-6 col-xl-3">
+    <div class="glass-card p-4 h-100">
+      <div class="d-flex align-items-center justify-content-between mb-2">
+        <span class="text-muted-cosmic small fw-bold text-uppercase">Evaluated</span>
+        <div class="rounded-3 p-2 bg-success bg-opacity-10 text-success fs-5"><i class="bi bi-check2-circle"></i></div>
+      </div>
+      <div class="fs-2 fw-bold text-success">{{ evaluated_count }}</div>
+      <div class="small text-muted-cosmic mt-1">Graded & remarks given</div>
+    </div>
+  </div>
+</div>
+
+<!-- Pending Reviews Quick Queue -->
+<div class="glass-card p-4 mb-4">
+  <div class="d-flex align-items-center justify-content-between mb-4 flex-wrap gap-2">
+    <div>
+      <h3 class="h5 fw-bold text-white mb-0">Pending Reviews Queue</h3>
+      <div class="small text-muted-cosmic">Submissions waiting for your marks and feedback</div>
+    </div>
+    <a href="{% url 'teacher_submissions' %}?status=Submitted" class="btn btn-sm btn-outline-warning rounded-pill px-3">
+      View All Submissions <i class="bi bi-arrow-right ms-1"></i>
+    </a>
+  </div>
+
+  <div class="table-responsive-cosmic">
+    <table class="table-cosmic">
+      <thead>
+        <tr>
+          <th>Student</th>
+          <th>Roll No</th>
+          <th>Assignment</th>
+          <th>Course</th>
+          <th>Submitted Time</th>
+          <th>Status</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for sub in pending_submissions %}
+        <tr>
+          <td><strong class="text-white">{{ sub.student_id.student_name }}</strong></td>
+          <td><code>{{ sub.student_id.roll_no }}</code></td>
+          <td>{{ sub.assignment_id.title }}</td>
+          <td>{{ sub.assignment_id.course_id.course_name }}</td>
+          <td>{{ sub.submitted_at|date:"d M Y, h:i A" }}</td>
+          <td>
+            <span class="badge-status {{ sub.status_badge_class }}">
+              <span class="status-dot"></span> {{ sub.status }}
+            </span>
+          </td>
+          <td>
+            <a href="{% url 'teacher_evaluate' sub.submission_id %}" class="btn btn-sm btn-outline-warning rounded-pill px-3">
+              <i class="bi bi-pencil-square me-1"></i>Grade
+            </a>
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="7" class="text-center py-4 text-muted-cosmic">
+            <i class="bi bi-check2-all fs-2 text-success d-block mb-1"></i>
+            All caught up! No submissions waiting for review.
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Teacher's Courses Overview -->
+<div class="glass-card p-4">
+  <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
+    <h3 class="h5 fw-bold text-white mb-0">My Teaching Courses</h3>
+    <a href="{% url 'teacher_assignment_create' %}" class="btn-cosmic-primary btn-cosmic-sm">
+      <i class="bi bi-plus-lg me-1"></i>New Assignment
+    </a>
+  </div>
+
+  <div class="row g-3">
+    {% for c in courses %}
+    <div class="col-md-6">
+      <div class="p-3 rounded-4 glass-card h-100 d-flex flex-column justify-content-between">
+        <div>
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <span class="badge bg-primary">Sem {{ c.semester }}</span>
+            <span class="small text-muted-cosmic">ID: #{{ c.course_id }}</span>
+          </div>
+          <h4 class="h6 fw-bold text-white mb-1">{{ c.course_name }}</h4>
+          <div class="small text-muted-cosmic mb-3">Department: {{ teacher.department }}</div>
+        </div>
+        <div class="d-flex justify-content-between align-items-center border-top border-secondary border-opacity-10 pt-2">
+          <span class="small text-muted-cosmic">{{ c.assignments.count }} assignments</span>
+          <a href="{% url 'teacher_assignments' %}" class="btn btn-sm btn-link text-info text-decoration-none p-0">
+            View Assignments <i class="bi bi-arrow-right"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+    {% empty %}
+    <div class="col-12 text-center text-muted-cosmic py-3">No courses assigned yet. Contact administrator.</div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

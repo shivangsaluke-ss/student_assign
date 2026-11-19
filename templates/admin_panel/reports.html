@@ -1,0 +1,91 @@
+{% extends 'app_base.html' %}
+{% load static %}
+
+{% block title %}Reports & Analytics | Admin SAMS{% endblock %}
+{% block page_title %}Reports & Analytics{% endblock %}
+
+{% block content %}
+<!-- Analytics Summary Cards -->
+<div class="row g-4 mb-4">
+  <div class="col-sm-6 col-lg-3">
+    <div class="glass-card p-4 text-center h-100">
+      <div class="small text-muted-cosmic text-uppercase fw-bold mb-1">Overall Submission Rate</div>
+      <div class="display-5 fw-bold text-gradient mb-2">{{ overall_submission_rate }}%</div>
+      <div class="progress" style="height: 6px; background: rgba(255,255,255,0.1);">
+        <div class="progress-bar bg-info" style="width: {{ overall_submission_rate }}%;"></div>
+      </div>
+      <div class="small text-muted-cosmic mt-2">{{ total_submissions }} total submissions</div>
+    </div>
+  </div>
+
+  <div class="col-sm-6 col-lg-3">
+    <div class="glass-card p-4 text-center h-100">
+      <div class="small text-muted-cosmic text-uppercase fw-bold mb-1">Average Class Marks</div>
+      <div class="display-5 fw-bold text-gradient-emerald mb-2">{{ avg_marks }}</div>
+      <div class="small text-success"><i class="bi bi-award-fill me-1"></i>Graded Evaluations</div>
+      <div class="small text-muted-cosmic mt-1">{{ evaluated_count }} evaluated submissions</div>
+    </div>
+  </div>
+
+  <div class="col-sm-6 col-lg-3">
+    <div class="glass-card p-4 text-center h-100">
+      <div class="small text-muted-cosmic text-uppercase fw-bold mb-1">On-Time Submissions</div>
+      <div class="display-5 fw-bold text-white mb-2">{{ on_time_count }}</div>
+      <div class="small text-info"><i class="bi bi-clock-history me-1"></i>Before deadline</div>
+      <div class="small text-muted-cosmic mt-1">Status: Submitted</div>
+    </div>
+  </div>
+
+  <div class="col-sm-6 col-lg-3">
+    <div class="glass-card p-4 text-center h-100">
+      <div class="small text-muted-cosmic text-uppercase fw-bold mb-1">Late Submissions</div>
+      <div class="display-5 fw-bold text-gradient-coral mb-2">{{ late_count }}</div>
+      <div class="small text-danger"><i class="bi bi-exclamation-octagon me-1"></i>Post-deadline upload</div>
+      <div class="small text-muted-cosmic mt-1">Status: Late</div>
+    </div>
+  </div>
+</div>
+
+<!-- Course Breakdown -->
+<div class="glass-card p-4">
+  <h3 class="h5 fw-bold text-white mb-3">Course Engagement & Completion Breakdown</h3>
+  <div class="table-responsive-cosmic">
+    <table class="table-cosmic">
+      <thead>
+        <tr>
+          <th>Course Title</th>
+          <th>Faculty Instructor</th>
+          <th>Semester</th>
+          <th>Enrolled Students</th>
+          <th>Assignments Posted</th>
+          <th>Submissions Received</th>
+          <th>Engagement Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for c in course_stats %}
+        <tr>
+          <td><strong class="text-white">{{ c.course_name }}</strong></td>
+          <td>{{ c.teacher_id.teacher_name }}</td>
+          <td><span class="badge bg-secondary">Sem {{ c.semester }}</span></td>
+          <td>{{ c.student_count }} students</td>
+          <td>{{ c.assign_count }} tasks</td>
+          <td><span class="badge bg-primary">{{ c.sub_count }} submissions</span></td>
+          <td>
+            {% if c.assign_count > 0 %}
+              <span class="badge bg-success bg-opacity-25 text-success border border-success border-opacity-50">Active</span>
+            {% else %}
+              <span class="badge bg-secondary">Pending Setup</span>
+            {% endif %}
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="7" class="text-center py-4 text-muted-cosmic">No courses found.</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

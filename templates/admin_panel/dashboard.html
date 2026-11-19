@@ -1,0 +1,145 @@
+{% extends 'app_base.html' %}
+{% load static %}
+
+{% block title %}Admin Dashboard | SAMS{% endblock %}
+{% block page_title %}Administrator Dashboard{% endblock %}
+
+{% block content %}
+<!-- Metric Cards Row -->
+<div class="row g-4 mb-4">
+  <div class="col-sm-6 col-xl-3">
+    <div class="glass-card p-4 h-100">
+      <div class="d-flex align-items-center justify-content-between mb-2">
+        <span class="text-muted-cosmic small fw-bold text-uppercase">Total Courses</span>
+        <div class="rounded-3 p-2 bg-primary bg-opacity-10 text-primary fs-5"><i class="bi bi-book-half"></i></div>
+      </div>
+      <div class="fs-2 fw-bold text-white">{{ courses_count }}</div>
+      <div class="small text-muted-cosmic mt-1"><i class="bi bi-check2 text-success me-1"></i>Active in Semester 5</div>
+    </div>
+  </div>
+
+  <div class="col-sm-6 col-xl-3">
+    <div class="glass-card p-4 h-100">
+      <div class="d-flex align-items-center justify-content-between mb-2">
+        <span class="text-muted-cosmic small fw-bold text-uppercase">Faculty Teachers</span>
+        <div class="rounded-3 p-2 bg-warning bg-opacity-10 text-warning fs-5"><i class="bi bi-person-video3"></i></div>
+      </div>
+      <div class="fs-2 fw-bold text-white">{{ teachers_count }}</div>
+      <div class="small text-muted-cosmic mt-1"><i class="bi bi-mortarboard text-warning me-1"></i>Assigned Instructors</div>
+    </div>
+  </div>
+
+  <div class="col-sm-6 col-xl-3">
+    <div class="glass-card p-4 h-100">
+      <div class="d-flex align-items-center justify-content-between mb-2">
+        <span class="text-muted-cosmic small fw-bold text-uppercase">Active Students</span>
+        <div class="rounded-3 p-2 bg-success bg-opacity-10 text-success fs-5"><i class="bi bi-people-fill"></i></div>
+      </div>
+      <div class="fs-2 fw-bold text-white">{{ students_count }}</div>
+      <div class="small text-muted-cosmic mt-1"><i class="bi bi-check-circle text-success me-1"></i>Enrolled in GTU BCA</div>
+    </div>
+  </div>
+
+  <div class="col-sm-6 col-xl-3">
+    <div class="glass-card p-4 h-100">
+      <div class="d-flex align-items-center justify-content-between mb-2">
+        <span class="text-muted-cosmic small fw-bold text-uppercase">Submissions</span>
+        <div class="rounded-3 p-2 bg-info bg-opacity-10 text-info fs-5"><i class="bi bi-cloud-arrow-up-fill"></i></div>
+      </div>
+      <div class="fs-2 fw-bold text-white">{{ submissions_count }}</div>
+      <div class="small text-muted-cosmic mt-1"><i class="bi bi-graph-up-arrow text-info me-1"></i>Turnaround: {{ submission_rate }}%</div>
+    </div>
+  </div>
+</div>
+
+<!-- Secondary Metrics: Evaluated vs Late -->
+<div class="row g-4 mb-4">
+  <div class="col-md-6 col-lg-3">
+    <div class="glass-card p-3 d-flex align-items-center gap-3">
+      <div class="fs-2 text-warning"><i class="bi bi-hourglass-split"></i></div>
+      <div>
+        <div class="small text-muted-cosmic text-uppercase">Late Submissions</div>
+        <div class="fs-4 fw-bold text-warning">{{ late_count }}</div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6 col-lg-3">
+    <div class="glass-card p-3 d-flex align-items-center gap-3">
+      <div class="fs-2 text-success"><i class="bi bi-award-fill"></i></div>
+      <div>
+        <div class="small text-muted-cosmic text-uppercase">Evaluated Works</div>
+        <div class="fs-4 fw-bold text-success">{{ evaluated_count }}</div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6 col-lg-3">
+    <div class="glass-card p-3 d-flex align-items-center gap-3">
+      <div class="fs-2 text-info"><i class="bi bi-percent"></i></div>
+      <div>
+        <div class="small text-muted-cosmic text-uppercase">Average Marks</div>
+        <div class="fs-4 fw-bold text-info">{{ avg_marks }}</div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6 col-lg-3">
+    <div class="glass-card p-3 d-flex align-items-center gap-3">
+      <div class="fs-2 text-primary"><i class="bi bi-journal-text"></i></div>
+      <div>
+        <div class="small text-muted-cosmic text-uppercase">Assignments</div>
+        <div class="fs-4 fw-bold text-primary">{{ assignments_count }}</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Recent Submissions Feed -->
+<div class="glass-card p-4">
+  <div class="d-flex align-items-center justify-content-between mb-4 flex-wrap gap-2">
+    <div>
+      <h3 class="h5 fw-bold text-white mb-0">Recent Submissions Across Courses</h3>
+      <div class="small text-muted-cosmic">Live activity feed of incoming student submissions</div>
+    </div>
+    <a href="{% url 'admin_assignments' %}" class="btn btn-sm btn-outline-info rounded-pill px-3">
+      Monitor All <i class="bi bi-arrow-right ms-1"></i>
+    </a>
+  </div>
+
+  <div class="table-responsive-cosmic">
+    <table class="table-cosmic">
+      <thead>
+        <tr>
+          <th>Student</th>
+          <th>Roll No</th>
+          <th>Course</th>
+          <th>Assignment</th>
+          <th>Submitted Time</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for sub in recent_submissions %}
+        <tr>
+          <td><strong class="text-white">{{ sub.student_id.student_name }}</strong></td>
+          <td><code>{{ sub.student_id.roll_no }}</code></td>
+          <td>{{ sub.assignment_id.course_id.course_name }}</td>
+          <td>{{ sub.assignment_id.title }}</td>
+          <td>{{ sub.submitted_at|date:"d M Y, h:i A" }}</td>
+          <td>
+            <span class="badge-status {{ sub.status_badge_class }}">
+              <span class="status-dot"></span> {{ sub.status }}
+            </span>
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="6" class="text-center py-4 text-muted-cosmic">
+            <i class="bi bi-inbox fs-3 d-block mb-1"></i>
+            No submissions recorded yet.
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

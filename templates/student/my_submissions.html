@@ -1,0 +1,90 @@
+{% extends 'app_base.html' %}
+{% load static %}
+
+{% block title %}My Submissions | Student SAMS{% endblock %}
+{% block page_title %}My Submissions{% endblock %}
+
+{% block content %}
+<div class="glass-card p-4">
+  <div class="d-flex align-items-center justify-content-between mb-4 flex-wrap gap-2">
+    <div>
+      <h3 class="h5 fw-bold text-white mb-0">Submission History & Files</h3>
+      <div class="small text-muted-cosmic">Manage your uploaded coursework, replace files before deadlines, and track evaluations</div>
+    </div>
+  </div>
+
+  <div class="table-responsive-cosmic">
+    <table class="table-cosmic">
+      <thead>
+        <tr>
+          <th>Assignment</th>
+          <th>Course</th>
+          <th>Submitted Time</th>
+          <th>Uploaded File</th>
+          <th>Status</th>
+          <th>Grade</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for sub in submissions %}
+        <tr>
+          <td><strong class="text-white">{{ sub.assignment_id.title }}</strong></td>
+          <td>{{ sub.assignment_id.course_id.course_name }}</td>
+          <td>
+            <div class="small text-white">{{ sub.submitted_at|date:"d M Y, h:i A" }}</div>
+            {% if sub.is_late %}
+              <span class="badge bg-danger bg-opacity-25 text-danger border border-danger border-opacity-50" style="font-size: 0.7rem;">Late Submission</span>
+            {% else %}
+              <span class="badge bg-success bg-opacity-25 text-success border border-success border-opacity-50" style="font-size: 0.7rem;">On Time</span>
+            {% endif %}
+          </td>
+          <td>
+            <a href="{{ MEDIA_URL }}{{ sub.file_path }}" target="_blank" class="btn btn-sm btn-outline-info rounded-pill px-2 py-1" download>
+              <i class="bi bi-download me-1"></i>{{ sub.filename|truncatechars:20 }}
+            </a>
+          </td>
+          <td>
+            <span class="badge-status {{ sub.status_badge_class }}">
+              <span class="status-dot"></span> {{ sub.status }}
+            </span>
+          </td>
+          <td>
+            {% if sub.evaluation %}
+              <strong class="text-success">{{ sub.evaluation.marks }}</strong> / {{ sub.assignment_id.max_marks }}
+            {% else %}
+              <span class="text-muted-cosmic small">Awaiting Grading</span>
+            {% endif %}
+          </td>
+          <td>
+            <div class="d-flex gap-2">
+              {% if not sub.evaluation and not sub.assignment_id.is_past_due %}
+                <a href="{% url 'student_submit' sub.assignment_id.assignment_id %}" class="btn btn-sm btn-outline-warning rounded-pill px-2 py-1" title="Replace File">
+                  <i class="bi bi-arrow-repeat"></i> Replace
+                </a>
+                <a href="{% url 'student_submission_delete' sub.submission_id %}" class="btn btn-sm btn-outline-danger rounded-pill px-2 py-1" title="Delete Submission">
+                  <i class="bi bi-trash"></i>
+                </a>
+              {% else %}
+                <span class="badge bg-secondary">Locked</span>
+              {% endif %}
+            </div>
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="7" class="text-center py-5">
+            <div class="empty-state">
+              <div class="empty-state-icon"><i class="bi bi-journal-x"></i></div>
+              <div class="empty-state-title">No Submissions Recorded</div>
+              <div class="empty-state-text">You have not submitted any assignments yet. Browse assignments to submit work.</div>
+              <a href="{% url 'student_assignments' %}" class="btn-cosmic-primary btn-cosmic-sm">Browse Assignments</a>
+            </div>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

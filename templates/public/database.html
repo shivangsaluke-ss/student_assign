@@ -1,0 +1,516 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Database Architecture | 8 MySQL Tables Schema{% endblock %}
+
+{% block content %}
+<div class="container py-5 mt-5">
+  <div class="section-header mt-3">
+    <span class="section-badge">Relational Schema</span>
+    <h1 class="section-title">Database Specification (8 Tables)</h1>
+    <p class="section-desc">Strictly normalized 3NF MySQL relational database schema supporting the SAMS academic lifecycle with indexed foreign keys and integrity constraints.</p>
+  </div>
+
+  <!-- Table 1: admin (Slide 23) -->
+  <div class="glass-card p-4 mb-4">
+    <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
+      <div class="d-flex align-items-center gap-2">
+        <span class="badge bg-primary px-3 py-1">Table 1</span>
+        <h3 class="h5 fw-bold text-white mb-0"><code>admin</code></h3>
+      </div>
+      <span class="small text-muted-cosmic">PK: admin_id | 1:1 linked with auth_user</span>
+    </div>
+    <div class="table-responsive-cosmic">
+      <table class="table-cosmic">
+        <thead>
+          <tr>
+            <th>Sr. No</th>
+            <th>Field Name</th>
+            <th>Data Type</th>
+            <th>Constraint</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td><code>admin_id</code></td>
+            <td>int</td>
+            <td><span class="badge bg-primary">Primary Key</span></td>
+            <td>Represents the unique ID of the administrator.</td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td><code>admin_name</code></td>
+            <td>varchar(50)</td>
+            <td>Not Null</td>
+            <td>Represents the full name of the administrator.</td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td><code>admin_email</code></td>
+            <td>varchar(50)</td>
+            <td><span class="badge bg-info text-dark">Unique</span></td>
+            <td>Represents the institutional email of the administrator.</td>
+          </tr>
+          <tr>
+            <td>4</td>
+            <td><code>admin_password</code></td>
+            <td>varchar(100)</td>
+            <td>Not Null</td>
+            <td>Represents the secure hashed password of the administrator.</td>
+          </tr>
+          <tr>
+            <td>5</td>
+            <td><code>admin_mobile</code></td>
+            <td>varchar(15)</td>
+            <td><span class="badge bg-info text-dark">Unique</span></td>
+            <td>Represents the contact mobile number of the administrator.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Table 2: teacher (Slide 24) -->
+  <div class="glass-card p-4 mb-4">
+    <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
+      <div class="d-flex align-items-center gap-2">
+        <span class="badge bg-warning text-dark px-3 py-1">Table 2</span>
+        <h3 class="h5 fw-bold text-white mb-0"><code>teacher</code></h3>
+      </div>
+      <span class="small text-muted-cosmic">PK: teacher_id | 1:1 linked with auth_user</span>
+    </div>
+    <div class="table-responsive-cosmic">
+      <table class="table-cosmic">
+        <thead>
+          <tr>
+            <th>Sr. No</th>
+            <th>Field Name</th>
+            <th>Data Type</th>
+            <th>Constraint</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td><code>teacher_id</code></td>
+            <td>int</td>
+            <td><span class="badge bg-primary">Primary Key</span></td>
+            <td>Represents the unique ID of the teacher.</td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td><code>teacher_name</code></td>
+            <td>varchar(50)</td>
+            <td>Not Null</td>
+            <td>Represents the full name of the teacher.</td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td><code>teacher_email</code></td>
+            <td>varchar(50)</td>
+            <td><span class="badge bg-info text-dark">Unique</span></td>
+            <td>Represents the unique email of the faculty teacher.</td>
+          </tr>
+          <tr>
+            <td>4</td>
+            <td><code>department</code></td>
+            <td>varchar(50)</td>
+            <td>Not Null</td>
+            <td>Represents the academic department (e.g. Computer Science).</td>
+          </tr>
+          <tr>
+            <td>5</td>
+            <td><code>teacher_password</code></td>
+            <td>varchar(100)</td>
+            <td>Not Null</td>
+            <td>Represents the hashed login password of the teacher.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Table 3: student (Slide 25) -->
+  <div class="glass-card p-4 mb-4">
+    <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
+      <div class="d-flex align-items-center gap-2">
+        <span class="badge bg-success px-3 py-1">Table 3</span>
+        <h3 class="h5 fw-bold text-white mb-0"><code>student</code></h3>
+      </div>
+      <span class="small text-muted-cosmic">PK: student_id | 1:1 linked with auth_user</span>
+    </div>
+    <div class="table-responsive-cosmic">
+      <table class="table-cosmic">
+        <thead>
+          <tr>
+            <th>Sr. No</th>
+            <th>Field Name</th>
+            <th>Data Type</th>
+            <th>Constraint</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td><code>student_id</code></td>
+            <td>int</td>
+            <td><span class="badge bg-primary">Primary Key</span></td>
+            <td>Represents the unique ID of the student.</td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td><code>student_name</code></td>
+            <td>varchar(50)</td>
+            <td>Not Null</td>
+            <td>Represents the full name of the student.</td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td><code>student_email</code></td>
+            <td>varchar(50)</td>
+            <td><span class="badge bg-info text-dark">Unique</span></td>
+            <td>Represents the email address of the student.</td>
+          </tr>
+          <tr>
+            <td>4</td>
+            <td><code>roll_no</code></td>
+            <td>varchar(15)</td>
+            <td><span class="badge bg-info text-dark">Unique</span></td>
+            <td>Represents the institutional roll number (e.g. 3092).</td>
+          </tr>
+          <tr>
+            <td>5</td>
+            <td><code>semester</code></td>
+            <td>int</td>
+            <td>Not Null</td>
+            <td>Represents the academic semester enrolled in (e.g. 5).</td>
+          </tr>
+          <tr>
+            <td>6</td>
+            <td><code>student_password</code></td>
+            <td>varchar(100)</td>
+            <td>Not Null</td>
+            <td>Represents the hashed login password of the student.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Table 4: course (Slide 26) -->
+  <div class="glass-card p-4 mb-4">
+    <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
+      <div class="d-flex align-items-center gap-2">
+        <span class="badge bg-secondary px-3 py-1">Table 4</span>
+        <h3 class="h5 fw-bold text-white mb-0"><code>course</code></h3>
+      </div>
+      <span class="small text-muted-cosmic">FK: teacher_id -> teacher(teacher_id)</span>
+    </div>
+    <div class="table-responsive-cosmic">
+      <table class="table-cosmic">
+        <thead>
+          <tr>
+            <th>Sr. No</th>
+            <th>Field Name</th>
+            <th>Data Type</th>
+            <th>Constraint</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td><code>course_id</code></td>
+            <td>int</td>
+            <td><span class="badge bg-primary">Primary Key</span></td>
+            <td>Represents the unique ID of the course.</td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td><code>course_name</code></td>
+            <td>varchar(50)</td>
+            <td>Not Null</td>
+            <td>Represents the title of the academic course subject.</td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td><code>teacher_id</code></td>
+            <td>int</td>
+            <td><span class="badge bg-warning text-dark">Foreign Key</span></td>
+            <td>Represents the assigned instructor faculty ID.</td>
+          </tr>
+          <tr>
+            <td>4</td>
+            <td><code>semester</code></td>
+            <td>int</td>
+            <td>Not Null</td>
+            <td>Represents the curriculum semester the course belongs to.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Table 5: enrollment (Slide 27) -->
+  <div class="glass-card p-4 mb-4">
+    <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
+      <div class="d-flex align-items-center gap-2">
+        <span class="badge bg-secondary px-3 py-1">Table 5</span>
+        <h3 class="h5 fw-bold text-white mb-0"><code>enrollment</code></h3>
+      </div>
+      <span class="small text-muted-cosmic">Unique: (student_id, course_id)</span>
+    </div>
+    <div class="table-responsive-cosmic">
+      <table class="table-cosmic">
+        <thead>
+          <tr>
+            <th>Sr. No</th>
+            <th>Field Name</th>
+            <th>Data Type</th>
+            <th>Constraint</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td><code>enroll_id</code></td>
+            <td>int</td>
+            <td><span class="badge bg-primary">Primary Key</span></td>
+            <td>Represents the unique ID of the enrollment record.</td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td><code>student_id</code></td>
+            <td>int</td>
+            <td><span class="badge bg-warning text-dark">Foreign Key</span></td>
+            <td>Represents the enrolled student ID.</td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td><code>course_id</code></td>
+            <td>int</td>
+            <td><span class="badge bg-warning text-dark">Foreign Key</span></td>
+            <td>Represents the enrolled course subject ID.</td>
+          </tr>
+          <tr>
+            <td>4</td>
+            <td><code>enroll_date</code></td>
+            <td>date</td>
+            <td>Default (Today)</td>
+            <td>Represents the date when enrollment occurred.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Table 6: assignment (Slide 28) -->
+  <div class="glass-card p-4 mb-4">
+    <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
+      <div class="d-flex align-items-center gap-2">
+        <span class="badge bg-secondary px-3 py-1">Table 6</span>
+        <h3 class="h5 fw-bold text-white mb-0"><code>assignment</code></h3>
+      </div>
+      <span class="small text-muted-cosmic">FK: course_id -> course(course_id) | Index: due_date</span>
+    </div>
+    <div class="table-responsive-cosmic">
+      <table class="table-cosmic">
+        <thead>
+          <tr>
+            <th>Sr. No</th>
+            <th>Field Name</th>
+            <th>Data Type</th>
+            <th>Constraint</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td><code>assignment_id</code></td>
+            <td>int</td>
+            <td><span class="badge bg-primary">Primary Key</span></td>
+            <td>Represents the unique ID of the assignment.</td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td><code>title</code></td>
+            <td>varchar(100)</td>
+            <td>Not Null</td>
+            <td>Represents the title of the assignment.</td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td><code>description</code></td>
+            <td>text</td>
+            <td>Not Null</td>
+            <td>Represents the problem statement and instructions.</td>
+          </tr>
+          <tr>
+            <td>4</td>
+            <td><code>course_id</code></td>
+            <td>int</td>
+            <td><span class="badge bg-warning text-dark">Foreign Key</span></td>
+            <td>Represents the course subject ID.</td>
+          </tr>
+          <tr>
+            <td>5</td>
+            <td><code>due_date</code></td>
+            <td>datetime</td>
+            <td>Not Null (Indexed)</td>
+            <td>Represents the submission deadline timestamp.</td>
+          </tr>
+          <tr>
+            <td>6</td>
+            <td><code>max_marks</code></td>
+            <td>int</td>
+            <td>Not Null</td>
+            <td>Represents the total maximum marks points.</td>
+          </tr>
+          <tr>
+            <td>7</td>
+            <td><code>file_path</code></td>
+            <td>varchar(200)</td>
+            <td>Optional / Nullable</td>
+            <td>Represents the optional teacher attachment file path.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Table 7: submission (Slide 29) -->
+  <div class="glass-card p-4 mb-4">
+    <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
+      <div class="d-flex align-items-center gap-2">
+        <span class="badge bg-secondary px-3 py-1">Table 7</span>
+        <h3 class="h5 fw-bold text-white mb-0"><code>submission</code></h3>
+      </div>
+      <span class="small text-muted-cosmic">Unique: (assignment_id, student_id)</span>
+    </div>
+    <div class="table-responsive-cosmic">
+      <table class="table-cosmic">
+        <thead>
+          <tr>
+            <th>Sr. No</th>
+            <th>Field Name</th>
+            <th>Data Type</th>
+            <th>Constraint</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td><code>submission_id</code></td>
+            <td>int</td>
+            <td><span class="badge bg-primary">Primary Key</span></td>
+            <td>Represents the unique ID of the submission.</td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td><code>assignment_id</code></td>
+            <td>int</td>
+            <td><span class="badge bg-warning text-dark">Foreign Key</span></td>
+            <td>Represents the assignment being submitted for.</td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td><code>student_id</code></td>
+            <td>int</td>
+            <td><span class="badge bg-warning text-dark">Foreign Key</span></td>
+            <td>Represents the student who uploaded the work.</td>
+          </tr>
+          <tr>
+            <td>4</td>
+            <td><code>file_path</code></td>
+            <td>varchar(200)</td>
+            <td>Not Null</td>
+            <td>Represents the path of the uploaded file on the server.</td>
+          </tr>
+          <tr>
+            <td>5</td>
+            <td><code>submitted_at</code></td>
+            <td>datetime</td>
+            <td>Default (Now)</td>
+            <td>Represents the timestamp when the file was uploaded.</td>
+          </tr>
+          <tr>
+            <td>6</td>
+            <td><code>status</code></td>
+            <td>varchar(20)</td>
+            <td>Not Null</td>
+            <td>Pending, Submitted, Late, Evaluated, or Returned.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Table 8: evaluation (Slide 30) -->
+  <div class="glass-card p-4 mb-4">
+    <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
+      <div class="d-flex align-items-center gap-2">
+        <span class="badge bg-secondary px-3 py-1">Table 8</span>
+        <h3 class="h5 fw-bold text-white mb-0"><code>evaluation</code></h3>
+      </div>
+      <span class="small text-muted-cosmic">1:1 FK: submission_id (Unique)</span>
+    </div>
+    <div class="table-responsive-cosmic">
+      <table class="table-cosmic">
+        <thead>
+          <tr>
+            <th>Sr. No</th>
+            <th>Field Name</th>
+            <th>Data Type</th>
+            <th>Constraint</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td><code>evaluation_id</code></td>
+            <td>int</td>
+            <td><span class="badge bg-primary">Primary Key</span></td>
+            <td>Represents the unique ID of the evaluation.</td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td><code>submission_id</code></td>
+            <td>int</td>
+            <td><span class="badge bg-warning text-dark">Foreign Key (Unique)</span></td>
+            <td>Represents the unique evaluated submission record.</td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td><code>marks</code></td>
+            <td>int</td>
+            <td>Not Null</td>
+            <td>Represents the numerical marks awarded (0 to max_marks).</td>
+          </tr>
+          <tr>
+            <td>4</td>
+            <td><code>feedback</code></td>
+            <td>varchar(250)</td>
+            <td>Not Null</td>
+            <td>Represents the faculty teacher constructive feedback.</td>
+          </tr>
+          <tr>
+            <td>5</td>
+            <td><code>evaluated_on</code></td>
+            <td>date</td>
+            <td>Default (Today)</td>
+            <td>Represents the calendar date of grading evaluation.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}

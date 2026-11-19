@@ -1,0 +1,70 @@
+{% extends 'app_base.html' %}
+{% load static %}
+
+{% block title %}Notifications | Student SAMS{% endblock %}
+{% block page_title %}Notifications & Alerts{% endblock %}
+
+{% block content %}
+<div class="glass-card p-4">
+  <div class="d-flex align-items-center justify-content-between mb-4 flex-wrap gap-2">
+    <div>
+      <h3 class="h5 fw-bold text-white mb-0">Alerts & Deadlines Stream</h3>
+      <div class="small text-muted-cosmic">Upcoming cutoff warnings and newly evaluated assignment notifications</div>
+    </div>
+  </div>
+
+  <div class="row g-4">
+    <!-- Upcoming Deadlines -->
+    <div class="col-lg-6">
+      <div class="p-4 rounded-4" style="background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08);">
+        <h4 class="h6 fw-bold text-white mb-3 d-flex align-items-center gap-2">
+          <i class="bi bi-alarm-fill text-danger"></i>
+          <span>Upcoming Assignment Deadlines</span>
+        </h4>
+        <div class="d-flex flex-column gap-3">
+          {% for a in upcoming_deadlines %}
+          <div class="p-3 rounded-3" style="background: rgba(15, 23, 42, 0.6); border-left: 3px solid var(--color-status-late);">
+            <div class="d-flex justify-content-between align-items-center mb-1">
+              <strong class="text-white small">{{ a.title }}</strong>
+              <span class="badge bg-danger bg-opacity-25 text-danger border border-danger border-opacity-50">{{ a.due_date|timeuntil }} left</span>
+            </div>
+            <div class="small text-muted-cosmic mb-2">{{ a.course_id.course_name }} &bull; Max Marks: {{ a.max_marks }}</div>
+            <a href="{% url 'student_submit' a.assignment_id %}" class="btn btn-sm btn-outline-info rounded-pill px-3 py-1" style="font-size: 0.75rem;">
+              Submit Now <i class="bi bi-arrow-right ms-1"></i>
+            </a>
+          </div>
+          {% empty %}
+          <div class="text-muted-cosmic small text-center py-3">No upcoming deadlines at this time.</div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+
+    <!-- Graded Alerts -->
+    <div class="col-lg-6">
+      <div class="p-4 rounded-4" style="background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08);">
+        <h4 class="h6 fw-bold text-white mb-3 d-flex align-items-center gap-2">
+          <i class="bi bi-check-circle-fill text-success"></i>
+          <span>Newly Graded Assignments</span>
+        </h4>
+        <div class="d-flex flex-column gap-3">
+          {% for s in recent_grades %}
+          <div class="p-3 rounded-3" style="background: rgba(15, 23, 42, 0.6); border-left: 3px solid var(--color-grass-600);">
+            <div class="d-flex justify-content-between align-items-center mb-1">
+              <strong class="text-white small">{{ s.assignment_id.title }}</strong>
+              <span class="badge bg-success">{{ s.evaluation.marks }}/{{ s.assignment_id.max_marks }}</span>
+            </div>
+            <div class="small text-muted-cosmic mb-2">{{ s.assignment_id.course_id.course_name }} &bull; Evaluated {{ s.evaluation.evaluated_on|date:"d M Y" }}</div>
+            <a href="{% url 'student_grades' %}" class="btn btn-sm btn-outline-success rounded-pill px-3 py-1" style="font-size: 0.75rem;">
+              View Remarks <i class="bi bi-arrow-right ms-1"></i>
+            </a>
+          </div>
+          {% empty %}
+          <div class="text-muted-cosmic small text-center py-3">No newly graded assignments found.</div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

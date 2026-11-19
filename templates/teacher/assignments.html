@@ -1,0 +1,90 @@
+{% extends 'app_base.html' %}
+{% load static %}
+
+{% block title %}My Assignments | Teacher SAMS{% endblock %}
+{% block page_title %}My Assignments{% endblock %}
+
+{% block content %}
+<div class="glass-card p-4">
+  <div class="d-flex align-items-center justify-content-between mb-4 flex-wrap gap-2">
+    <div>
+      <h3 class="h5 fw-bold text-white mb-0">Assignments Posted</h3>
+      <div class="small text-muted-cosmic">Manage assignments, upload resource attachments, and monitor deadlines</div>
+    </div>
+    <a href="{% url 'teacher_assignment_create' %}" class="btn-cosmic-primary btn-cosmic-sm">
+      <i class="bi bi-plus-lg me-1"></i>Create New Assignment
+    </a>
+  </div>
+
+  <div class="table-responsive-cosmic">
+    <table class="table-cosmic">
+      <thead>
+        <tr>
+          <th>Title & Details</th>
+          <th>Course</th>
+          <th>Due Date</th>
+          <th>Max Marks</th>
+          <th>Attachment</th>
+          <th>Submissions</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for a in assignments %}
+        <tr>
+          <td>
+            <strong class="text-white d-block">{{ a.title }}</strong>
+            <small class="text-muted-cosmic text-truncate d-inline-block" style="max-width: 280px;">{{ a.description }}</small>
+          </td>
+          <td>{{ a.course_id.course_name }}</td>
+          <td>
+            <div class="small text-white">{{ a.due_date|date:"d M Y, h:i A" }}</div>
+            {% if a.is_past_due %}
+              <span class="badge bg-danger bg-opacity-25 text-danger border border-danger border-opacity-50" style="font-size: 0.7rem;">Deadline Passed</span>
+            {% else %}
+              <span class="badge bg-success bg-opacity-25 text-success border border-success border-opacity-50" style="font-size: 0.7rem;">Active</span>
+            {% endif %}
+          </td>
+          <td><span class="badge bg-dark border border-secondary border-opacity-25">{{ a.max_marks }} pts</span></td>
+          <td>
+            {% if a.file_path %}
+              <a href="{{ MEDIA_URL }}{{ a.file_path }}" target="_blank" class="btn btn-sm btn-outline-info rounded-pill px-2 py-1">
+                <i class="bi bi-paperclip me-1"></i>View
+              </a>
+            {% else %}
+              <span class="text-muted-cosmic small">None</span>
+            {% endif %}
+          </td>
+          <td>
+            <a href="{% url 'teacher_submissions' %}?assignment={{ a.assignment_id }}" class="badge bg-primary text-decoration-none">
+              {{ a.subs_count }} submitted
+            </a>
+          </td>
+          <td>
+            <div class="d-flex gap-2">
+              <a href="{% url 'teacher_assignment_edit' a.assignment_id %}" class="btn btn-sm btn-outline-info rounded-pill px-2 py-1" title="Edit">
+                <i class="bi bi-pencil"></i>
+              </a>
+              <a href="{% url 'teacher_assignment_delete' a.assignment_id %}" class="btn btn-sm btn-outline-danger rounded-pill px-2 py-1" title="Delete">
+                <i class="bi bi-trash"></i>
+              </a>
+            </div>
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="7" class="text-center py-5">
+            <div class="empty-state">
+              <div class="empty-state-icon"><i class="bi bi-pencil-square"></i></div>
+              <div class="empty-state-title">No Assignments Posted Yet</div>
+              <div class="empty-state-text">Create your first assignment for students to start submitting.</div>
+              <a href="{% url 'teacher_assignment_create' %}" class="btn-cosmic-primary btn-cosmic-sm">Create Assignment</a>
+            </div>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

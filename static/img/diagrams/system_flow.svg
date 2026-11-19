@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 520" fill="none">
+  <rect width="960" height="520" rx="16" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="2"/>
+  <text x="480" y="45" text-anchor="middle" font-family="sans-serif" font-weight="900" font-size="24" fill="#0B3C49">SAMS: Overall System Flow &amp; Lifecycle</text>
+  
+  <!-- Step 1: Admin Course Setup -->
+  <g transform="translate(40, 80)">
+    <rect width="180" height="110" rx="10" fill="#0B3C49" filter="drop-shadow(0 4px 8px rgba(0,0,0,0.1))"/>
+    <text x="90" y="35" text-anchor="middle" font-family="sans-serif" font-weight="bold" font-size="15" fill="#FFFFFF">1. Administration</text>
+    <text x="90" y="60" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#E2E8F0">Setup Semester &amp; Courses</text>
+    <text x="90" y="80" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#CBD5E1">Assign Faculty to Subject</text>
+  </g>
+
+  <!-- Arrow -->
+  <path d="M220 135 H 270" stroke="#0F766E" stroke-width="3" marker-end="url(#arrow)"/>
+
+  <!-- Step 2: Teacher Creates Assignment -->
+  <g transform="translate(270, 80)">
+    <rect width="190" height="110" rx="10" fill="#0F766E" filter="drop-shadow(0 4px 8px rgba(0,0,0,0.1))"/>
+    <text x="95" y="35" text-anchor="middle" font-family="sans-serif" font-weight="bold" font-size="15" fill="#FFFFFF">2. Assignment Posting</text>
+    <text x="95" y="60" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#E2E8F0">Define Topic &amp; Criteria</text>
+    <text x="95" y="80" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#CBD5E1">Set Strict Due Date</text>
+  </g>
+
+  <!-- Arrow -->
+  <path d="M460 135 H 510" stroke="#0F766E" stroke-width="3"/>
+
+  <!-- Step 3: Student Submission -->
+  <g transform="translate(510, 80)">
+    <rect width="190" height="110" rx="10" fill="#0E7490" filter="drop-shadow(0 4px 8px rgba(0,0,0,0.1))"/>
+    <text x="95" y="35" text-anchor="middle" font-family="sans-serif" font-weight="bold" font-size="15" fill="#FFFFFF">3. Student Submission</text>
+    <text x="95" y="60" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#E2E8F0">Upload Solution Document</text>
+    <text x="95" y="80" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#CBD5E1">Status: Submitted / Late</text>
+  </g>
+
+  <!-- Arrow -->
+  <path d="M700 135 H 740" stroke="#0F766E" stroke-width="3"/>
+
+  <!-- Step 4: Teacher Evaluation -->
+  <g transform="translate(740, 80)">
+    <rect width="180" height="110" rx="10" fill="#D97706" filter="drop-shadow(0 4px 8px rgba(0,0,0,0.1))"/>
+    <text x="90" y="35" text-anchor="middle" font-family="sans-serif" font-weight="bold" font-size="15" fill="#FFFFFF">4. Faculty Grading</text>
+    <text x="90" y="60" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#FEF3C7">Review Document</text>
+    <text x="90" y="80" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#FEF3C7">Award Marks &amp; Feedback</text>
+  </g>
+
+  <!-- Return Flow Down -->
+  <path d="M830 190 V 270 H 480" stroke="#16A34A" stroke-width="3" stroke-dasharray="6 4"/>
+
+  <!-- Step 5: Returned & Student Analytics -->
+  <g transform="translate(320, 270)">
+    <rect width="320" height="100" rx="10" fill="#16A34A" filter="drop-shadow(0 4px 8px rgba(0,0,0,0.1))"/>
+    <text x="160" y="35" text-anchor="middle" font-family="sans-serif" font-weight="bold" font-size="15" fill="#FFFFFF">5. Marks Published &amp; Returned</text>
+    <text x="160" y="60" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#DCFCE7">Student views remarks, marks, and peer standing</text>
+    <text x="160" y="80" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#DCFCE7">Automated status upgrade to 'Returned'</text>
+  </g>
+
+  <!-- Step 6: Reports & Audit -->
+  <g transform="translate(80, 400)">
+    <rect width="800" height="85" rx="10" fill="#FFFFFF" stroke="#0B3C49" stroke-width="2"/>
+    <text x="400" y="32" text-anchor="middle" font-family="sans-serif" font-weight="bold" font-size="14" fill="#0B3C49">Administrative Audit &amp; Performance Insights</text>
+    <text x="400" y="58" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#64748B">Course submission rates, late submissions metrics, teacher evaluation velocity &amp; student mark distributions</text>
+  </g>
+</svg>

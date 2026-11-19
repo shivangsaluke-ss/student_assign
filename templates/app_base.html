@@ -1,0 +1,257 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}{{ title|default:"Dashboard" }} | {{ APP_SHORT }}{% endblock %}</title>
+
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+  <!-- Self-Hosted Design Tokens & Theme Stylesheet -->
+  <link rel="stylesheet" href="{% static 'css/design-tokens.css' %}">
+  <link rel="stylesheet" href="{% static 'css/theme.css' %}">
+
+  {% block extra_head %}{% endblock %}
+</head>
+<body>
+
+  <!-- Toast Notification Container -->
+  {% if messages %}
+  <div class="toast-container-cosmic">
+    {% for message in messages %}
+    <div class="toast-cosmic toast-{{ message.tags|default:'info' }}">
+      {% if message.tags == 'success' %}
+        <i class="bi bi-check-circle-fill text-success fs-5"></i>
+      {% elif message.tags == 'error' %}
+        <i class="bi bi-exclamation-triangle-fill text-danger fs-5"></i>
+      {% elif message.tags == 'warning' %}
+        <i class="bi bi-exclamation-circle-fill text-warning fs-5"></i>
+      {% else %}
+        <i class="bi bi-info-circle-fill text-info fs-5"></i>
+      {% endif %}
+      <div class="toast-content flex-grow-1">
+        <div class="small fw-semibold text-white">{{ message }}</div>
+      </div>
+      <button type="button" class="toast-close-btn" aria-label="Close"><i class="bi bi-x-lg"></i></button>
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  <div class="app-layout">
+    <!-- Sidebar Navigation -->
+    <aside class="app-sidebar">
+      <div class="sidebar-header d-flex align-items-center justify-content-between">
+        <a href="{% url 'home' %}" class="brand-pill">
+          <span class="brand-icon"><i class="bi bi-mortarboard-fill"></i></span>
+          <span>SAMS</span>
+        </a>
+        <span class="badge {% if user_role == 'admin' %}bg-primary{% elif user_role == 'teacher' %}bg-warning text-dark{% else %}bg-success{% endif %} text-uppercase px-2 py-1" style="font-size: 0.7rem; letter-spacing: 0.05em;">
+          {{ user_role|default:"User" }}
+        </span>
+      </div>
+
+      <div class="p-3 border-bottom border-secondary border-opacity-10">
+        <div class="d-flex align-items-center gap-2">
+          <div class="rounded-circle d-flex align-items-center justify-content-center text-white fw-bold" style="width: 38px; height: 38px; background: linear-gradient(135deg, var(--color-cyan-glow), var(--color-cosmic-700)); font-size: 1rem;">
+            {{ user.first_name|default:user.username|slice:":1"|upper }}
+          </div>
+          <div class="overflow-hidden">
+            <div class="text-white fw-semibold text-truncate small">{{ user.first_name|default:user.username }}</div>
+            <div class="text-muted-cosmic text-truncate" style="font-size: 0.75rem;">
+              {% if user_role == 'student' %}
+                Roll No: {{ user_profile.roll_no }} (Sem {{ user_profile.semester }})
+              {% elif user_role == 'teacher' %}
+                {{ user_profile.department }}
+              {% elif user_role == 'admin' %}
+                Administrator
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Role-Based Navigation Items -->
+      <ul class="sidebar-nav">
+        {% if user_role == 'admin' %}
+          <li>
+            <a href="{% url 'admin_dashboard' %}" class="sidebar-link {% if request.resolver_match.url_name == 'admin_dashboard' %}active{% endif %}">
+              <i class="bi bi-grid-1x2-fill"></i>
+              <span>Dashboard</span>
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'admin_courses' %}" class="sidebar-link {% if 'courses' in request.path %}active{% endif %}">
+              <i class="bi bi-book-half"></i>
+              <span>Manage Courses</span>
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'admin_teachers' %}" class="sidebar-link {% if 'teachers' in request.path %}active{% endif %}">
+              <i class="bi bi-person-video3"></i>
+              <span>Manage Teachers</span>
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'admin_students' %}" class="sidebar-link {% if 'students' in request.path %}active{% endif %}">
+              <i class="bi bi-people-fill"></i>
+              <span>Manage Students</span>
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'admin_assignments' %}" class="sidebar-link {% if request.resolver_match.url_name == 'admin_assignments' %}active{% endif %}">
+              <i class="bi bi-journal-check"></i>
+              <span>Monitor Assignments</span>
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'admin_reports' %}" class="sidebar-link {% if request.resolver_match.url_name == 'admin_reports' %}active{% endif %}">
+              <i class="bi bi-bar-chart-line-fill"></i>
+              <span>Reports & Analytics</span>
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'admin_profile' %}" class="sidebar-link {% if request.resolver_match.url_name == 'admin_profile' %}active{% endif %}">
+              <i class="bi bi-person-circle"></i>
+              <span>My Profile</span>
+            </a>
+          </li>
+
+        {% elif user_role == 'teacher' %}
+          <li>
+            <a href="{% url 'teacher_dashboard' %}" class="sidebar-link {% if request.resolver_match.url_name == 'teacher_dashboard' %}active{% endif %}">
+              <i class="bi bi-grid-1x2-fill"></i>
+              <span>Dashboard</span>
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'teacher_assignments' %}" class="sidebar-link {% if request.resolver_match.url_name == 'teacher_assignments' or 'assignments/' in request.path %}active{% endif %}">
+              <i class="bi bi-pencil-square"></i>
+              <span>My Assignments</span>
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'teacher_submissions' %}" class="sidebar-link {% if 'submissions' in request.path or 'evaluate' in request.path %}active{% endif %}">
+              <i class="bi bi-clipboard-check"></i>
+              <span class="flex-grow-1">Submissions</span>
+              {% if pending_reviews_count > 0 %}
+                <span class="badge bg-warning text-dark rounded-pill">{{ pending_reviews_count }}</span>
+              {% endif %}
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'teacher_announcements' %}" class="sidebar-link {% if request.resolver_match.url_name == 'teacher_announcements' %}active{% endif %}">
+              <i class="bi bi-megaphone-fill"></i>
+              <span>Announcements</span>
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'teacher_profile' %}" class="sidebar-link {% if request.resolver_match.url_name == 'teacher_profile' %}active{% endif %}">
+              <i class="bi bi-person-circle"></i>
+              <span>My Profile</span>
+            </a>
+          </li>
+
+        {% elif user_role == 'student' %}
+          <li>
+            <a href="{% url 'student_dashboard' %}" class="sidebar-link {% if request.resolver_match.url_name == 'student_dashboard' %}active{% endif %}">
+              <i class="bi bi-grid-1x2-fill"></i>
+              <span>Dashboard</span>
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'student_courses' %}" class="sidebar-link {% if request.resolver_match.url_name == 'student_courses' %}active{% endif %}">
+              <i class="bi bi-book"></i>
+              <span>My Courses</span>
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'student_assignments' %}" class="sidebar-link {% if request.resolver_match.url_name == 'student_assignments' or 'submit/' in request.path %}active{% endif %}">
+              <i class="bi bi-file-earmark-arrow-up"></i>
+              <span class="flex-grow-1">Assignments</span>
+              {% if upcoming_deadlines_count > 0 %}
+                <span class="badge bg-danger rounded-pill">{{ upcoming_deadlines_count }}</span>
+              {% endif %}
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'student_submissions' %}" class="sidebar-link {% if request.resolver_match.url_name == 'student_submissions' %}active{% endif %}">
+              <i class="bi bi-journal-text"></i>
+              <span>My Submissions</span>
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'student_grades' %}" class="sidebar-link {% if request.resolver_match.url_name == 'student_grades' %}active{% endif %}">
+              <i class="bi bi-star-fill text-warning"></i>
+              <span>Grades & Feedback</span>
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'student_notifications' %}" class="sidebar-link {% if request.resolver_match.url_name == 'student_notifications' %}active{% endif %}">
+              <i class="bi bi-bell-fill"></i>
+              <span>Notifications</span>
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'student_profile' %}" class="sidebar-link {% if request.resolver_match.url_name == 'student_profile' %}active{% endif %}">
+              <i class="bi bi-person-circle"></i>
+              <span>My Profile</span>
+            </a>
+          </li>
+        {% endif %}
+      </ul>
+
+      <div class="sidebar-footer">
+        <a href="{% url 'home' %}" class="sidebar-link text-muted-cosmic mb-1" target="_blank">
+          <i class="bi bi-globe"></i>
+          <span>View Public Site</span>
+        </a>
+        <a href="{% url 'logout' %}" class="sidebar-link text-danger">
+          <i class="bi bi-box-arrow-left"></i>
+          <span>Logout</span>
+        </a>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <div class="app-main">
+      <!-- Topbar -->
+      <header class="app-topbar">
+        <div class="d-flex align-items-center gap-3">
+          <button class="mobile-menu-btn sidebar-toggle-btn d-lg-none" aria-label="Toggle Sidebar">
+            <i class="bi bi-list"></i>
+          </button>
+          <div>
+            <h4 class="mb-0 fw-bold fs-5 text-white">{% block page_title %}{{ title|default:"Dashboard" }}{% endblock %}</h4>
+            <div class="small text-muted-cosmic d-none d-sm-block">Student Assignment Management System (GTU BCA Sem 5)</div>
+          </div>
+        </div>
+
+        <div class="d-flex align-items-center gap-3">
+          <span class="badge bg-dark border border-secondary border-opacity-25 py-2 px-3 text-light d-none d-md-inline-block">
+            <i class="bi bi-clock-history me-1 text-info"></i> {% now "D, d M Y" %}
+          </span>
+          <a href="{% url 'logout' %}" class="btn btn-sm btn-outline-danger rounded-pill px-3">
+            <i class="bi bi-power me-1"></i>Logout
+          </a>
+        </div>
+      </header>
+
+      <!-- Page Content -->
+      <div class="app-content">
+        {% block content %}{% endblock %}
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap 5 Bundle JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- Custom Application Scripts -->
+  <script src="{% static 'js/main.js' %}"></script>
+  {% block extra_scripts %}{% endblock %}
+</body>
+</html>

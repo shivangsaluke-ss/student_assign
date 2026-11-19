@@ -1,0 +1,68 @@
+{% extends 'app_base.html' %}
+{% load static %}
+
+{% block title %}Manage Teachers | Admin SAMS{% endblock %}
+{% block page_title %}Manage Teachers{% endblock %}
+
+{% block content %}
+<div class="glass-card p-4">
+  <div class="d-flex align-items-center justify-content-between mb-4 flex-wrap gap-2">
+    <div>
+      <h3 class="h5 fw-bold text-white mb-0">Faculty Directory</h3>
+      <div class="small text-muted-cosmic">Manage teachers, departments, and course allocations</div>
+    </div>
+    <a href="{% url 'admin_teacher_add' %}" class="btn-cosmic-primary btn-cosmic-sm">
+      <i class="bi bi-person-plus me-1"></i>Add New Teacher
+    </a>
+  </div>
+
+  <div class="table-responsive-cosmic">
+    <table class="table-cosmic">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Teacher Name</th>
+          <th>Email Address</th>
+          <th>Department</th>
+          <th>Assigned Courses</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for teacher in teachers %}
+        <tr>
+          <td><code>#{{ teacher.teacher_id }}</code></td>
+          <td>
+            <strong class="text-white">{{ teacher.teacher_name }}</strong>
+          </td>
+          <td>{{ teacher.teacher_email }}</td>
+          <td><span class="badge bg-secondary">{{ teacher.department }}</span></td>
+          <td><span class="badge bg-warning text-dark">{{ teacher.courses_count }} courses</span></td>
+          <td>
+            <div class="d-flex gap-2">
+              <a href="{% url 'admin_teacher_edit' teacher.teacher_id %}" class="btn btn-sm btn-outline-info rounded-pill px-2 py-1" title="Edit Teacher">
+                <i class="bi bi-pencil"></i>
+              </a>
+              <a href="{% url 'admin_teacher_delete' teacher.teacher_id %}" class="btn btn-sm btn-outline-danger rounded-pill px-2 py-1" title="Delete Teacher">
+                <i class="bi bi-trash"></i>
+              </a>
+            </div>
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="6" class="text-center py-5">
+            <div class="empty-state">
+              <div class="empty-state-icon"><i class="bi bi-person-video3"></i></div>
+              <div class="empty-state-title">No Teachers Registered</div>
+              <div class="empty-state-text">Add your faculty members to assign courses.</div>
+              <a href="{% url 'admin_teacher_add' %}" class="btn-cosmic-primary btn-cosmic-sm">Add Teacher</a>
+            </div>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

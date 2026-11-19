@@ -1,0 +1,68 @@
+{% extends 'app_base.html' %}
+{% load static %}
+
+{% block title %}Manage Students | Admin SAMS{% endblock %}
+{% block page_title %}Manage Students{% endblock %}
+
+{% block content %}
+<div class="glass-card p-4">
+  <div class="d-flex align-items-center justify-content-between mb-4 flex-wrap gap-2">
+    <div>
+      <h3 class="h5 fw-bold text-white mb-0">Student Enrollment Directory</h3>
+      <div class="small text-muted-cosmic">Registered students, roll numbers, semesters, and submission tracking</div>
+    </div>
+    <a href="{% url 'admin_student_add' %}" class="btn-cosmic-primary btn-cosmic-sm">
+      <i class="bi bi-person-plus me-1"></i>Add New Student
+    </a>
+  </div>
+
+  <div class="table-responsive-cosmic">
+    <table class="table-cosmic">
+      <thead>
+        <tr>
+          <th>Roll No</th>
+          <th>Student Name</th>
+          <th>Email Address</th>
+          <th>Semester</th>
+          <th>Courses</th>
+          <th>Submissions</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for student in students %}
+        <tr>
+          <td><code class="fs-6 text-info">{{ student.roll_no }}</code></td>
+          <td><strong class="text-white">{{ student.student_name }}</strong></td>
+          <td>{{ student.student_email }}</td>
+          <td><span class="badge bg-secondary">Sem {{ student.semester }}</span></td>
+          <td><span class="badge bg-dark border border-secondary border-opacity-25">{{ student.enrollments_count }} enrolled</span></td>
+          <td><span class="badge bg-dark border border-secondary border-opacity-25">{{ student.submissions_count }} submitted</span></td>
+          <td>
+            <div class="d-flex gap-2">
+              <a href="{% url 'admin_student_edit' student.student_id %}" class="btn btn-sm btn-outline-info rounded-pill px-2 py-1" title="Edit Student">
+                <i class="bi bi-pencil"></i>
+              </a>
+              <a href="{% url 'admin_student_delete' student.student_id %}" class="btn btn-sm btn-outline-danger rounded-pill px-2 py-1" title="Delete Student">
+                <i class="bi bi-trash"></i>
+              </a>
+            </div>
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="7" class="text-center py-5">
+            <div class="empty-state">
+              <div class="empty-state-icon"><i class="bi bi-people"></i></div>
+              <div class="empty-state-title">No Students Registered Yet</div>
+              <div class="empty-state-text">Add students or let them register through the public signup page.</div>
+              <a href="{% url 'admin_student_add' %}" class="btn-cosmic-primary btn-cosmic-sm">Add Student</a>
+            </div>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

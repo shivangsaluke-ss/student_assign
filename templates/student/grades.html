@@ -1,0 +1,67 @@
+{% extends 'app_base.html' %}
+{% load static %}
+
+{% block title %}Grades & Feedback | Student SAMS{% endblock %}
+{% block page_title %}Grades & Feedback{% endblock %}
+
+{% block content %}
+<div class="glass-card p-4">
+  <div class="d-flex align-items-center justify-content-between mb-4 flex-wrap gap-2">
+    <div>
+      <h3 class="h5 fw-bold text-white mb-0">Academic Evaluation Results</h3>
+      <div class="small text-muted-cosmic">Performance report cards, awarded marks, and faculty remarks</div>
+    </div>
+  </div>
+
+  <div class="row g-4">
+    {% for sub in submissions %}
+    <div class="col-lg-6">
+      <div class="p-4 rounded-4 glass-card h-100 border-success border-opacity-25 d-flex flex-column justify-content-between">
+        <div>
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <span class="badge bg-secondary">Sem {{ sub.assignment_id.course_id.semester }}</span>
+            <span class="badge-status badge-evaluated"><span class="status-dot"></span> Evaluated</span>
+          </div>
+
+          <h4 class="h5 fw-bold text-white mb-1">{{ sub.assignment_id.title }}</h4>
+          <div class="small text-muted-cosmic mb-3">{{ sub.assignment_id.course_id.course_name }}</div>
+
+          <!-- Score Card -->
+          <div class="p-3 rounded-3 mb-3 d-flex align-items-center justify-content-between" style="background: rgba(16, 185, 129, 0.08); border: 1px solid rgba(16, 185, 129, 0.25);">
+            <div>
+              <span class="small text-muted-cosmic d-block text-uppercase fw-semibold" style="font-size: 0.75rem;">Score Awarded</span>
+              <div class="fs-3 fw-bold text-success">{{ sub.evaluation.marks }} <span class="fs-6 text-muted-cosmic">/ {{ sub.assignment_id.max_marks }}</span></div>
+            </div>
+            <div class="text-end">
+              <span class="small text-muted-cosmic d-block" style="font-size: 0.75rem;">Date Evaluated</span>
+              <strong class="text-white">{{ sub.evaluation.evaluated_on|date:"d M Y" }}</strong>
+            </div>
+          </div>
+
+          <!-- Feedback Box -->
+          <div class="p-3 rounded-3" style="background: rgba(255, 255, 255, 0.03); border-left: 3px solid var(--color-cyan-glow);">
+            <div class="small fw-semibold text-white mb-1"><i class="bi bi-chat-left-quote-fill text-info me-1"></i>Teacher Feedback:</div>
+            <p class="small text-slate-300 mb-0 font-monospace" style="font-family: inherit;">"{{ sub.evaluation.feedback }}"</p>
+          </div>
+        </div>
+
+        <div class="d-flex justify-content-between align-items-center border-top border-secondary border-opacity-10 pt-3 mt-3">
+          <span class="small text-muted-cosmic">Instructor: {{ sub.assignment_id.course_id.teacher_id.teacher_name }}</span>
+          <a href="{{ MEDIA_URL }}{{ sub.file_path }}" target="_blank" class="btn btn-sm btn-outline-secondary rounded-pill px-3" download>
+            <i class="bi bi-download me-1"></i>Your File
+          </a>
+        </div>
+      </div>
+    </div>
+    {% empty %}
+    <div class="col-12 text-center py-5">
+      <div class="empty-state">
+        <div class="empty-state-icon"><i class="bi bi-award"></i></div>
+        <div class="empty-state-title">No Graded Results Yet</div>
+        <div class="empty-state-text">Your submitted work has not yet been graded by the instructors. Check back shortly.</div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

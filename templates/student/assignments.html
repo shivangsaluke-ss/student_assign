@@ -1,0 +1,95 @@
+{% extends 'app_base.html' %}
+{% load static %}
+
+{% block title %}Course Assignments | Student SAMS{% endblock %}
+{% block page_title %}Course Assignments{% endblock %}
+
+{% block content %}
+<div class="glass-card p-4">
+  <div class="d-flex align-items-center justify-content-between mb-4 flex-wrap gap-2">
+    <div>
+      <h3 class="h5 fw-bold text-white mb-0">Assignments & Due Dates</h3>
+      <div class="small text-muted-cosmic">Browse assignments, check deadline status, and upload your coursework</div>
+    </div>
+  </div>
+
+  <div class="table-responsive-cosmic">
+    <table class="table-cosmic">
+      <thead>
+        <tr>
+          <th>Assignment Title</th>
+          <th>Course</th>
+          <th>Due Date</th>
+          <th>Max Marks</th>
+          <th>Teacher File</th>
+          <th>Your Status</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in assignment_data %}
+        <tr>
+          <td>
+            <strong class="text-white d-block">{{ item.assignment.title }}</strong>
+            <small class="text-muted-cosmic text-truncate d-inline-block" style="max-width: 280px;">{{ item.assignment.description }}</small>
+          </td>
+          <td>{{ item.assignment.course_id.course_name }}</td>
+          <td>
+            <div class="small text-white">{{ item.assignment.due_date|date:"d M Y, h:i A" }}</div>
+            {% if item.assignment.is_past_due %}
+              <span class="badge bg-danger bg-opacity-25 text-danger border border-danger border-opacity-50" style="font-size: 0.7rem;">Deadline Passed</span>
+            {% else %}
+              <span class="badge bg-success bg-opacity-25 text-success border border-success border-opacity-50" style="font-size: 0.7rem;">Active</span>
+            {% endif %}
+          </td>
+          <td><span class="badge bg-dark border border-secondary border-opacity-25">{{ item.assignment.max_marks }} pts</span></td>
+          <td>
+            {% if item.assignment.file_path %}
+              <a href="{{ MEDIA_URL }}{{ item.assignment.file_path }}" target="_blank" class="btn btn-sm btn-outline-info rounded-pill px-2 py-1">
+                <i class="bi bi-paperclip me-1"></i>Resource
+              </a>
+            {% else %}
+              <span class="text-muted-cosmic small">None</span>
+            {% endif %}
+          </td>
+          <td>
+            {% if item.submission %}
+              <span class="badge-status {{ item.submission.status_badge_class }}">
+                <span class="status-dot"></span> {{ item.submission.status }}
+              </span>
+            {% else %}
+              <span class="badge-status badge-pending">
+                <span class="status-dot"></span> Pending
+              </span>
+            {% endif %}
+          </td>
+          <td>
+            {% if item.can_resubmit %}
+              <a href="{% url 'student_submit' item.assignment.assignment_id %}" class="btn btn-sm btn-outline-warning rounded-pill px-3">
+                <i class="bi bi-arrow-repeat me-1"></i>Resubmit
+              </a>
+            {% elif item.can_submit %}
+              <a href="{% url 'student_submit' item.assignment.assignment_id %}" class="btn btn-sm btn-primary rounded-pill px-3">
+                <i class="bi bi-cloud-arrow-up me-1"></i>Submit
+              </a>
+            {% else %}
+              <span class="badge bg-secondary">Closed</span>
+            {% endif %}
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="7" class="text-center py-5">
+            <div class="empty-state">
+              <div class="empty-state-icon"><i class="bi bi-journal-check"></i></div>
+              <div class="empty-state-title">No Assignments Available</div>
+              <div class="empty-state-text">Your instructors have not published any assignments for your enrolled courses yet.</div>
+            </div>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

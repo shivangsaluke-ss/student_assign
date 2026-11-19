@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 380 200" fill="none">
+  <defs>
+    <linearGradient id="teachGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0F766E" stop-opacity="0.1"/>
+      <stop offset="100%" stop-color="#16A34A" stop-opacity="0.2"/>
+    </linearGradient>
+  </defs>
+  <rect width="380" height="200" rx="16" fill="url(#teachGrad)"/>
+  <g transform="translate(60, 25)">
+    <rect x="20" y="10" width="130" height="145" rx="10" fill="white" stroke="#CBD5E1" stroke-width="2"/>
+    <rect x="55" y="2" width="60" height="16" rx="4" fill="#0B3C49"/>
+    <rect x="35" y="35" width="95" height="7" rx="3.5" fill="#94A3B8"/>
+    <rect x="35" y="52" width="80" height="7" rx="3.5" fill="#CBD5E1"/>
+    <rect x="35" y="69" width="90" height="7" rx="3.5" fill="#CBD5E1"/>
+    <rect x="35" y="86" width="65" height="7" rx="3.5" fill="#CBD5E1"/>
+    
+    <circle cx="110" cy="118" r="22" fill="#E5484D" fill-opacity="0.12" stroke="#E5484D" stroke-width="2.5" stroke-dasharray="4 2"/>
+    <text x="100" y="125" fill="#E5484D" font-family="sans-serif" font-weight="900" font-size="19">A+</text>
+    
+    <g transform="translate(145, 55)">
+      <circle cx="36" cy="36" r="34" fill="#0F766E" filter="drop-shadow(0 4px 8px rgba(15,118,110,0.3))"/>
+      <path d="M25 36 L33 44 L48 27" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+    </g>
+  </g>
+</svg>

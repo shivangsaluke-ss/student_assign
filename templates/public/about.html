@@ -1,0 +1,152 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}About System | Objectives & Architecture{% endblock %}
+
+{% block content %}
+<div class="container py-5 mt-5">
+  <!-- Header -->
+  <div class="section-header mt-3">
+    <span class="section-badge">Project Background</span>
+    <h1 class="section-title">System Analysis & Design Project</h1>
+    <p class="section-desc">BCA Semester 5 (GTU) Minor Project: Student Assignment Management System. Designed to eliminate manual paperwork and fragmented messaging groups.</p>
+  </div>
+
+  <!-- Objectives (Slide 4) -->
+  <div class="row g-4 mb-5">
+    <div class="col-md-6 col-lg-3">
+      <div class="glass-card h-100 text-center p-4">
+        <div class="fs-1 text-info mb-3"><i class="bi bi-cloud-arrow-up-fill"></i></div>
+        <h4 class="h5 fw-bold text-white mb-2">Digital Submissions</h4>
+        <p class="text-muted-cosmic small mb-0">Replace paper and chat-based handling with a simple, structured online upload portal.</p>
+      </div>
+    </div>
+    <div class="col-md-6 col-lg-3">
+      <div class="glass-card h-100 text-center p-4">
+        <div class="fs-1 text-warning mb-3"><i class="bi bi-alarm-fill"></i></div>
+        <h4 class="h5 fw-bold text-white mb-2">Deadline Tracking</h4>
+        <p class="text-muted-cosmic small mb-0">Help students never miss a due date with countdown timers, clear badges, and alerts.</p>
+      </div>
+    </div>
+    <div class="col-md-6 col-lg-3">
+      <div class="glass-card h-100 text-center p-4">
+        <div class="fs-1 text-success mb-3"><i class="bi bi-speedometer2"></i></div>
+        <h4 class="h5 fw-bold text-white mb-2">Faster Evaluation</h4>
+        <p class="text-muted-cosmic small mb-0">Let teachers download, review, award marks, and submit remarks directly from one dashboard.</p>
+      </div>
+    </div>
+    <div class="col-md-6 col-lg-3">
+      <div class="glass-card h-100 text-center p-4">
+        <div class="fs-1 text-danger mb-3"><i class="bi bi-database-fill-check"></i></div>
+        <h4 class="h5 fw-bold text-white mb-2">Centralised Records</h4>
+        <p class="text-muted-cosmic small mb-0">Keep every student course enrollment, assignment, file, and grade safely archived in MySQL.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Comparison: Existing System vs Proposed System (Slides 5 & 6) -->
+  <div class="glass-card p-4 p-md-5 mb-5">
+    <div class="text-center mb-4">
+      <span class="badge bg-secondary border border-secondary border-opacity-50 px-3 py-1 text-uppercase">System Transformation</span>
+      <h3 class="fw-bold text-white mt-2">Existing System vs. Proposed SAMS</h3>
+    </div>
+
+    <div class="row g-4">
+      <!-- Existing System -->
+      <div class="col-lg-6">
+        <div class="p-4 rounded-4" style="background: rgba(225, 29, 72, 0.08); border: 1px solid rgba(225, 29, 72, 0.25);">
+          <div class="d-flex align-items-center gap-2 mb-3">
+            <i class="bi bi-x-circle-fill text-danger fs-4"></i>
+            <h4 class="h5 fw-bold text-white mb-0">Existing Legacy Handling</h4>
+          </div>
+          <ul class="list-unstyled d-flex flex-column gap-3 mb-0 small text-slate-300">
+            <li class="d-flex gap-2">
+              <i class="bi bi-dash-circle text-danger mt-1"></i>
+              <div><strong>Manual Submissions:</strong> Students hand in printed sheets or email attachments that clutter inbox folders.</div>
+            </li>
+            <li class="d-flex gap-2">
+              <i class="bi bi-dash-circle text-danger mt-1"></i>
+              <div><strong>No Systematic Tracking:</strong> Faculty cannot easily see who has turned in work and who is overdue.</div>
+            </li>
+            <li class="d-flex gap-2">
+              <i class="bi bi-dash-circle text-danger mt-1"></i>
+              <div><strong>Slow Grading Cycles:</strong> Handwritten feedback and marks sheets take weeks to return to students.</div>
+            </li>
+            <li class="d-flex gap-2">
+              <i class="bi bi-dash-circle text-danger mt-1"></i>
+              <div><strong>Lost & Scattered Files:</strong> Physical papers get misplaced, water-damaged, or mixed up across classes.</div>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Proposed System -->
+      <div class="col-lg-6">
+        <div class="p-4 rounded-4" style="background: rgba(16, 185, 129, 0.08); border: 1px solid rgba(16, 185, 129, 0.25);">
+          <div class="d-flex align-items-center gap-2 mb-3">
+            <i class="bi bi-check-circle-fill text-success fs-4"></i>
+            <h4 class="h5 fw-bold text-white mb-0">Proposed SAMS Solution</h4>
+          </div>
+          <ul class="list-unstyled d-flex flex-column gap-3 mb-0 small text-slate-300">
+            <li class="d-flex gap-2">
+              <i class="bi bi-check2-circle text-success mt-1"></i>
+              <div><strong>Unified Portal:</strong> One portal for Admin, Teachers and Students with strict role-based authorization.</div>
+            </li>
+            <li class="d-flex gap-2">
+              <i class="bi bi-check2-circle text-success mt-1"></i>
+              <div><strong>Anytime Access & Visibility:</strong> Real-time status indicators (Submitted, Late, Evaluated, Returned).</div>
+            </li>
+            <li class="d-flex gap-2">
+              <i class="bi bi-check2-circle text-success mt-1"></i>
+              <div><strong>Instant Feedback Loops:</strong> Teachers grade online with marks and comments delivered directly to student portals.</div>
+            </li>
+            <li class="d-flex gap-2">
+              <i class="bi bi-check2-circle text-success mt-1"></i>
+              <div><strong>Robust MySQL Relational Store:</strong> 8 normalized tables with foreign keys and strict constraints.</div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Technology Stack (Slide 3) -->
+  <div class="glass-card p-4 p-md-5">
+    <div class="text-center mb-4">
+      <span class="badge bg-info text-dark rounded-pill px-3 py-1 text-uppercase">Technical Stack</span>
+      <h3 class="fw-bold text-white mt-2">Technologies & Tools Employed</h3>
+    </div>
+
+    <div class="row g-4 text-center">
+      <div class="col-6 col-md-3">
+        <div class="p-3 rounded-4" style="background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.1);">
+          <div class="fs-1 text-warning mb-2"><i class="bi bi-filetype-html"></i></div>
+          <div class="fw-bold text-white">Front-End</div>
+          <div class="small text-muted-cosmic">HTML5, CSS3, JavaScript (ES6+), Bootstrap 5</div>
+        </div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="p-3 rounded-4" style="background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.1);">
+          <div class="fs-1 text-info mb-2"><i class="bi bi-filetype-py"></i></div>
+          <div class="fw-bold text-white">Back-End</div>
+          <div class="small text-muted-cosmic">Python 3.11+, MySQL Database (PyMySQL / mysqlclient)</div>
+        </div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="p-3 rounded-4" style="background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.1);">
+          <div class="fs-1 text-success mb-2"><i class="bi bi-layers-half"></i></div>
+          <div class="fw-bold text-white">Framework</div>
+          <div class="small text-muted-cosmic">Django 5 Web Framework, Whitenoise, Gunicorn</div>
+        </div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="p-3 rounded-4" style="background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.1);">
+          <div class="fs-1 text-primary mb-2"><i class="bi bi-tools"></i></div>
+          <div class="fw-bold text-white">Software & Tools</div>
+          <div class="small text-muted-cosmic">VS Code, Draw.io, MS PowerPoint, MS Word</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

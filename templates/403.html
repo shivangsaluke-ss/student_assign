@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block title %}403 Access Denied | SAMS{% endblock %}
+
+{% block content %}
+<div class="container py-5 mt-5">
+  <div class="row justify-content-center text-center">
+    <div class="col-md-7 col-lg-6">
+      <div class="glass-card p-5 mt-4">
+        <div class="display-1 fw-bold text-gradient-coral mb-3">403</div>
+        <h2 class="h3 fw-bold text-white mb-3">Access Denied</h2>
+        <p class="text-muted-cosmic mb-4">
+          {{ message|default:"You do not have administrative or authorization rights to view this protected resource. Role-based security prevents unauthorized access." }}
+        </p>
+        <div class="d-flex justify-content-center gap-3 flex-wrap">
+          {% if user.is_authenticated %}
+            {% if user_role == 'admin' %}
+              <a href="{% url 'admin_dashboard' %}" class="btn-cosmic-primary"><i class="bi bi-grid-fill me-1"></i>Admin Dashboard</a>
+            {% elif user_role == 'teacher' %}
+              <a href="{% url 'teacher_dashboard' %}" class="btn-cosmic-primary"><i class="bi bi-grid-fill me-1"></i>Teacher Dashboard</a>
+            {% elif user_role == 'student' %}
+              <a href="{% url 'student_dashboard' %}" class="btn-cosmic-primary"><i class="bi bi-grid-fill me-1"></i>Student Dashboard</a>
+            {% endif %}
+          {% else %}
+            <a href="{% url 'login' %}" class="btn-cosmic-primary"><i class="bi bi-box-arrow-in-right me-1"></i>Login to Account</a>
+          {% endif %}
+          <a href="{% url 'home' %}" class="btn-cosmic-glass"><i class="bi bi-house-door me-1"></i>Back to Home</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,136 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}System Diagrams | UML & Architectural Flows{% endblock %}
+
+{% block content %}
+<div class="container py-5 mt-5">
+  <div class="section-header mt-3">
+    <span class="section-badge">Architectural Modeling</span>
+    <h1 class="section-title">UML & System Diagrams</h1>
+    <p class="section-desc">Comprehensive visual artifacts modeling data flow, use-case actor interactions, class relationships, sequence lifecycles, and relational database schema.</p>
+  </div>
+
+  <!-- Diagram Navigation Tabs -->
+  <ul class="nav nav-pills justify-content-center mb-5 gap-2" id="diagramTabs" role="tablist">
+    <li class="nav-item" role="presentation">
+      <button class="nav-link-pill active border-0" id="flow-tab" data-bs-toggle="pill" data-bs-target="#flow" type="button" role="tab">
+        <i class="bi bi-diagram-3 me-1"></i>System Flow
+      </button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link-pill border-0" id="usecase-tab" data-bs-toggle="pill" data-bs-target="#usecase" type="button" role="tab">
+        <i class="bi bi-people me-1"></i>Use Case
+      </button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link-pill border-0" id="class-tab" data-bs-toggle="pill" data-bs-target="#class" type="button" role="tab">
+        <i class="bi bi-diagram-2 me-1"></i>Class Diagram
+      </button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link-pill border-0" id="sequence-tab" data-bs-toggle="pill" data-bs-target="#sequence" type="button" role="tab">
+        <i class="bi bi-arrow-left-right me-1"></i>Sequence Diagrams
+      </button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link-pill border-0" id="er-tab" data-bs-toggle="pill" data-bs-target="#er" type="button" role="tab">
+        <i class="bi bi-database me-1"></i>ER Diagram
+      </button>
+    </li>
+  </ul>
+
+  <!-- Tab Content -->
+  <div class="tab-content" id="diagramTabsContent">
+    <!-- 1. System Flow (Slide 12) -->
+    <div class="tab-pane fade show active" id="flow" role="tabpanel">
+      <div class="glass-card p-4 p-md-5">
+        <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+          <div>
+            <h3 class="h4 fw-bold text-white mb-1">System Flow Diagram</h3>
+            <p class="text-muted-cosmic small mb-0">High-level control and decision flow across Admin, Teacher, and Student operations.</p>
+          </div>
+          <a href="{% static 'img/diagrams/system_flow.svg' %}" target="_blank" class="btn btn-sm btn-outline-info rounded-pill px-3">
+            <i class="bi bi-arrows-fullscreen me-1"></i>Open Fullscreen
+          </a>
+        </div>
+        <div class="text-center p-3 rounded-4" style="background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.08);">
+          <img src="{% static 'img/diagrams/system_flow.svg' %}" alt="System Flow Diagram" class="img-fluid rounded-3" style="max-height: 600px;">
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. Use Case Diagram (Slides 13, 14, 15) -->
+    <div class="tab-pane fade" id="usecase" role="tabpanel">
+      <div class="glass-card p-4 p-md-5">
+        <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+          <div>
+            <h3 class="h4 fw-bold text-white mb-1">Use Case Diagram</h3>
+            <p class="text-muted-cosmic small mb-0">Role-based actor boundaries and use-cases: Administrator, Teacher, and Student.</p>
+          </div>
+          <a href="{% static 'img/diagrams/use_case.svg' %}" target="_blank" class="btn btn-sm btn-outline-info rounded-pill px-3">
+            <i class="bi bi-arrows-fullscreen me-1"></i>Open Fullscreen
+          </a>
+        </div>
+        <div class="text-center p-3 rounded-4" style="background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.08);">
+          <img src="{% static 'img/diagrams/use_case.svg' %}" alt="Use Case Diagram" class="img-fluid rounded-3" style="max-height: 600px;">
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. Class Diagram (Slide 16) -->
+    <div class="tab-pane fade" id="class" role="tabpanel">
+      <div class="glass-card p-4 p-md-5">
+        <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+          <div>
+            <h3 class="h4 fw-bold text-white mb-1">Class Diagram</h3>
+            <p class="text-muted-cosmic small mb-0">Object-oriented model depicting domain classes, attributes, methods, and relationships.</p>
+          </div>
+          <a href="{% static 'img/diagrams/class_diagram.svg' %}" target="_blank" class="btn btn-sm btn-outline-info rounded-pill px-3">
+            <i class="bi bi-arrows-fullscreen me-1"></i>Open Fullscreen
+          </a>
+        </div>
+        <div class="text-center p-3 rounded-4" style="background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.08);">
+          <img src="{% static 'img/diagrams/class_diagram.svg' %}" alt="Class Diagram" class="img-fluid rounded-3" style="max-height: 600px;">
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. Sequence Diagrams (Slides 17-21) -->
+    <div class="tab-pane fade" id="sequence" role="tabpanel">
+      <div class="glass-card p-4 p-md-5">
+        <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+          <div>
+            <h3 class="h4 fw-bold text-white mb-1">Sequence Lifecycle Diagrams</h3>
+            <p class="text-muted-cosmic small mb-0">Chronological interaction sequences between User, Forms, Controllers, and Database models.</p>
+          </div>
+          <a href="{% static 'img/diagrams/sequence_diagram.svg' %}" target="_blank" class="btn btn-sm btn-outline-info rounded-pill px-3">
+            <i class="bi bi-arrows-fullscreen me-1"></i>Open Fullscreen
+          </a>
+        </div>
+        <div class="text-center p-3 rounded-4" style="background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.08);">
+          <img src="{% static 'img/diagrams/sequence_diagram.svg' %}" alt="Sequence Diagram" class="img-fluid rounded-3" style="max-height: 600px;">
+        </div>
+      </div>
+    </div>
+
+    <!-- 5. ER Diagram (Slide 22) -->
+    <div class="tab-pane fade" id="er" role="tabpanel">
+      <div class="glass-card p-4 p-md-5">
+        <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+          <div>
+            <h3 class="h4 fw-bold text-white mb-1">Entity-Relationship (ER) Diagram</h3>
+            <p class="text-muted-cosmic small mb-0">Relational data schema linking the 8 MySQL tables with primary keys and foreign key constraints.</p>
+          </div>
+          <a href="{% static 'img/diagrams/er_diagram.svg' %}" target="_blank" class="btn btn-sm btn-outline-info rounded-pill px-3">
+            <i class="bi bi-arrows-fullscreen me-1"></i>Open Fullscreen
+          </a>
+        </div>
+        <div class="text-center p-3 rounded-4" style="background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.08);">
+          <img src="{% static 'img/diagrams/er_diagram.svg' %}" alt="ER Diagram" class="img-fluid rounded-3" style="max-height: 600px;">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

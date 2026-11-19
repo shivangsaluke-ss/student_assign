@@ -1,0 +1,140 @@
+{% extends 'app_base.html' %}
+{% load static %}
+
+{% block title %}Student Dashboard | SAMS{% endblock %}
+{% block page_title %}Student Portal Dashboard{% endblock %}
+
+{% block content %}
+<!-- Welcome & Quick Stats -->
+<div class="row g-4 mb-4">
+  <div class="col-sm-6 col-xl-3">
+    <div class="glass-card p-4 h-100">
+      <div class="d-flex align-items-center justify-content-between mb-2">
+        <span class="text-muted-cosmic small fw-bold text-uppercase">Enrolled Courses</span>
+        <div class="rounded-3 p-2 bg-primary bg-opacity-10 text-primary fs-5"><i class="bi bi-book"></i></div>
+      </div>
+      <div class="fs-2 fw-bold text-white">{{ total_enrolled }}</div>
+      <div class="small text-muted-cosmic mt-1">Semester {{ student.semester }} Subjects</div>
+    </div>
+  </div>
+
+  <div class="col-sm-6 col-xl-3">
+    <div class="glass-card p-4 h-100">
+      <div class="d-flex align-items-center justify-content-between mb-2">
+        <span class="text-muted-cosmic small fw-bold text-uppercase">Upcoming Deadlines</span>
+        <div class="rounded-3 p-2 bg-danger bg-opacity-10 text-danger fs-5"><i class="bi bi-alarm-fill"></i></div>
+      </div>
+      <div class="fs-2 fw-bold text-danger">{{ upcoming_deadlines_count }}</div>
+      <div class="small text-muted-cosmic mt-1">Assignments due soon</div>
+    </div>
+  </div>
+
+  <div class="col-sm-6 col-xl-3">
+    <div class="glass-card p-4 h-100">
+      <div class="d-flex align-items-center justify-content-between mb-2">
+        <span class="text-muted-cosmic small fw-bold text-uppercase">Submissions Made</span>
+        <div class="rounded-3 p-2 bg-info bg-opacity-10 text-info fs-5"><i class="bi bi-cloud-arrow-up-fill"></i></div>
+      </div>
+      <div class="fs-2 fw-bold text-white">{{ total_submitted }}</div>
+      <div class="small text-muted-cosmic mt-1">Uploaded files</div>
+    </div>
+  </div>
+
+  <div class="col-sm-6 col-xl-3">
+    <div class="glass-card p-4 h-100">
+      <div class="d-flex align-items-center justify-content-between mb-2">
+        <span class="text-muted-cosmic small fw-bold text-uppercase">Evaluated Results</span>
+        <div class="rounded-3 p-2 bg-success bg-opacity-10 text-success fs-5"><i class="bi bi-star-fill"></i></div>
+      </div>
+      <div class="fs-2 fw-bold text-success">{{ recent_evaluations|length }}</div>
+      <div class="small text-muted-cosmic mt-1">With teacher remarks</div>
+    </div>
+  </div>
+</div>
+
+<!-- Upcoming Deadlines Stream -->
+<div class="glass-card p-4 mb-4">
+  <div class="d-flex align-items-center justify-content-between mb-4 flex-wrap gap-2">
+    <div>
+      <h3 class="h5 fw-bold text-white mb-0">Assignments Awaiting Your Submission</h3>
+      <div class="small text-muted-cosmic">Active tasks from your enrolled courses</div>
+    </div>
+    <a href="{% url 'student_assignments' %}" class="btn btn-sm btn-outline-info rounded-pill px-3">
+      View All Assignments <i class="bi bi-arrow-right ms-1"></i>
+    </a>
+  </div>
+
+  <div class="table-responsive-cosmic">
+    <table class="table-cosmic">
+      <thead>
+        <tr>
+          <th>Assignment Title</th>
+          <th>Course</th>
+          <th>Due Date</th>
+          <th>Points</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for a in upcoming_assignments %}
+        <tr>
+          <td><strong class="text-white">{{ a.title }}</strong></td>
+          <td>{{ a.course_id.course_name }}</td>
+          <td>
+            <div class="small text-danger fw-semibold">{{ a.due_date|date:"d M Y, h:i A" }}</div>
+            <div class="small text-muted-cosmic">{{ a.due_date|timeuntil }} remaining</div>
+          </td>
+          <td><span class="badge bg-dark border border-secondary border-opacity-25">{{ a.max_marks }} pts</span></td>
+          <td>
+            <a href="{% url 'student_submit' a.assignment_id %}" class="btn btn-sm btn-primary rounded-pill px-3">
+              <i class="bi bi-cloud-arrow-up me-1"></i>Submit Work
+            </a>
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="5" class="text-center py-4 text-muted-cosmic">
+            <i class="bi bi-check2-circle fs-2 text-success d-block mb-1"></i>
+            No pending upcoming deadlines! You are all caught up.
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Recent Evaluated Marks -->
+<div class="glass-card p-4">
+  <div class="d-flex align-items-center justify-content-between mb-4 flex-wrap gap-2">
+    <div>
+      <h3 class="h5 fw-bold text-white mb-0">Recent Results & Teacher Feedback</h3>
+      <div class="small text-muted-cosmic">Marks awarded for your submissions</div>
+    </div>
+    <a href="{% url 'student_grades' %}" class="btn btn-sm btn-outline-success rounded-pill px-3">
+      All Grades <i class="bi bi-arrow-right ms-1"></i>
+    </a>
+  </div>
+
+  <div class="row g-3">
+    {% for s in recent_evaluations %}
+    <div class="col-md-6">
+      <div class="p-3 rounded-4 glass-card h-100">
+        <div class="d-flex justify-content-between align-items-center mb-2">
+          <span class="badge bg-success">Score: {{ s.evaluation.marks }}/{{ s.assignment_id.max_marks }}</span>
+          <span class="small text-muted-cosmic">{{ s.evaluation.evaluated_on|date:"d M Y" }}</span>
+        </div>
+        <h5 class="h6 fw-bold text-white mb-1">{{ s.assignment_id.title }}</h5>
+        <div class="small text-muted-cosmic mb-2">{{ s.assignment_id.course_id.course_name }}</div>
+        <div class="p-2 rounded-3 small" style="background: rgba(255, 255, 255, 0.04); border-left: 3px solid var(--color-grass-600);">
+          <strong class="text-white d-block mb-1"><i class="bi bi-chat-left-quote me-1 text-success"></i>Teacher Feedback:</strong>
+          <span class="text-slate-300">{{ s.evaluation.feedback }}</span>
+        </div>
+      </div>
+    </div>
+    {% empty %}
+    <div class="col-12 text-center text-muted-cosmic py-3">No graded evaluations yet. Check back soon.</div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

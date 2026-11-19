@@ -1,0 +1,131 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Project Team & Company Profile | SAMS{% endblock %}
+
+{% block content %}
+<div class="container py-5 mt-5">
+  <div class="section-header mt-3">
+    <span class="section-badge">Project Contributors</span>
+    <h1 class="section-title">Presented By</h1>
+    <p class="section-desc">BCA Semester 5 (GTU) Minor Project — "Student Assignment Management System"</p>
+  </div>
+
+  <!-- Team Members (Slide 2) -->
+  <div class="row g-4 mb-5 justify-content-center">
+    <!-- Dishant Jain -->
+    <div class="col-md-4">
+      <div class="glass-card text-center p-4 h-100">
+        <div class="rounded-circle mx-auto d-flex align-items-center justify-content-center text-white mb-3" style="width: 80px; height: 80px; background: linear-gradient(135deg, var(--color-cyan-glow), var(--color-cosmic-700)); font-size: 2rem;">
+          <i class="bi bi-mortarboard"></i>
+        </div>
+        <h3 class="h4 fw-bold text-white mb-1">Dishant Jain</h3>
+        <div class="badge bg-primary rounded-pill px-3 py-1 mb-3">Roll No: 3031</div>
+        <div class="small text-muted-cosmic">
+          <i class="bi bi-telephone-fill me-1 text-info"></i> Contact: +91 96622 66942
+        </div>
+      </div>
+    </div>
+
+    <!-- Mehul Jain -->
+    <div class="col-md-4">
+      <div class="glass-card text-center p-4 h-100">
+        <div class="rounded-circle mx-auto d-flex align-items-center justify-content-center text-white mb-3" style="width: 80px; height: 80px; background: linear-gradient(135deg, var(--color-coral-500), var(--color-cosmic-700)); font-size: 2rem;">
+          <i class="bi bi-mortarboard"></i>
+        </div>
+        <h3 class="h4 fw-bold text-white mb-1">Mehul Jain</h3>
+        <div class="badge bg-warning text-dark rounded-pill px-3 py-1 mb-3">Roll No: 3032</div>
+        <div class="small text-muted-cosmic">
+          <i class="bi bi-telephone-fill me-1 text-warning"></i> Contact: +91 95583 61283
+        </div>
+      </div>
+    </div>
+
+    <!-- Shivang Saluke -->
+    <div class="col-md-4">
+      <div class="glass-card text-center p-4 h-100">
+        <div class="rounded-circle mx-auto d-flex align-items-center justify-content-center text-white mb-3" style="width: 80px; height: 80px; background: linear-gradient(135deg, var(--color-grass-600), var(--color-cosmic-700)); font-size: 2rem;">
+          <i class="bi bi-mortarboard"></i>
+        </div>
+        <h3 class="h4 fw-bold text-white mb-1">Shivang Saluke</h3>
+        <div class="badge bg-success rounded-pill px-3 py-1 mb-3">Roll No: 3092</div>
+        <div class="small text-muted-cosmic">
+          <i class="bi bi-telephone-fill me-1 text-success"></i> Contact: +91 97370 81972
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Company Profile (Slide 3) -->
+  <div class="glass-card p-4 p-md-5 mb-5 border-info border-opacity-25">
+    <div class="row align-items-center g-4">
+      <div class="col-lg-3 text-center">
+        <div class="rounded-4 p-4 d-inline-block" style="background: rgba(56, 189, 248, 0.12); border: 1px solid rgba(56, 189, 248, 0.3);">
+          <i class="bi bi-building fs-1 text-info"></i>
+          <h4 class="h5 fw-bold text-white mt-2 mb-0">Akash Technolabs</h4>
+        </div>
+      </div>
+      <div class="col-lg-9">
+        <span class="badge bg-info text-dark rounded-pill px-3 py-1 text-uppercase mb-2">Mentorship Company</span>
+        <h3 class="fw-bold text-white mb-3">Industrial Training & Technical Guidance</h3>
+        <div class="row g-3 small text-slate-300">
+          <div class="col-sm-6">
+            <div class="d-flex align-items-center gap-2">
+              <i class="bi bi-telephone-fill text-info"></i>
+              <span><strong>Mobile:</strong> +91 99786 21654</span>
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <div class="d-flex align-items-center gap-2">
+              <i class="bi bi-globe text-info"></i>
+              <span><strong>Website:</strong> <a href="http://www.akashtechnolabs.com" target="_blank" class="text-info text-decoration-none">www.akashtechnolabs.com</a></span>
+            </div>
+          </div>
+          <div class="col-12">
+            <div class="d-flex align-items-center gap-2">
+              <i class="bi bi-geo-alt-fill text-danger"></i>
+              <span><strong>Address:</strong> 202 Aarya Arcade, Mithakali Six Road, Ahmedabad, Gujarat</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bibliography (Slide 31) -->
+  <div class="glass-card p-4 p-md-5">
+    <div class="text-center mb-4">
+      <span class="badge bg-secondary px-3 py-1 text-uppercase">Academic References</span>
+      <h3 class="fw-bold text-white mt-2">Bibliography</h3>
+    </div>
+
+    <div class="row g-4">
+      <div class="col-md-6">
+        <div class="p-3 rounded-4 glass-card h-100">
+          <div class="d-flex align-items-center gap-2 mb-2">
+            <i class="bi bi-book-half text-info fs-4"></i>
+            <h4 class="h6 fw-bold text-white mb-0">Reference Books</h4>
+          </div>
+          <ul class="list-unstyled small text-muted-cosmic d-flex flex-column gap-2 mb-0">
+            <li><strong>System Analysis and Design Methods, 9th ed.</strong> (Unit 1) — Shelly, Cashman, Rosenblatt (Cengage Learning)</li>
+            <li><strong>Mastering Object-Oriented Analysis and Design</strong> (Units 2, 3, 4) — Arpita Gopal, Netra Patil (PHI Learning)</li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="p-3 rounded-4 glass-card h-100">
+          <div class="d-flex align-items-center gap-2 mb-2">
+            <i class="bi bi-link-45deg text-success fs-4"></i>
+            <h4 class="h6 fw-bold text-white mb-0">Websites & Tools</h4>
+          </div>
+          <ul class="list-unstyled small text-muted-cosmic d-flex flex-column gap-2 mb-0">
+            <li><a href="https://www.uml-diagrams.org" target="_blank" class="text-info text-decoration-none">www.uml-diagrams.org</a> — UML specifications and notations.</li>
+            <li><a href="https://app.diagrams.net" target="_blank" class="text-info text-decoration-none">www.draw.io</a> — Architectural diagramming.</li>
+            <li><a href="https://docs.djangoproject.com" target="_blank" class="text-info text-decoration-none">docs.djangoproject.com</a> — Django 5 documentation and ORM security.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

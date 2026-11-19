@@ -1,0 +1,147 @@
+/**
+ * Student Assignment Management System (SAMS)
+ * Design Tokens - Single Source of Truth from DESIGN.md (Nordic Misty Lake Reference)
+ */
+
+@font-face {
+  font-family: 'Inter';
+  src: url('/static/fonts/Inter.woff2') format('woff2');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  /* Nordic Misty Lake Color Tokens - Reference Palette */
+  --color-nordic-deep: #0b171a;        /* Deepest lake abyss / body foundation */
+  --color-nordic-dark: #122428;        /* Slate pine dark / container background */
+  --color-nordic-surface: #183035;     /* Card surface & table row */
+  --color-nordic-elevated: #1f3a40;    /* Hover & elevated card */
+
+  /* Pine Forests & Foliage */
+  --color-pine-900: #0e1d19;           /* Deep conifer forest shadow */
+  --color-pine-700: #1b3b32;           /* Pine forest midtone */
+  --color-pine-500: #2d6354;           /* Forest green brand accent */
+  --color-pine-400: #3a7d6b;           /* Vibrant pine highlight */
+
+  /* Serene Lake & Atmosphere */
+  --color-mist-teal: #3d7a6f;          /* Serene lake teal */
+  --color-frost-cyan: #64b5b0;         /* Frost cyan highlight & focus ring */
+  --color-water-slate: #2b444c;        /* Lake water reflection */
+  --color-mist-fog: #a9b8c6;           /* Horizon mist & muted text */
+  --color-mist-sky: #e3e7ed;           /* Overcast dawn sky / headline white */
+  --color-ripple-glow: #bcc8d4;        /* Glassy ripple wave highlight */
+
+  /* Handcrafted Boat & Driftwood Elements */
+  --color-boat-wood: #ebd9d4;          /* Pale birch / boat interior */
+  --color-boat-wood-dark: #c4ac9e;     /* Warm driftwood trim */
+  --color-boat-hull: #101e28;          /* Midnight navy hull */
+
+  /* Cosmic / Legacy aliases mapped seamlessly to new Nordic Palette */
+  --color-cosmic-950: #0b171a;
+  --color-cosmic-900: #122428;
+  --color-cosmic-800: #183035;
+  --color-cosmic-700: #2d6354;
+  --color-cosmic-600: #3d7a6f;
+  --color-cyan-glow: #64b5b0;
+  --color-coral-500: #d4a373;         /* Warm birch/wood accent */
+  --color-peach-300: #ebd9d4;
+  --color-grass-900: #0e1d19;
+  --color-grass-700: #1b3b32;
+  --color-grass-600: #2d6354;
+  --color-grass-400: #64b5b0;
+  --color-amber-500: #d4a373;
+  --color-star-white: #e3e7ed;
+  --color-star-ice: #a9b8c6;
+  --color-slate-900: #0b171a;
+  --color-slate-800: #122428;
+  --color-slate-700: #2b444c;
+  --color-slate-400: #a9b8c6;
+  --color-slate-200: #cad4dc;
+  --color-slate-100: #e3e7ed;
+
+  /* Glassmorphism Surfaces */
+  --color-glass-card: rgba(18, 36, 40, 0.74);
+  --color-glass-card-hover: rgba(27, 52, 58, 0.85);
+  --color-glass-border: rgba(188, 200, 212, 0.16);
+  --color-glass-border-hover: rgba(100, 181, 176, 0.45);
+  --color-glass-input: rgba(14, 29, 32, 0.75);
+  --color-glass-nav: rgba(11, 23, 26, 0.85);
+
+  /* Status Tokens */
+  --color-status-pending: #d4a373;
+  --color-status-pending-bg: rgba(212, 163, 115, 0.16);
+  --color-status-pending-border: rgba(212, 163, 115, 0.35);
+
+  --color-status-submitted: #4a9ea8;
+  --color-status-submitted-bg: rgba(74, 158, 168, 0.16);
+  --color-status-submitted-border: rgba(74, 158, 168, 0.35);
+
+  --color-status-late: #d96b6b;
+  --color-status-late-bg: rgba(217, 107, 107, 0.16);
+  --color-status-late-border: rgba(217, 107, 107, 0.35);
+
+  --color-status-evaluated: #38a37a;
+  --color-status-evaluated-bg: rgba(56, 163, 122, 0.16);
+  --color-status-evaluated-border: rgba(56, 163, 122, 0.35);
+
+  --color-status-returned: #6a8eae;
+  --color-status-returned-bg: rgba(106, 142, 174, 0.16);
+  --color-status-returned-border: rgba(106, 142, 174, 0.35);
+
+  /* Typography Tokens */
+  --font-primary: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-display: 'Inter', system-ui, -apple-system, sans-serif;
+
+  --font-size-xs: 0.75rem;    /* 12px */
+  --font-size-sm: 0.875rem;   /* 14px */
+  --font-size-base: 1rem;     /* 16px */
+  --font-size-lg: 1.125rem;   /* 18px */
+  --font-size-xl: 1.25rem;    /* 20px */
+  --font-size-2xl: 1.5rem;    /* 24px */
+  --font-size-3xl: 1.875rem;  /* 30px */
+  --font-size-4xl: 2.25rem;   /* 36px */
+  --font-size-5xl: 3rem;      /* 48px */
+  --font-size-hero: clamp(2.25rem, 5.5vw, 4.0rem);
+
+  /* Radius Tokens */
+  --radius-xs: 4px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-2xl: 32px;
+  --radius-full: 9999px;
+
+  /* Shadows & Luminous Glows */
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.25);
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.35);
+  --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.45);
+  --shadow-xl: 0 24px 60px rgba(0, 0, 0, 0.55);
+  --shadow-glow: 0 0 32px rgba(100, 181, 176, 0.25);
+  --shadow-glow-warm: 0 0 32px rgba(212, 163, 115, 0.25);
+
+  /* Spacing Scale */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-20: 5rem;
+  --space-24: 6rem;
+
+  /* Motion & Easings */
+  --ease-smooth: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-ripple: cubic-bezier(0.25, 0.8, 0.25, 1);
+  --dur-fast: 150ms;
+  --dur-base: 300ms;
+  --dur-slow: 600ms;
+  --dur-ripple: 4500ms;
+  --dur-float: 6000ms;
+}
