@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Student Assignment Management System (SAMS)
 > **"Submit Smart. Grade Faster."**  
 > *BCA Semester 5 (GTU) Minor Project — System Analysis & Design (SAD)*
@@ -129,3 +130,6 @@ Open [http://127.0.0.1:8000](http://127.0.0.1:8000) in your web browser.
 3. **Resubmissions:** Students may replace or delete their submitted work at any time before the deadline, provided the assignment has not yet been graded.
 4. **Grading & Return:** When a teacher reviews a submission, they award marks ($0$ to `max_marks`) and enter feedback, transitioning status to **Evaluated**. When the student logs in and reviews their marks, the status transitions to **Returned**.
 5. **Role Security:** Accessing another role's endpoint directly returns HTTP 403 Forbidden with a styled cosmic error template.
+=======
+# student_assign
+>>>>>>> 34f461d5a64b34588d3efb81b7146ce778d049b1

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 Django>=5.0.0
 PyMySQL>=1.1.0
 python-dotenv>=1.0.0
@@ -5,3 +6,13 @@ pillow>=10.0.0
 dj-database-url>=2.1.0
 whitenoise>=6.6.0
 gunicorn>=21.2.0
+=======
+Django>=5.0,<7.0
+pymysql>=1.1.0
+python-dotenv>=1.0.0
+cryptography>=41.0.0
+Pillow>=10.0.0
+whitenoise>=6.6.0
+gunicorn>=21.0.0
+dj-database-url>=2.1.0
+>>>>>>> 34f461d5a64b34588d3efb81b7146ce778d049b1

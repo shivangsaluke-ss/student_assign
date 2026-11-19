@@ -1,0 +1,155 @@
+{% extends "base.html" %}
+
+{% block title %}Student Sign In - SAMS{% endblock %}
+
+{% block extra_css %}
+<style>
+  .student-login-card {
+    border-radius: 18px;
+    box-shadow: 0 12px 32px rgba(15, 118, 110, 0.12);
+    border: 1px solid rgba(15, 118, 110, 0.15);
+    background: #ffffff;
+  }
+  .demo-student-card {
+    border-radius: 12px;
+    border: 1.5px solid #A5F3FC;
+    background: #ECFEFF;
+    padding: 12px 16px;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    text-align: left;
+    width: 100%;
+  }
+  .demo-student-card:hover {
+    border-color: #0E7490;
+    background: #E0F2FE;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(14, 116, 144, 0.15);
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container py-5 my-auto">
+  <div class="row justify-content-center">
+    <div class="col-lg-5 col-md-7 col-sm-10">
+
+      <!-- Dedicated Student Login Card -->
+      <div class="card student-login-card p-4 p-md-5">
+
+        <!-- Student Header -->
+        <div class="text-center mb-4">
+          <div class="d-inline-flex align-items-center justify-content-center rounded-circle p-3 mb-2" style="width: 60px; height: 60px; background: rgba(15, 118, 110, 0.1);">
+            <svg width="34" height="34" viewBox="0 0 24 24" fill="var(--c-teal)">
+              <path d="M12 3L1 9L12 15L21 10.09V17H23V9M5 13.18V17.18C5 19.5 8.13 21.36 12 21.36C15.87 21.36 19 19.5 19 17.18V13.18L12 17L5 13.18Z"/>
+            </svg>
+          </div>
+          <div class="mb-2">
+            <span class="badge bg-teal bg-opacity-10 text-teal border border-teal-subtle px-3 py-1 text-uppercase" style="font-size: 11px; letter-spacing: 0.05em; font-weight: 700;">
+              Student Portal
+            </span>
+          </div>
+          <h3 class="fw-bold mb-1 display-font" style="color: var(--c-deep-teal);">Student Sign In</h3>
+          <p class="text-muted small mb-0">Sign in to your student hub to upload assignment solutions, check due dates, and view grades.</p>
+        </div>
+
+        <!-- Login Form -->
+        <form method="POST" action="{% url 'student_login' %}" novalidate>
+          {% csrf_token %}
+
+          {% if form.non_field_errors %}
+            <div class="alert alert-danger small py-2 mb-3">{{ form.non_field_errors }}</div>
+          {% endif %}
+
+          <div class="mb-3">
+            <label class="form-label small fw-semibold text-dark">Student Registered Email</label>
+            <div class="input-group">
+              <span class="input-group-text bg-light border-end-0"><i class="bi bi-envelope text-muted"></i></span>
+              <input type="email" name="email" id="studentEmailInput" class="form-control border-start-0" placeholder="e.g. shivang@student.gtu.ac.in" required>
+            </div>
+            {% if form.email.errors %}
+              <div class="text-danger small mt-1">{{ form.email.errors.0 }}</div>
+            {% endif %}
+          </div>
+
+          <div class="mb-4">
+            <label class="form-label small fw-semibold text-dark">Account Password</label>
+            <div class="input-group">
+              <span class="input-group-text bg-light border-end-0"><i class="bi bi-lock text-muted"></i></span>
+              <input type="password" name="password" id="studentPasswordInput" class="form-control border-start-0 border-end-0" placeholder="Enter password" required>
+              <button class="btn btn-outline-secondary border-start-0 bg-light" type="button" onclick="toggleStudentPwd()" title="Toggle visibility">
+                <i class="bi bi-eye" id="studentPwdIcon"></i>
+              </button>
+            </div>
+            {% if form.password.errors %}
+              <div class="text-danger small mt-1">{{ form.password.errors.0 }}</div>
+            {% endif %}
+          </div>
+
+          <button type="submit" class="btn btn-sams-primary w-100 py-2">
+            <i class="bi bi-box-arrow-in-right me-1"></i> Sign In to Student Hub
+          </button>
+        </form>
+
+        <div class="text-center mt-3 pt-3 border-top">
+          <span class="text-muted small">Are you a new student? </span>
+          <a href="{% url 'register' %}" class="small fw-semibold text-teal text-decoration-none">Create an Account</a>
+        </div>
+
+        <div class="text-center mt-2">
+          <span class="text-muted small">Faculty member? </span>
+          <a href="{% url 'teacher_login' %}" class="small fw-semibold text-decoration-none" style="color: #4F46E5;">Faculty Login &rarr;</a>
+        </div>
+
+      </div>
+
+      <!-- UNDER-DISPLAY: ONLY STUDENT DEMO CREDENTIALS -->
+      <div class="mt-4">
+        <div class="d-flex align-items-center justify-content-between mb-2 px-1">
+          <span class="fw-bold small text-uppercase text-muted" style="font-size: 11px; letter-spacing: 0.05em;">
+            <i class="bi bi-lightning-charge-fill text-warning me-1"></i> Quick 1-Click Student Demo Login
+          </span>
+          <span class="text-muted" style="font-size: 11px;">1-Click Auto Fill</span>
+        </div>
+
+        <button type="button" class="demo-student-card d-flex align-items-center justify-content-between" onclick="fillStudentCreds('shivang@student.gtu.ac.in', 'student123')">
+          <div class="d-flex align-items-center gap-3">
+            <div class="rounded-circle d-flex align-items-center justify-content-center flex-shrink-0" style="width: 38px; height: 38px; background: #ECFEFF; color: #0E7490;">
+              <i class="bi bi-mortarboard fs-5"></i>
+            </div>
+            <div>
+              <div class="fw-bold text-dark small">Saluke Shivang (BCA Sem 5)</div>
+              <div class="text-muted font-monospace" style="font-size: 11px;">shivang@student.gtu.ac.in &bull; (student123)</div>
+            </div>
+          </div>
+          <span class="badge" style="background: #ECFEFF; color: #0E7490; border: 1px solid #A5F3FC; font-size: 11px;">
+            Auto-Fill &rarr;
+          </span>
+        </button>
+      </div>
+
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+function fillStudentCreds(email, password) {
+  document.getElementById('studentEmailInput').value = email;
+  document.getElementById('studentPasswordInput').value = password;
+}
+
+function toggleStudentPwd() {
+  const pwd = document.getElementById('studentPasswordInput');
+  const icon = document.getElementById('studentPwdIcon');
+  if (pwd.type === 'password') {
+    pwd.type = 'text';
+    icon.className = 'bi bi-eye-slash';
+  } else {
+    pwd.type = 'password';
+    icon.className = 'bi bi-eye';
+  }
+}
+</script>
+{% endblock %}

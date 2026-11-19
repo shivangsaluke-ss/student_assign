@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {% extends 'app_base.html' %}
 {% load static %}
 
@@ -63,6 +64,136 @@
         {% endfor %}
       </tbody>
     </table>
+=======
+{% extends "app_base.html" %}
+
+{% block title %}Faculty Staff - SAMS Admin{% endblock %}
+{% block page_title %}Faculty Management{% endblock %}
+
+{% block content %}
+<div class="container-fluid px-0">
+  <!-- Header Bar -->
+  <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
+    <div>
+      <h4 class="fw-bold mb-1 display-font">Faculty &amp; Professors</h4>
+      <p class="text-muted mb-0 small">Manage faculty credentials, academic departments, and assigned teaching modules.</p>
+    </div>
+    <a href="{% url 'admin_teacher_add' %}" class="btn btn-sams-primary">
+      <i class="bi bi-person-plus me-1"></i> Add Faculty Member
+    </a>
+  </div>
+
+  <!-- Search Bar -->
+  <div class="card card-sams p-3 mb-4">
+    <form method="GET" class="row g-2 align-items-center">
+      <div class="col-md-9">
+        <div class="input-group">
+          <span class="input-group-text bg-white border-end-0"><i class="bi bi-search text-muted"></i></span>
+          <input type="text" name="q" value="{{ search_q }}" class="form-control border-start-0" placeholder="Search by teacher name, department or email...">
+        </div>
+      </div>
+      <div class="col-md-3 d-flex gap-2">
+        <button type="submit" class="btn btn-sams-primary w-100">Search</button>
+        {% if search_q %}
+          <a href="{% url 'admin_teachers' %}" class="btn btn-light border">Reset</a>
+        {% endif %}
+      </div>
+    </form>
+  </div>
+
+  <!-- Table Card -->
+  <div class="card card-sams">
+    <div class="table-responsive">
+      <table class="table table-hover align-middle mb-0">
+        <thead class="table-light small text-uppercase">
+          <tr>
+            <th class="ps-4">Teacher Profile</th>
+            <th>Email Address</th>
+            <th>Department</th>
+            <th>Assigned Courses</th>
+            <th class="text-end pe-4">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% if page_obj %}
+            {% for t in page_obj %}
+              <tr>
+                <td class="ps-4">
+                  <div class="d-flex align-items-center gap-3">
+                    <div class="rounded-circle text-white d-flex align-items-center justify-content-center fw-bold" style="width: 38px; height: 38px; background-color: var(--c-teal);">
+                      {{ t.teacher_name|slice:":1"|upper }}
+                    </div>
+                    <div>
+                      <div class="fw-bold text-dark">{{ t.teacher_name }}</div>
+                      <span class="text-muted small" style="font-size: 11px;">ID: #TCH-{{ t.teacher_id }}</span>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <span class="text-dark small"><i class="bi bi-envelope text-muted me-1"></i> {{ t.teacher_email }}</span>
+                </td>
+                <td>
+                  <span class="badge bg-light text-dark border px-2 py-1">{{ t.department }}</span>
+                </td>
+                <td>
+                  <div class="d-flex flex-wrap gap-1">
+                    {% for c in t.courses.all %}
+                      <span class="badge bg-teal bg-opacity-10 text-teal border border-teal-subtle small" style="color: var(--c-teal);">
+                        {{ c.course_name }} (Sem {{ c.semester }})
+                      </span>
+                    {% empty %}
+                      <span class="text-muted small fst-italic">No courses assigned yet</span>
+                    {% endfor %}
+                  </div>
+                </td>
+                <td class="text-end pe-4">
+                  <div class="btn-group btn-group-sm">
+                    <a href="{% url 'admin_teacher_edit' t.teacher_id %}" class="btn btn-light border" title="Edit Teacher">
+                      <i class="bi bi-pencil"></i>
+                    </a>
+                    <a href="{% url 'admin_teacher_delete' t.teacher_id %}" class="btn btn-light border text-danger" title="Delete Teacher">
+                      <i class="bi bi-trash3"></i>
+                    </a>
+                  </div>
+                </td>
+              </tr>
+            {% endfor %}
+          {% else %}
+            <tr>
+              <td colspan="5" class="text-center py-5 text-muted">
+                <i class="bi bi-person-x fs-2 d-block mb-2"></i>
+                No faculty members found.
+              </td>
+            </tr>
+          {% endif %}
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Pagination -->
+    {% if page_obj.has_other_pages %}
+      <div class="card-footer bg-white border-top d-flex align-items-center justify-content-between p-3">
+        <span class="text-muted small">
+          Showing page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+        </span>
+        <ul class="pagination pagination-sm mb-0">
+          {% if page_obj.has_previous %}
+            <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}&q={{ search_q }}">Previous</a></li>
+          {% endif %}
+          {% for num in page_obj.paginator.page_range %}
+            {% if page_obj.number == num %}
+              <li class="page-item active"><span class="page-link" style="background-color: var(--c-teal); border-color: var(--c-teal);">{{ num }}</span></li>
+            {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+              <li class="page-item"><a class="page-link" href="?page={{ num }}&q={{ search_q }}">{{ num }}</a></li>
+            {% endif %}
+          {% endfor %}
+          {% if page_obj.has_next %}
+            <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}&q={{ search_q }}">Next</a></li>
+          {% endif %}
+        </ul>
+      </div>
+    {% endif %}
+>>>>>>> 34f461d5a64b34588d3efb81b7146ce778d049b1
   </div>
 </div>
 {% endblock %}

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {% extends 'base.html' %}
 {% load static %}
 
@@ -105,11 +106,91 @@
               <div><strong>Robust MySQL Relational Store:</strong> 8 normalized tables with foreign keys and strict constraints.</div>
             </li>
           </ul>
+=======
+{% extends "base.html" %}
+
+{% block title %}About SAMS - Student Assignment Management System{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+  <!-- Header -->
+  <div class="text-center max-w-700 mx-auto mb-5">
+    <span class="badge bg-light text-teal px-3 py-2 rounded-pill fw-semibold border mb-2">GTU BCA Semester 5 Minor Project</span>
+    <h1 class="display-font mb-3">About the Project</h1>
+    <p class="text-muted lead fs-6">
+      <strong>Student Assignment Management System (SAMS)</strong> — tagline <em>"Submit Smart. Grade Faster."</em> is designed to modernize academic submissions across universities by replacing chaotic WhatsApp chats and physical paper with a structured, role-based digital portal.
+    </p>
+  </div>
+
+  <!-- Objectives & Features -->
+  <div class="row g-4 mb-5">
+    <div class="col-md-6">
+      <div class="card card-sams p-4 h-100">
+        <h4 class="display-font fs-4 mb-3 text-teal"><i class="bi bi-bullseye me-2"></i>Core Objectives</h4>
+        <ul class="list-unstyled d-flex flex-column gap-3 text-muted">
+          <li class="d-flex align-items-start gap-2">
+            <i class="bi bi-check-circle-fill text-success mt-1"></i>
+            <div><strong>Centralized Submission Portal:</strong> Eliminate physical paper waste and lost files through one unified repository for assignments and student solutions.</div>
+          </li>
+          <li class="d-flex align-items-start gap-2">
+            <i class="bi bi-check-circle-fill text-success mt-1"></i>
+            <div><strong>Automated Deadline &amp; Late Tracking:</strong> Precise timestamp recording against server deadlines automatically flags on-time vs late submissions.</div>
+          </li>
+          <li class="d-flex align-items-start gap-2">
+            <i class="bi bi-check-circle-fill text-success mt-1"></i>
+            <div><strong>Fair &amp; Transparent Evaluation:</strong> Teachers grade work with max mark validation and descriptive qualitative feedback returned straight to the student.</div>
+          </li>
+          <li class="d-flex align-items-start gap-2">
+            <i class="bi bi-check-circle-fill text-success mt-1"></i>
+            <div><strong>Insightful Administrative Reporting:</strong> Submission velocity and average score metrics per course offer academic heads complete departmental visibility.</div>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="card card-sams p-4 h-100">
+        <h4 class="display-font fs-4 mb-3 text-teal"><i class="bi bi-code-square me-2"></i>Technical Specification</h4>
+        <div class="table-responsive">
+          <table class="table table-sm table-borderless align-middle mb-0">
+            <tbody>
+              <tr>
+                <td class="fw-bold text-dark" style="width: 35%;">Project Title</td>
+                <td class="text-muted">Student Assignment Management System (SAMS)</td>
+              </tr>
+              <tr>
+                <td class="fw-bold text-dark">Tagline</td>
+                <td class="text-teal fw-semibold">"Submit Smart. Grade Faster."</td>
+              </tr>
+              <tr>
+                <td class="fw-bold text-dark">University / Sem</td>
+                <td class="text-muted">Gujarat Technological University (GTU) &bull; BCA Sem 5</td>
+              </tr>
+              <tr>
+                <td class="fw-bold text-dark">Backend Stack</td>
+                <td class="text-muted">Python 3.11+, Django 5/6, MySQL (mysqlclient / PyMySQL)</td>
+              </tr>
+              <tr>
+                <td class="fw-bold text-dark">Frontend Stack</td>
+                <td class="text-muted">Bootstrap 5, Vanilla JavaScript, Self-Hosted Grandstander &amp; Inter</td>
+              </tr>
+              <tr>
+                <td class="fw-bold text-dark">Storage</td>
+                <td class="text-muted">Media storage: <code>media/submissions/&lt;course&gt;/&lt;assignment&gt;/</code></td>
+              </tr>
+              <tr>
+                <td class="fw-bold text-dark">Security</td>
+                <td class="text-muted">Role decorators (403 forbidden), PBKDF2 hashed passwords, CSRF protection</td>
+              </tr>
+            </tbody>
+          </table>
+>>>>>>> 34f461d5a64b34588d3efb81b7146ce778d049b1
         </div>
       </div>
     </div>
   </div>
 
+<<<<<<< HEAD
   <!-- Technology Stack (Slide 3) -->
   <div class="glass-card p-4 p-md-5">
     <div class="text-center mb-4">
@@ -148,5 +229,50 @@
       </div>
     </div>
   </div>
+=======
+  <!-- Comparison: Existing System vs Proposed System -->
+  <div class="card card-sams p-4 mb-5">
+    <h3 class="display-font fs-3 mb-4 text-center">Existing System vs. Proposed SAMS</h3>
+    <div class="table-responsive">
+      <table class="table table-bordered table-hover align-middle mb-0">
+        <thead class="table-light">
+          <tr>
+            <th style="width: 20%;">Feature / Aspect</th>
+            <th class="text-danger" style="width: 40%;"><i class="bi bi-x-circle me-1"></i> Traditional / Manual System</th>
+            <th class="text-success" style="width: 40%;"><i class="bi bi-check-circle me-1"></i> Proposed SAMS System</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="fw-bold">Submission Medium</td>
+            <td class="text-muted">Paper printouts, physical notebooks, or disorganized WhatsApp chats / email threads.</td>
+            <td class="text-dark fw-medium">Unified digital portal with secure file upload supporting PDF, DOCX, ZIP, and images up to 10 MB.</td>
+          </tr>
+          <tr>
+            <td class="fw-bold">Deadline Enforcement</td>
+            <td class="text-muted">Ambiguous submission times; disputes over late delivery.</td>
+            <td class="text-dark fw-medium">Microsecond timestamp logging with automatic colour-coded status badge transitions (Submitted vs Late).</td>
+          </tr>
+          <tr>
+            <td class="fw-bold">Resubmission Control</td>
+            <td class="text-muted">Difficult to replace drafts; students re-submit multiple confusing files.</td>
+            <td class="text-dark fw-medium">One submission per student per assignment; student can freely replace file until the due date.</td>
+          </tr>
+          <tr>
+            <td class="fw-bold">Grading &amp; Feedback</td>
+            <td class="text-muted">Graded papers handed back weeks later; comments easily lost or damaged.</td>
+            <td class="text-dark fw-medium">Faculty marks solutions online with real-time feedback; status transitions to 'Returned' when reviewed.</td>
+          </tr>
+          <tr>
+            <td class="fw-bold">Administrative Oversight</td>
+            <td class="text-muted">No visibility into departmental submission rates or pending teacher reviews.</td>
+            <td class="text-dark fw-medium">Real-time analytical charts: course submission rates, average marks, late-submission counts.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+>>>>>>> 34f461d5a64b34588d3efb81b7146ce778d049b1
 </div>
 {% endblock %}

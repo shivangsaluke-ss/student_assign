@@ -119,10 +119,13 @@ class Assignment(models.Model):
     def is_past_due(self):
         return timezone.now() > self.due_date
 
+<<<<<<< HEAD
     @property
     def filename(self):
         return os.path.basename(self.file_path) if self.file_path else ''
 
+=======
+>>>>>>> 34f461d5a64b34588d3efb81b7146ce778d049b1
 
 class Submission(models.Model):
     STATUS_CHOICES = (
@@ -167,7 +170,11 @@ class Submission(models.Model):
             'Evaluated': 'badge-evaluated',
             'Returned': 'badge-returned',
         }
+<<<<<<< HEAD
         return mapping.get(self.status, 'badge-submitted')
+=======
+        return mapping.get(self.status, 'badge-secondary')
+>>>>>>> 34f461d5a64b34588d3efb81b7146ce778d049b1
 
 
 class Evaluation(models.Model):

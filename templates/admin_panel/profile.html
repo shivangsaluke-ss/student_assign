@@ -1,11 +1,18 @@
+<<<<<<< HEAD
 {% extends 'app_base.html' %}
 {% load static %}
 
 {% block title %}Admin Profile | SAMS{% endblock %}
+=======
+{% extends "app_base.html" %}
+
+{% block title %}Admin Profile - SAMS{% endblock %}
+>>>>>>> 34f461d5a64b34588d3efb81b7146ce778d049b1
 {% block page_title %}Administrator Profile{% endblock %}
 
 {% block content %}
 <div class="row justify-content-center">
+<<<<<<< HEAD
   <div class="col-lg-6 col-md-8">
     <div class="glass-card p-4 p-md-5">
       <div class="text-center mb-4">
@@ -42,6 +49,54 @@
         <a href="{% url 'logout' %}" class="btn btn-outline-danger rounded-pill px-4">
           <i class="bi bi-box-arrow-left me-1"></i>Logout
         </a>
+=======
+  <div class="col-md-8 col-lg-6">
+    <div class="card card-sams">
+      <div class="card-header-sams">
+        <div class="d-flex align-items-center gap-2">
+          <i class="bi bi-shield-lock-fill text-teal fs-5"></i>
+          <h5 class="mb-0 fw-bold">Admin Account Details</h5>
+        </div>
+        <span class="badge bg-teal text-white">Superuser</span>
+      </div>
+      <div class="card-body p-4 text-center border-bottom">
+        <div class="rounded-circle text-white d-inline-flex align-items-center justify-content-center fw-bold fs-3 mb-3 shadow-sm" style="width: 80px; height: 80px; background-color: var(--c-deep-teal);">
+          {{ user.first_name|default:user.username|slice:":1"|upper }}
+        </div>
+        <h4 class="fw-bold mb-1 text-dark">{{ admin_obj.admin_name|default:user.get_full_name|default:user.username }}</h4>
+        <p class="text-muted small mb-0">{{ admin_obj.admin_email|default:user.email }}</p>
+      </div>
+
+      <div class="card-body p-4">
+        <h6 class="fw-bold text-uppercase text-muted small mb-3" style="letter-spacing: 0.05em;">Credential &amp; Contact Records</h6>
+        <div class="list-group list-group-flush mb-4">
+          <div class="list-group-item d-flex justify-content-between px-0 py-2">
+            <span class="text-muted small">Username</span>
+            <span class="fw-semibold small text-dark font-monospace">{{ user.username }}</span>
+          </div>
+          <div class="list-group-item d-flex justify-content-between px-0 py-2">
+            <span class="text-muted small">Official Email</span>
+            <span class="fw-semibold small text-dark">{{ admin_obj.admin_email|default:user.email }}</span>
+          </div>
+          <div class="list-group-item d-flex justify-content-between px-0 py-2">
+            <span class="text-muted small">Mobile Contact</span>
+            <span class="fw-semibold small text-dark">{{ admin_obj.admin_mobile|default:"+91 98765 43210" }}</span>
+          </div>
+          <div class="list-group-item d-flex justify-content-between px-0 py-2">
+            <span class="text-muted small">System Role</span>
+            <span class="badge bg-light text-teal border">System Administrator</span>
+          </div>
+          <div class="list-group-item d-flex justify-content-between px-0 py-2">
+            <span class="text-muted small">Academic University</span>
+            <span class="fw-semibold small text-dark">Gujarat Technological University (GTU)</span>
+          </div>
+        </div>
+
+        <div class="alert alert-light border small text-muted mb-0">
+          <i class="bi bi-info-circle me-1 text-teal"></i>
+          To update master security credentials or database configs, please use the Django administration panel at <code>/admin/</code>.
+        </div>
+>>>>>>> 34f461d5a64b34588d3efb81b7146ce778d049b1
       </div>
     </div>
   </div>

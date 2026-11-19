@@ -1,9 +1,13 @@
+<<<<<<< HEAD
 {% load static %}
+=======
+>>>>>>> 34f461d5a64b34588d3efb81b7146ce778d049b1
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<<<<<<< HEAD
   <title>{% block title %}{{ TAGLINE }} | {{ APP_SHORT }}{% endblock %}</title>
 
   <!-- Bootstrap 5 CSS -->
@@ -118,15 +122,127 @@
           <a href="{% url 'diagrams' %}" class="text-muted-cosmic text-decoration-none">Diagrams</a>
           <a href="{% url 'database' %}" class="text-muted-cosmic text-decoration-none">Database</a>
           <a href="{% url 'team' %}" class="text-muted-cosmic text-decoration-none">Team</a>
+=======
+  <meta name="description" content="Student Assignment Management System (SAMS) - Submit Smart. Grade Faster. Minor project for BCA Semester 5 GTU.">
+  <title>{% block title %}SAMS - Student Assignment Management System{% endblock %}</title>
+  
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  
+  <!-- Custom Design System -->
+  <link rel="stylesheet" href="/static/css/main.css">
+  {% block extra_css %}{% endblock %}
+</head>
+<body class="d-flex flex-column min-vh-100">
+
+  {% block navbar %}
+  <!-- Public Navbar -->
+  <nav class="navbar navbar-expand-lg sams-navbar sticky-top">
+    <div class="container">
+      <a class="sams-logo-text" href="{% url 'home' %}">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="var(--c-teal)">
+          <path d="M12 3L1 9L12 15L21 10.09V17H23V9M5 13.18V17.18C5 19.5 8.13 21.36 12 21.36C15.87 21.36 19 19.5 19 17.18V13.18L12 17L5 13.18Z"/>
+        </svg>
+        <span>SAMS</span>
+      </a>
+      
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#publicNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="publicNav">
+        <ul class="navbar-nav mx-auto mb-2 mb-lg-0 fw-medium">
+          <li class="nav-item"><a class="nav-link px-3 text-dark" href="{% url 'home' %}">Home</a></li>
+          <li class="nav-item"><a class="nav-link px-3 text-dark" href="{% url 'about' %}">About Project</a></li>
+          <li class="nav-item"><a class="nav-link px-3 text-dark" href="{% url 'modules' %}">Modules</a></li>
+          <li class="nav-item"><a class="nav-link px-3 text-dark" href="{% url 'diagrams' %}">UML &amp; Diagrams</a></li>
+          <li class="nav-item"><a class="nav-link px-3 text-dark" href="{% url 'database' %}">Database Schema</a></li>
+          <li class="nav-item"><a class="nav-link px-3 text-dark" href="{% url 'team' %}">Project Team</a></li>
+        </ul>
+
+        <div class="d-flex align-items-center gap-2">
+          {% if user.is_authenticated %}
+            <a href="{% url 'login_redirect' %}" class="btn btn-sams-primary">
+              <i class="bi bi-speedometer2 me-1"></i> Dashboard
+            </a>
+            <a href="{% url 'logout' %}" class="btn btn-outline-secondary btn-sm">Logout</a>
+          {% else %}
+            <div class="dropdown">
+              <button class="btn btn-sams-outline dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="bi bi-box-arrow-in-right me-1"></i> Sign In
+              </button>
+              <ul class="dropdown-menu dropdown-menu-end shadow border-0" style="border-radius: 12px; font-size: 14px;">
+                <li><a class="dropdown-item py-2" href="{% url 'student_login' %}"><i class="bi bi-mortarboard text-teal me-2"></i> Student Login</a></li>
+                <li><a class="dropdown-item py-2" href="{% url 'teacher_login' %}"><i class="bi bi-person-workspace text-primary me-2"></i> Teacher / Faculty Login</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item py-2" href="{% url 'admin_login' %}"><i class="bi bi-shield-lock text-dark me-2"></i> Administrator Login</a></li>
+              </ul>
+            </div>
+            <a href="{% url 'register' %}" class="btn btn-sams-primary">Student Register</a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </nav>
+  {% endblock %}
+
+  <!-- Messages Banner -->
+  <div class="container mt-3">
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-{{ message.tags|default:'info' }} alert-dismissible fade show shadow-sm" role="alert">
+          {{ message }}
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      {% endfor %}
+    {% endif %}
+  </div>
+
+  <!-- Main Content -->
+  <main class="flex-grow-1">
+    {% block content %}{% endblock %}
+  </main>
+
+  {% block footer %}
+  <!-- Public Footer -->
+  <footer class="bg-white border-top py-4 mt-5">
+    <div class="container text-center text-md-start">
+      <div class="row align-items-center">
+        <div class="col-md-6 mb-3 mb-md-0">
+          <div class="d-flex align-items-center justify-content-center justify-content-md-start gap-2 mb-1">
+            <span class="fw-bold fs-5 text-teal" style="font-family: var(--font-display); color: var(--c-deep-teal);">SAMS</span>
+            <span class="badge bg-light text-muted border">GTU BCA Sem 5</span>
+          </div>
+          <p class="text-muted small mb-0">Submit Smart. Grade Faster. Academic assignment workflow platform replacing paper submissions.</p>
+        </div>
+        <div class="col-md-6 text-center text-md-end">
+          <p class="small text-muted mb-1">Developed by <strong>Dishant Jain</strong> (3031), <strong>Mehul Jain</strong> (3032), <strong>Shivang Saluke</strong> (3092)</p>
+          <div class="d-flex justify-content-center justify-content-md-end gap-3 small">
+            <a href="{% url 'diagrams' %}" class="text-decoration-none text-muted">Architecture</a>
+            <a href="{% url 'database' %}" class="text-decoration-none text-muted">MySQL Schema</a>
+            <a href="{% url 'team' %}" class="text-decoration-none text-muted">Team</a>
+          </div>
+>>>>>>> 34f461d5a64b34588d3efb81b7146ce778d049b1
         </div>
       </div>
     </div>
   </footer>
+<<<<<<< HEAD
 
   <!-- Bootstrap 5 Bundle JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <!-- Custom Application Scripts -->
   <script src="{% static 'js/main.js' %}"></script>
   {% block extra_scripts %}{% endblock %}
+=======
+  {% endblock %}
+
+  <!-- Bootstrap 5 JS Bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="/static/js/main.js"></script>
+  {% block extra_js %}{% endblock %}
+>>>>>>> 34f461d5a64b34588d3efb81b7146ce778d049b1
 </body>
 </html>

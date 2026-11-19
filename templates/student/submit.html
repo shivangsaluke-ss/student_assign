@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {% extends 'app_base.html' %}
 {% load static %}
 
@@ -97,7 +98,118 @@
           </button>
         </div>
       </form>
+=======
+{% extends "app_base.html" %}
+
+{% block title %}Submit: {{ assignment.title }} - SAMS Student{% endblock %}
+{% block page_title %}Upload &amp; Submit Assignment{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-9 col-lg-7">
+    <!-- Assignment Context Card -->
+    <div class="card card-sams p-4 mb-4">
+      <div class="d-flex justify-content-between align-items-start mb-3">
+        <div>
+          <span class="badge bg-teal bg-opacity-10 text-teal border border-teal-subtle px-2 py-1 mb-2">
+            {{ assignment.course_id.course_name }} &bull; Semester {{ assignment.course_id.semester }}
+          </span>
+          <h4 class="fw-bold text-dark mb-1">{{ assignment.title }}</h4>
+          <p class="text-muted small mb-0">Faculty Instructor: <strong>{{ assignment.course_id.teacher_id.teacher_name }}</strong></p>
+        </div>
+        <span class="badge bg-light text-dark border px-3 py-2 fw-bold fs-6">
+          {{ assignment.max_marks }} Marks
+        </span>
+      </div>
+
+      <div class="p-3 bg-light rounded-3 mb-3 small">
+        <div class="fw-semibold text-muted mb-1 text-uppercase" style="font-size: 11px;">Problem Statement / Instructions:</div>
+        <div class="text-dark" style="white-space: pre-line;">{{ assignment.description }}</div>
+      </div>
+
+      <div class="row g-2 small border-top pt-3">
+        <div class="col-sm-6">
+          <span class="text-muted">Deadline:</span>
+          <div class="fw-bold {% if is_past_due %}text-danger{% else %}text-dark{% endif %}">
+            <i class="bi bi-clock me-1"></i> {{ assignment.due_date|date:"d M Y, h:i A" }}
+          </div>
+        </div>
+        <div class="col-sm-6 text-sm-end">
+          {% if assignment.file_path %}
+            <a href="{% url 'download_file' 'assignment' assignment.assignment_id %}" class="btn btn-sm btn-light border text-teal">
+              <i class="bi bi-paperclip me-1"></i> Download Reference Brief
+            </a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+    <!-- Submission Notice Banners -->
+    {% if existing_sub %}
+      <div class="alert alert-info d-flex align-items-center gap-3 mb-4">
+        <i class="bi bi-info-circle-fill fs-4 flex-shrink-0 text-info"></i>
+        <div class="small">
+          <div class="fw-bold">Resubmission Mode</div>
+          You have already submitted a solution: <code class="fw-bold">{{ existing_sub.filename }}</code> on {{ existing_sub.submitted_at|date:"d M Y, h:i A" }}.
+          Uploading a new file now will <strong>replace</strong> your previous submission.
+        </div>
+      </div>
+    {% endif %}
+
+    {% if is_past_due %}
+      <div class="alert alert-warning d-flex align-items-center gap-3 mb-4">
+        <i class="bi bi-exclamation-triangle-fill fs-4 flex-shrink-0 text-warning"></i>
+        <div class="small">
+          <div class="fw-bold">Deadline Has Passed</div>
+          The cutoff for this task was {{ assignment.due_date|date:"d M Y, h:i A" }}. Your submission will be recorded and flagged as <strong>LATE</strong>.
+        </div>
+      </div>
+    {% endif %}
+
+    <!-- Upload Card -->
+    <div class="card card-sams">
+      <div class="card-header-sams">
+        <div class="d-flex align-items-center gap-2">
+          <i class="bi bi-cloud-arrow-up text-teal fs-5"></i>
+          <h5 class="mb-0 fw-bold">{% if existing_sub %}Replace Solution File{% else %}Upload Solution File{% endif %}</h5>
+        </div>
+        <a href="{% url 'student_assignments' %}" class="btn btn-sm btn-light border">
+          <i class="bi bi-arrow-left me-1"></i> Cancel
+        </a>
+      </div>
+      <div class="card-body p-4">
+        <form method="POST" enctype="multipart/form-data" novalidate>
+          {% csrf_token %}
+
+          {% if form.non_field_errors %}
+            <div class="alert alert-danger small mb-3">{{ form.non_field_errors }}</div>
+          {% endif %}
+
+          <div class="mb-4">
+            <label for="submissionFileInput" class="form-label fw-semibold small text-muted">SELECT YOUR SOLUTION FILE <span class="text-danger">*</span></label>
+            {{ form.submission_file }}
+            {% if form.submission_file.errors %}
+              <div class="text-danger small mt-1">{{ form.submission_file.errors|first }}</div>
+            {% endif %}
+            <div class="form-text small text-muted mt-2">
+              <i class="bi bi-shield-check text-success me-1"></i> Allowed extensions: <strong>PDF, DOC, DOCX, ZIP, JPG, PNG</strong>. Maximum file size: <strong>10 MB</strong>.
+            </div>
+          </div>
+
+          <div class="d-flex align-items-center justify-content-between pt-3 border-top">
+            <a href="{% url 'student_assignments' %}" class="btn btn-light border">Back</a>
+            <button type="submit" class="btn btn-sams-primary">
+              <i class="bi bi-upload me-1"></i> {% if existing_sub %}Upload &amp; Replace File{% else %}Submit Solution{% endif %}
+            </button>
+          </div>
+        </form>
+      </div>
+>>>>>>> 34f461d5a64b34588d3efb81b7146ce778d049b1
     </div>
   </div>
 </div>
 {% endblock %}
+<<<<<<< HEAD
+=======
+
+>>>>>>> 34f461d5a64b34588d3efb81b7146ce778d049b1

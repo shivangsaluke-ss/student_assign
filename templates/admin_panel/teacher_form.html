@@ -1,11 +1,18 @@
+<<<<<<< HEAD
 {% extends 'app_base.html' %}
 {% load static %}
 
 {% block title %}{{ title }} | Admin SAMS{% endblock %}
+=======
+{% extends "app_base.html" %}
+
+{% block title %}{{ title }} - SAMS Admin{% endblock %}
+>>>>>>> 34f461d5a64b34588d3efb81b7146ce778d049b1
 {% block page_title %}{{ title }}{% endblock %}
 
 {% block content %}
 <div class="row justify-content-center">
+<<<<<<< HEAD
   <div class="col-lg-6 col-md-8">
     <div class="glass-card p-4 p-md-5">
       <div class="d-flex align-items-center gap-3 mb-4">
@@ -58,6 +65,70 @@
           </button>
         </div>
       </form>
+=======
+  <div class="col-md-8 col-lg-6">
+    <div class="card card-sams">
+      <div class="card-header-sams">
+        <div class="d-flex align-items-center gap-2">
+          <i class="bi bi-person-badge text-teal fs-5"></i>
+          <h5 class="mb-0 fw-bold">{{ title }}</h5>
+        </div>
+        <a href="{% url 'admin_teachers' %}" class="btn btn-sm btn-light border">
+          <i class="bi bi-arrow-left me-1"></i> Back to Faculty
+        </a>
+      </div>
+      <div class="card-body p-4">
+        <form method="POST" novalidate>
+          {% csrf_token %}
+
+          {% if form.non_field_errors %}
+            <div class="alert alert-danger small">
+              {{ form.non_field_errors }}
+            </div>
+          {% endif %}
+
+          <div class="mb-3">
+            <label class="form-label fw-semibold small text-muted">FULL NAME <span class="text-danger">*</span></label>
+            {{ form.teacher_name }}
+            {% if form.teacher_name.errors %}
+              <div class="text-danger small mt-1">{{ form.teacher_name.errors|first }}</div>
+            {% endif %}
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label fw-semibold small text-muted">OFFICIAL EMAIL ADDRESS <span class="text-danger">*</span></label>
+            {{ form.teacher_email }}
+            {% if form.teacher_email.errors %}
+              <div class="text-danger small mt-1">{{ form.teacher_email.errors|first }}</div>
+            {% endif %}
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label fw-semibold small text-muted">ACADEMIC DEPARTMENT <span class="text-danger">*</span></label>
+            {{ form.department }}
+            {% if form.department.errors %}
+              <div class="text-danger small mt-1">{{ form.department.errors|first }}</div>
+            {% endif %}
+          </div>
+
+          <div class="mb-4">
+            <label class="form-label fw-semibold small text-muted">LOGIN PASSWORD</label>
+            {{ form.password }}
+            {% if form.password.errors %}
+              <div class="text-danger small mt-1">{{ form.password.errors|first }}</div>
+            {% endif %}
+            <div class="form-text small text-muted">{{ form.password.help_text }}</div>
+          </div>
+
+          <div class="d-flex justify-content-end gap-2 pt-2 border-top">
+            <a href="{% url 'admin_teachers' %}" class="btn btn-light px-4 border">Cancel</a>
+            <button type="submit" class="btn btn-sams-primary px-4">
+              <i class="bi bi-check2-circle me-1"></i> Save Faculty Member
+            </button>
+          </div>
+        </form>
+      </div>
+>>>>>>> 34f461d5a64b34588d3efb81b7146ce778d049b1
     </div>
   </div>
 </div>

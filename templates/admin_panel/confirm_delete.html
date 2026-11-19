@@ -1,11 +1,18 @@
+<<<<<<< HEAD
 {% extends 'app_base.html' %}
 {% load static %}
 
 {% block title %}Confirm Delete | SAMS{% endblock %}
+=======
+{% extends "app_base.html" %}
+
+{% block title %}Confirm Delete - SAMS{% endblock %}
+>>>>>>> 34f461d5a64b34588d3efb81b7146ce778d049b1
 {% block page_title %}Confirm Deletion{% endblock %}
 
 {% block content %}
 <div class="row justify-content-center">
+<<<<<<< HEAD
   <div class="col-lg-5 col-md-7">
     <div class="glass-card p-4 p-md-5 text-center border-danger border-opacity-25">
       <div class="rounded-circle mx-auto d-flex align-items-center justify-content-center text-danger mb-3" style="width: 64px; height: 64px; background: rgba(225, 29, 72, 0.15); font-size: 1.75rem; border: 1px solid rgba(225, 29, 72, 0.3);">
@@ -25,6 +32,33 @@
           </button>
         </div>
       </form>
+=======
+  <div class="col-md-6 col-lg-5">
+    <div class="card card-sams border-danger mt-4">
+      <div class="card-body p-4 text-center">
+        <div class="mb-3">
+          <div class="rounded-circle bg-danger bg-opacity-10 text-danger d-inline-flex align-items-center justify-content-center" style="width: 64px; height: 64px;">
+            <i class="bi bi-exclamation-triangle-fill fs-2"></i>
+          </div>
+        </div>
+        <h4 class="fw-bold mb-2">Are you sure?</h4>
+        <p class="text-muted mb-4">
+          You are about to delete the {{ item_type|lower }}:<br>
+          <strong class="text-dark fs-5">{{ object_name }}</strong>
+        </p>
+        <div class="alert alert-warning text-start small mb-4">
+          <i class="bi bi-info-circle me-1"></i>
+          This action cannot be undone. Any related records or files will be permanently affected.
+        </div>
+        <form method="POST" class="d-flex justify-content-center gap-2">
+          {% csrf_token %}
+          <a href="{% url cancel_url %}" class="btn btn-light px-4 border">Cancel</a>
+          <button type="submit" class="btn btn-sams-danger px-4">
+            <i class="bi bi-trash3 me-1"></i> Yes, Delete
+          </button>
+        </form>
+      </div>
+>>>>>>> 34f461d5a64b34588d3efb81b7146ce778d049b1
     </div>
   </div>
 </div>

@@ -1,0 +1,764 @@
+/* ==========================================================================
+   SAMS: STUDENT ASSIGNMENT MANAGEMENT SYSTEM - DESIGN SYSTEM
+   Palette & Tokens
+   ========================================================================== */
+
+@font-face {
+  font-family: 'Grandstander';
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+  src: url('/static/fonts/Grandstander-900.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Inter';
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  src: url('/static/fonts/Inter.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Inter';
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+  src: url('/static/fonts/Inter.woff2') format('woff2');
+}
+
+:root {
+  --c-deep-teal: #0B3C49;
+  --c-teal: #0F766E;
+  --c-cyan: #0E7490;
+  --c-coral: #E5484D;
+  --c-amber: #D97706;
+  --c-green: #16A34A;
+  --c-mint-bg: #F2F8F7;
+  --c-ink: #1F2933;
+  --c-card-bg: #FFFFFF;
+  --c-border: #E2E8F0;
+  --c-muted: #64748B;
+  
+  --font-display: 'Grandstander', cursive, sans-serif;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  
+  --radius-card: 15px;
+  --radius-pill: 25px;
+  --shadow-card: 0 6px 18px rgba(11, 60, 73, 0.12);
+  --shadow-hover: 0 12px 28px rgba(11, 60, 73, 0.18);
+  --sidebar-width: 260px;
+}
+
+/* Base resets & typography */
+html, body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--c-mint-bg);
+  color: var(--c-ink);
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, .display-font {
+  font-family: var(--font-display);
+  color: var(--c-deep-teal);
+  letter-spacing: -0.02em;
+}
+
+/* App Header & Navbar for internal pages */
+.sams-navbar {
+  background: #ffffff;
+  border-bottom: 1px solid rgba(11, 60, 73, 0.08);
+  box-shadow: 0 2px 8px rgba(11, 60, 73, 0.04);
+}
+
+.sams-logo-text {
+  font-family: var(--font-display);
+  font-size: 26px;
+  color: var(--c-deep-teal);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sams-logo-text:hover {
+  color: var(--c-teal);
+}
+
+/* App Card styling */
+.card-sams {
+  background: var(--c-card-bg);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  border: 1px solid rgba(11, 60, 73, 0.06);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  overflow: hidden;
+}
+
+.card-sams:hover {
+  box-shadow: var(--shadow-hover);
+}
+
+.card-header-sams {
+  background: transparent;
+  border-bottom: 1px solid rgba(11, 60, 73, 0.08);
+  padding: 18px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Buttons */
+.btn-sams-primary {
+  background-color: var(--c-teal);
+  color: #ffffff;
+  border: none;
+  font-weight: 500;
+  border-radius: 8px;
+  padding: 8px 18px;
+  transition: all 0.2s ease;
+}
+
+.btn-sams-primary:hover, .btn-sams-primary:focus {
+  background-color: var(--c-deep-teal);
+  color: #ffffff;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(15, 118, 110, 0.25);
+}
+
+.btn-sams-outline {
+  border: 1.5px solid var(--c-teal);
+  color: var(--c-teal);
+  background: transparent;
+  font-weight: 500;
+  border-radius: 8px;
+  padding: 7px 16px;
+  transition: all 0.2s ease;
+}
+
+.btn-sams-outline:hover {
+  background-color: var(--c-teal);
+  color: #ffffff;
+}
+
+.btn-sams-danger {
+  background-color: var(--c-coral);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 16px;
+}
+
+.btn-sams-danger:hover {
+  background-color: #c93b40;
+  color: white;
+}
+
+/* Status Badges */
+.badge-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.badge-pending {
+  background-color: #FEF3C7;
+  color: #92400E;
+  border: 1px solid #FCD34D;
+}
+
+.badge-submitted {
+  background-color: #E0F2FE;
+  color: #0369A1;
+  border: 1px solid #7DD3FC;
+}
+
+.badge-late {
+  background-color: #FEE2E2;
+  color: #991B1B;
+  border: 1px solid #FCA5A5;
+}
+
+.badge-evaluated {
+  background-color: #CCFBF1;
+  color: #0F766E;
+  border: 1px solid #5EEAD4;
+}
+
+.badge-returned {
+  background-color: #DCFCE7;
+  color: #15803D;
+  border: 1px solid #86EFAC;
+}
+
+/* App Dashboard Layout with Sidebar */
+.app-container {
+  display: flex;
+  min-height: 100vh;
+}
+
+.sidebar {
+  width: var(--sidebar-width);
+  background: #ffffff;
+  border-right: 1px solid rgba(11, 60, 73, 0.08);
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  z-index: 100;
+}
+
+.sidebar-header {
+  padding: 24px;
+  border-bottom: 1px solid rgba(11, 60, 73, 0.08);
+}
+
+.sidebar-menu {
+  list-style: none;
+  padding: 16px 12px;
+  margin: 0;
+  flex: 1;
+  overflow-y: auto;
+}
+
+.sidebar-item {
+  margin-bottom: 4px;
+}
+
+.sidebar-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px;
+  border-radius: 10px;
+  color: var(--c-ink);
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.sidebar-link i, .sidebar-link svg {
+  width: 20px;
+  height: 20px;
+  color: var(--c-muted);
+  transition: color 0.2s ease;
+}
+
+.sidebar-link:hover {
+  background: rgba(15, 118, 110, 0.08);
+  color: var(--c-teal);
+}
+
+.sidebar-link:hover i, .sidebar-link:hover svg {
+  color: var(--c-teal);
+}
+
+.sidebar-link.active {
+  background: var(--c-deep-teal);
+  color: #ffffff;
+}
+
+.sidebar-link.active i, .sidebar-link.active svg {
+  color: #ffffff;
+}
+
+.sidebar-footer {
+  padding: 16px;
+  border-top: 1px solid rgba(11, 60, 73, 0.08);
+  background: rgba(242, 248, 247, 0.6);
+}
+
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  background-color: var(--c-mint-bg);
+}
+
+.topbar {
+  height: 70px;
+  background: #ffffff;
+  border-bottom: 1px solid rgba(11, 60, 73, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 32px;
+}
+
+.content-body {
+  padding: 32px;
+  flex: 1;
+}
+
+/* Stat Cards */
+.stat-card {
+  padding: 24px;
+  border-radius: var(--radius-card);
+  background: #ffffff;
+  box-shadow: var(--shadow-card);
+  border: 1px solid rgba(11, 60, 73, 0.06);
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  transition: transform 0.2s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-3px);
+}
+
+.stat-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+}
+
+.stat-icon.primary { background: rgba(15, 118, 110, 0.12); color: var(--c-teal); }
+.stat-icon.warning { background: rgba(217, 119, 6, 0.12); color: var(--c-amber); }
+.stat-icon.danger { background: rgba(229, 72, 77, 0.12); color: var(--c-coral); }
+.stat-icon.info { background: rgba(14, 116, 144, 0.12); color: var(--c-cyan); }
+.stat-icon.success { background: rgba(22, 163, 74, 0.12); color: var(--c-green); }
+
+.stat-value {
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--c-deep-teal);
+  line-height: 1;
+}
+
+.stat-label {
+  font-size: 13px;
+  color: var(--c-muted);
+  margin-top: 4px;
+  font-weight: 500;
+}
+
+/* Notification Popover */
+.notification-bell {
+  position: relative;
+  cursor: pointer;
+  background: rgba(11, 60, 73, 0.05);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s ease;
+}
+
+.notification-bell:hover {
+  background: rgba(11, 60, 73, 0.1);
+}
+
+.badge-unread {
+  position: absolute;
+  top: -3px;
+  right: -3px;
+  background-color: var(--c-coral);
+  color: white;
+  font-size: 11px;
+  padding: 2px 6px;
+  border-radius: 10px;
+  font-weight: bold;
+}
+
+/* Focus rings & accessibility */
+a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible {
+  outline: 3px solid var(--c-teal) !important;
+  outline-offset: 2px !important;
+}
+
+/* Responsive sidebar */
+@media (max-width: 991px) {
+  .sidebar {
+    position: fixed;
+    left: -260px;
+    transition: left 0.3s ease;
+  }
+  .sidebar.show {
+    left: 0;
+  }
+  .content-body {
+    padding: 20px;
+  }
+  .topbar {
+    padding: 0 16px;
+  }
+}
+
+/* ==========================================================================
+   FACULTY / TEACHER PORTAL DISTINCT THEME
+   Royal Indigo / Slate Palette for Teacher Workspace
+   ========================================================================== */
+
+.teacher-portal {
+  --c-teacher-primary: #4F46E5;
+  --c-teacher-dark: #3730A3;
+  --c-teacher-deep: #1E1B4B;
+  --c-teacher-light: #EEF2FF;
+  --c-teacher-border: #C7D2FE;
+  background-color: #F8FAFC;
+}
+
+.teacher-portal .sidebar {
+  border-right: 1px solid rgba(79, 70, 229, 0.12);
+  background: #FFFFFF;
+}
+
+.teacher-portal .sidebar-header {
+  border-bottom: 1px solid rgba(79, 70, 229, 0.12);
+}
+
+.teacher-portal .sams-logo-text {
+  color: var(--c-teacher-deep);
+}
+
+.teacher-portal .sams-logo-text:hover {
+  color: var(--c-teacher-primary);
+}
+
+.teacher-portal .sidebar-link {
+  color: #334155;
+}
+
+.teacher-portal .sidebar-link:hover {
+  background: rgba(79, 70, 229, 0.08);
+  color: var(--c-teacher-primary);
+}
+
+.teacher-portal .sidebar-link.active {
+  background: rgba(79, 70, 229, 0.12);
+  color: var(--c-teacher-primary);
+  font-weight: 600;
+}
+
+.teacher-portal .sidebar-link.active i {
+  color: var(--c-teacher-primary);
+}
+
+.teacher-portal .btn-sams-primary {
+  background-color: var(--c-teacher-primary);
+  border: none;
+}
+
+.teacher-portal .btn-sams-primary:hover,
+.teacher-portal .btn-sams-primary:focus {
+  background-color: var(--c-teacher-dark);
+  box-shadow: 0 4px 14px rgba(79, 70, 229, 0.28);
+}
+
+.teacher-portal .btn-sams-outline {
+  border: 1.5px solid var(--c-teacher-primary);
+  color: var(--c-teacher-primary);
+}
+
+.teacher-portal .btn-sams-outline:hover {
+  background-color: var(--c-teacher-primary);
+  color: #ffffff;
+}
+
+.teacher-portal .text-teal {
+  color: var(--c-teacher-primary) !important;
+}
+
+.teacher-portal .bg-teal {
+  background-color: var(--c-teacher-primary) !important;
+}
+
+.teacher-portal .border-teal-subtle {
+  border-color: var(--c-teacher-border) !important;
+}
+
+.teacher-portal .badge-faculty {
+  background-color: #EEF2FF;
+  color: #4338CA;
+  border: 1px solid #C7D2FE;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.teacher-portal .badge-filter-pill {
+  border-radius: 20px;
+  padding: 6px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid #E2E8F0;
+  color: #475569;
+  background: #FFFFFF;
+}
+
+.teacher-portal .badge-filter-pill:hover {
+  border-color: var(--c-teacher-primary);
+  color: var(--c-teacher-primary);
+  background: #EEF2FF;
+}
+
+.teacher-portal .badge-filter-pill.active {
+  background: var(--c-teacher-primary);
+  color: #FFFFFF;
+  border-color: var(--c-teacher-primary);
+  font-weight: 600;
+}
+
+/* ==========================================================================
+   ADMINISTRATOR PORTAL DISTINCT THEME
+   Midnight Slate / Deep Charcoal with Gold & Amber Accents
+   ========================================================================== */
+
+.admin-portal {
+  --c-admin-bg: #0F172A;
+  --c-admin-card-header: #1E293B;
+  --c-admin-gold: #F59E0B;
+  --c-admin-gold-hover: #D97706;
+  background-color: #F8FAFC;
+}
+
+.admin-portal .sidebar {
+  background: #0F172A;
+  border-right: 1px solid #1E293B;
+  color: #F8FAFC;
+}
+
+.admin-portal .sidebar-header {
+  background: #090E17;
+  border-bottom: 1px solid #1E293B;
+}
+
+.admin-portal .logo-admin-text {
+  color: #FFFFFF;
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.admin-portal .badge-admin-header {
+  background: rgba(245, 158, 11, 0.15);
+  color: #F59E0B;
+  border: 1px solid rgba(245, 158, 11, 0.4);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  padding: 3px 8px;
+  border-radius: 6px;
+}
+
+.admin-portal .sidebar-menu {
+  background: #0F172A;
+}
+
+.admin-portal .sidebar-link {
+  color: #94A3B8;
+  font-weight: 500;
+  border-radius: 8px;
+  margin-bottom: 3px;
+}
+
+.admin-portal .sidebar-link i {
+  color: #64748B;
+}
+
+.admin-portal .sidebar-link:hover {
+  background: rgba(255, 255, 255, 0.07);
+  color: #F8FAFC;
+}
+
+.admin-portal .sidebar-link:hover i {
+  color: #F59E0B;
+}
+
+.admin-portal .sidebar-link.active {
+  background: #1E293B;
+  color: #F59E0B;
+  font-weight: 700;
+  box-shadow: inset 4px 0 0 #F59E0B;
+}
+
+.admin-portal .sidebar-link.active i {
+  color: #F59E0B;
+}
+
+.admin-portal .sidebar-footer {
+  background: #090E17;
+  border-top: 1px solid #1E293B;
+}
+
+.admin-portal .sidebar-footer .small,
+.admin-portal .sidebar-footer .text-truncate div {
+  color: #F8FAFC !important;
+}
+
+.admin-portal .sidebar-footer .text-muted {
+  color: #94A3B8 !important;
+}
+
+.admin-portal .btn-sams-primary {
+  background-color: #0F172A;
+  color: #FFFFFF;
+  border: 1px solid #334155;
+}
+
+.admin-portal .btn-sams-primary:hover {
+  background-color: #1E293B;
+  color: #FFFFFF;
+  border-color: #475569;
+}
+
+.admin-portal .role-switch-btn {
+  background: #0F172A;
+  color: #F8FAFC;
+  border: 1px solid #334155;
+  font-weight: 600;
+}
+
+.admin-portal .role-current-badge {
+  background: #F59E0B;
+  color: #000000;
+  font-weight: 700;
+}
+
+/* ==========================================================================
+   STUDENT HUB DISTINCT THEME
+   Fresh Teal & Mint Palette for Student Workspace
+   ========================================================================== */
+
+.student-portal {
+  --c-student-primary: #0F766E;
+  --c-student-deep: #0B3C49;
+  --c-student-light: #F2F8F7;
+  --c-student-accent: #0E7490;
+  background-color: #F2F8F7;
+}
+
+.student-portal .sidebar {
+  background: #FFFFFF;
+  border-right: 1px solid rgba(15, 118, 110, 0.12);
+}
+
+.student-portal .sidebar-header {
+  background: #F8FCFA;
+  border-bottom: 1px solid rgba(15, 118, 110, 0.12);
+}
+
+.student-portal .logo-student-text {
+  color: #0B3C49;
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.student-portal .badge-student-header {
+  background: #ECFEFF;
+  color: #0E7490;
+  border: 1px solid #A5F3FC;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  padding: 3px 8px;
+  border-radius: 6px;
+}
+
+.student-portal .sidebar-link {
+  color: #1F2933;
+  font-weight: 500;
+}
+
+.student-portal .sidebar-link i {
+  color: #0F766E;
+}
+
+.student-portal .sidebar-link:hover {
+  background: rgba(15, 118, 110, 0.08);
+  color: #0F766E;
+}
+
+.student-portal .sidebar-link.active {
+  background: rgba(15, 118, 110, 0.12);
+  color: #0F766E;
+  font-weight: 700;
+  box-shadow: inset 4px 0 0 #0F766E;
+}
+
+.student-portal .sidebar-link.active i {
+  color: #0F766E;
+}
+
+.student-portal .sidebar-footer {
+  background: #F8FCFA;
+  border-top: 1px solid rgba(15, 118, 110, 0.12);
+}
+
+.student-portal .btn-sams-primary {
+  background-color: #0F766E;
+  color: #FFFFFF;
+}
+
+.student-portal .btn-sams-primary:hover {
+  background-color: #0B3C49;
+  color: #FFFFFF;
+}
+
+.student-portal .role-switch-btn {
+  background: #ECFEFF;
+  color: #0E7490;
+  border: 1px solid #A5F3FC;
+  font-weight: 600;
+}
+
+.student-portal .role-current-badge {
+  background: #0E7490;
+  color: #FFFFFF;
+  font-weight: 700;
+}
+
+/* ==========================================================================
+   ROLE SWITCHER COMMON STYLES
+   ========================================================================== */
+
+.role-switch-btn {
+  border-radius: 20px;
+  padding: 5px 12px;
+  font-size: 13px;
+  display: inline-flex;
+  align-items: center;
+  transition: all 0.2s ease;
+}
+
+.role-switch-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+}
+
+.role-current-badge {
+  font-size: 10px;
+  padding: 3px 6px;
+  border-radius: 4px;
+}
+
+.active-role {
+  background-color: rgba(0,0,0,0.04);
+  font-weight: 600;
+}
+
+

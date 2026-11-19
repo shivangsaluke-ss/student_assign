@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import os
 from datetime import timedelta
 from django.test import TestCase, Client
@@ -145,3 +146,8 @@ class SAMSTests(TestCase):
 
         sub.refresh_from_db()
         self.assertEqual(sub.status, 'Returned')
+=======
+from django.test import TestCase
+
+# Create your tests here.
+>>>>>>> 34f461d5a64b34588d3efb81b7146ce778d049b1

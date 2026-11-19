@@ -1,0 +1,140 @@
+{% extends "app_base.html" %}
+
+{% block title %}Marks &amp; Feedback - SAMS Student{% endblock %}
+{% block page_title %}Academic Marks &amp; Faculty Feedback{% endblock %}
+
+{% block content %}
+<div class="container-fluid px-0">
+  <!-- Header Bar -->
+  <div class="card card-sams p-4 mb-4" style="background: linear-gradient(135deg, rgba(22,163,74,0.08) 0%, rgba(15,118,110,0.06) 100%); border-left: 4px solid var(--c-green);">
+    <div class="d-flex flex-wrap align-items-center justify-content-between gap-3">
+      <div>
+        <h4 class="fw-bold mb-1 display-font text-dark">Marks &amp; Performance Gradebook</h4>
+        <p class="text-muted mb-0 small">Review verified grades, teacher remarks, and cumulative performance across all semester coursework.</p>
+      </div>
+      <a href="{% url 'student_assignments' %}" class="btn btn-sams-outline btn-sm">
+        <i class="bi bi-file-earmark-arrow-up me-1"></i> View Assignments
+      </a>
+    </div>
+  </div>
+
+  <!-- Performance Summary Cards -->
+  <div class="row g-3 mb-4">
+    <div class="col-sm-6 col-xl-4">
+      <div class="card card-sams h-100 p-4">
+        <div class="d-flex align-items-center justify-content-between">
+          <div>
+            <span class="text-muted text-uppercase fw-semibold" style="font-size: 11px; letter-spacing: 0.05em;">Total Marks Scored</span>
+            <div class="display-font fs-2 fw-bold text-dark my-1">
+              {{ total_marks_obtained }} <span class="fs-5 text-muted">/ {{ total_possible_marks }}</span>
+            </div>
+            <span class="text-muted small">Across all graded assignments</span>
+          </div>
+          <div class="rounded-4 d-flex align-items-center justify-content-center" style="width: 54px; height: 54px; background: rgba(15, 118, 110, 0.1); color: var(--c-teal);">
+            <i class="bi bi-award fs-2"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-sm-6 col-xl-4">
+      <div class="card card-sams h-100 p-4">
+        <div class="d-flex align-items-center justify-content-between">
+          <div>
+            <span class="text-muted text-uppercase fw-semibold" style="font-size: 11px; letter-spacing: 0.05em;">Cumulative Percentage</span>
+            <div class="display-font fs-2 fw-bold text-success my-1">
+              {{ overall_percentage }}%
+            </div>
+            <div class="progress mt-2" style="height: 6px; width: 140px;">
+              <div class="progress-bar bg-success" role="progressbar" style="width: {{ overall_percentage }}%;" aria-valuenow="{{ overall_percentage }}" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+          </div>
+          <div class="rounded-4 d-flex align-items-center justify-content-center" style="width: 54px; height: 54px; background: rgba(22, 163, 74, 0.1); color: var(--c-green);">
+            <i class="bi bi-graph-up-arrow fs-2"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-sm-12 col-xl-4">
+      <div class="card card-sams h-100 p-4">
+        <div class="d-flex align-items-center justify-content-between">
+          <div>
+            <span class="text-muted text-uppercase fw-semibold" style="font-size: 11px; letter-spacing: 0.05em;">Evaluated Submissions</span>
+            <div class="display-font fs-2 fw-bold text-dark my-1">{{ evaluations.count }}</div>
+            <span class="text-muted small">Graded by course faculties</span>
+          </div>
+          <div class="rounded-4 d-flex align-items-center justify-content-center" style="width: 54px; height: 54px; background: rgba(14, 116, 144, 0.1); color: var(--c-cyan);">
+            <i class="bi bi-check-circle fs-2"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Detailed Evaluations Roster -->
+  <div class="card card-sams">
+    <div class="card-header-sams">
+      <div class="d-flex align-items-center gap-2">
+        <i class="bi bi-card-checklist text-teal fs-5"></i>
+        <h6 class="mb-0 fw-bold">Detailed Course Evaluations ({{ evaluations.count }})</h6>
+      </div>
+    </div>
+    <div class="card-body p-0">
+      {% if evaluations %}
+        <div class="table-responsive">
+          <table class="table table-hover align-middle mb-0">
+            <thead class="table-light small text-uppercase">
+              <tr>
+                <th class="ps-4">Course &amp; Assignment</th>
+                <th>Graded Date</th>
+                <th>Marks Scored</th>
+                <th>Faculty Feedback</th>
+                <th class="text-end pe-4">Submission Details</th>
+              </tr>
+            </thead>
+            <tbody class="small">
+              {% for e in evaluations %}
+                <tr>
+                  <td class="ps-4 py-3">
+                    <span class="badge bg-teal bg-opacity-10 text-teal border border-teal-subtle mb-1" style="font-size: 11px;">
+                      {{ e.submission_id.assignment_id.course_id.course_name }}
+                    </span>
+                    <div class="fw-bold fs-6 text-dark">{{ e.submission_id.assignment_id.title }}</div>
+                    <span class="text-muted" style="font-size: 11px;">Max Allowed: {{ e.submission_id.assignment_id.max_marks }} Marks</span>
+                  </td>
+                  <td>
+                    <div class="text-dark fw-semibold">{{ e.evaluated_on|date:"d M Y" }}</div>
+                  </td>
+                  <td>
+                    <span class="badge bg-success bg-opacity-10 text-success border border-success-subtle fw-bold fs-6 px-3 py-1">
+                      {{ e.marks }} / {{ e.submission_id.assignment_id.max_marks }}
+                    </span>
+                  </td>
+                  <td style="max-width: 300px;">
+                    <div class="p-2 rounded bg-light border text-muted fst-italic">
+                      "{{ e.feedback }}"
+                    </div>
+                  </td>
+                  <td class="text-end pe-4">
+                    <a href="{% url 'student_submission_view' e.submission_id.submission_id %}" class="btn btn-sm btn-light border">
+                      <i class="bi bi-eye me-1"></i> View
+                    </a>
+                  </td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      {% else %}
+        <div class="p-5 text-center text-muted">
+          <i class="bi bi-award fs-1 text-muted d-block mb-3"></i>
+          <h5 class="fw-bold text-dark">No Evaluated Assignments Yet</h5>
+          <p class="small mb-0">Once your teachers evaluate your submitted homework, marks and personalized feedback will appear here.</p>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}
+

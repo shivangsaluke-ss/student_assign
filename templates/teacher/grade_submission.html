@@ -1,0 +1,105 @@
+{% extends "app_base.html" %}
+
+{% block title %}Evaluate Submission - SAMS Faculty{% endblock %}
+{% block page_title %}Grade Student Submission{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-9 col-lg-7">
+    <!-- Student & Assignment Context Card -->
+    <div class="card card-sams p-4 mb-4">
+      <div class="d-flex justify-content-between align-items-start mb-3">
+        <div>
+          <span class="badge bg-teal bg-opacity-10 text-teal border border-teal-subtle px-2 py-1 mb-2">
+            {{ submission.assignment_id.course_id.course_name }}
+          </span>
+          <h4 class="fw-bold text-dark mb-1">{{ submission.assignment_id.title }}</h4>
+          <p class="text-muted small mb-0">Max Score Allowed: <strong>{{ submission.assignment_id.max_marks }} Marks</strong></p>
+        </div>
+        <span class="badge-status {{ submission.status_badge_class }}">
+          {{ submission.status }}
+        </span>
+      </div>
+
+      <div class="row g-2 p-3 bg-light rounded-3 small">
+        <div class="col-sm-6">
+          <div class="text-muted">Student Name:</div>
+          <div class="fw-bold text-dark">{{ submission.student_id.student_name }}</div>
+          <div class="font-monospace text-muted" style="font-size: 11px;">Roll: {{ submission.student_id.roll_no }}</div>
+        </div>
+        <div class="col-sm-6">
+          <div class="text-muted">Submission Date:</div>
+          <div class="fw-bold text-dark">{{ submission.submitted_at|date:"d M Y, h:i A" }}</div>
+          <div class="{% if submission.is_late %}text-danger{% else %}text-success{% endif %} fw-semibold" style="font-size: 11px;">
+            {% if submission.is_late %}Late Submission{% else %}Submitted Before Deadline{% endif %}
+          </div>
+        </div>
+      </div>
+
+      <!-- File Download Action -->
+      <div class="d-flex align-items-center justify-content-between mt-3 pt-3 border-top">
+        <div class="d-flex align-items-center gap-2 text-truncate">
+          <i class="bi bi-file-earmark-arrow-down fs-4 text-teal"></i>
+          <span class="text-truncate fw-medium small">{{ submission.filename }}</span>
+        </div>
+        <a href="{% url 'download_file' 'submission' submission.submission_id %}" class="btn btn-sams-primary btn-sm flex-shrink-0">
+          <i class="bi bi-download me-1"></i> Download Solution File
+        </a>
+      </div>
+    </div>
+
+    <!-- Evaluation Form Card -->
+    <div class="card card-sams">
+      <div class="card-header-sams">
+        <div class="d-flex align-items-center gap-2">
+          <i class="bi bi-award text-teal fs-5"></i>
+          <h5 class="mb-0 fw-bold">Evaluation &amp; Feedback Scoring</h5>
+        </div>
+      </div>
+      <div class="card-body p-4">
+        <form method="POST" novalidate>
+          {% csrf_token %}
+
+          {% if form.non_field_errors %}
+            <div class="alert alert-danger small">{{ form.non_field_errors }}</div>
+          {% endif %}
+
+          <div class="mb-3">
+            <label class="form-label fw-semibold small text-muted">
+              MARKS AWARDED (0 to {{ submission.assignment_id.max_marks }}) <span class="text-danger">*</span>
+            </label>
+            <div class="input-group">
+              {{ form.marks }}
+              <span class="input-group-text bg-light fw-bold text-muted">/ {{ submission.assignment_id.max_marks }}</span>
+            </div>
+            {% if form.marks.errors %}
+              <div class="text-danger small mt-1">{{ form.marks.errors|first }}</div>
+            {% endif %}
+            <div class="form-text small text-muted">{{ form.marks.help_text }}</div>
+          </div>
+
+          <div class="mb-4">
+            <label class="form-label fw-semibold small text-muted">
+              QUALITATIVE FEEDBACK &amp; COMMENTS <span class="text-danger">*</span>
+            </label>
+            {{ form.feedback }}
+            {% if form.feedback.errors %}
+              <div class="text-danger small mt-1">{{ form.feedback.errors|first }}</div>
+            {% endif %}
+            <div class="form-text small text-muted">Max 250 characters. Provide constructive remarks to guide student learning.</div>
+          </div>
+
+          <div class="d-flex justify-content-end gap-2 pt-2 border-top">
+            <a href="{% url 'teacher_assignment_submissions' submission.assignment_id.assignment_id %}" class="btn btn-light px-4 border">
+              Cancel
+            </a>
+            <button type="submit" class="btn btn-sams-primary px-4">
+              <i class="bi bi-check2-circle me-1"></i> Submit Evaluation
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

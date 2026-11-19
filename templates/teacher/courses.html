@@ -1,0 +1,86 @@
+{% extends "app_base.html" %}
+
+{% block title %}My Courses - SAMS Faculty{% endblock %}
+{% block page_title %}Teaching Curriculum &amp; Subjects{% endblock %}
+
+{% block content %}
+<div class="container-fluid px-0">
+  <!-- Header Bar -->
+  <div class="card card-sams p-4 mb-4" style="background: linear-gradient(135deg, rgba(79,70,229,0.08) 0%, rgba(67,56,202,0.04) 100%); border-left: 4px solid var(--c-teacher-primary);">
+    <div class="d-flex flex-wrap align-items-center justify-content-between gap-3">
+      <div>
+        <h4 class="fw-bold mb-1 display-font text-dark">My Assigned Courses ({{ courses.count }})</h4>
+        <p class="text-muted mb-0 small">Each course has its own isolated workspace for managing tasks, reviewing student submissions, and grading.</p>
+      </div>
+      <a href="{% url 'teacher_assignment_add' %}" class="btn btn-sams-primary">
+        <i class="bi bi-plus-circle me-1"></i> Create Assignment
+      </a>
+    </div>
+  </div>
+
+  <div class="row g-4">
+    {% if courses %}
+      {% for c in courses %}
+        <div class="col-md-6 col-xl-4">
+          <div class="card card-sams h-100 p-4 d-flex flex-column justify-content-between shadow-sm">
+            <div>
+              <div class="d-flex justify-content-between align-items-start mb-3">
+                <span class="badge bg-teal bg-opacity-10 text-teal border border-teal-subtle px-2 py-1">
+                  Semester {{ c.semester }}
+                </span>
+                <span class="text-muted font-monospace small">#CRS-{{ c.course_id }}</span>
+              </div>
+              <h5 class="fw-bold text-dark mb-1">{{ c.course_name }}</h5>
+              <p class="text-muted small mb-3">
+                <i class="bi bi-building me-1"></i> Department of {{ c.teacher_id.department }}
+              </p>
+            </div>
+
+            <div>
+              <!-- Course Specific Statistics -->
+              <div class="row g-2 py-3 border-top border-bottom mb-3 text-center bg-light rounded-2">
+                <div class="col-6 border-end">
+                  <div class="fw-bold fs-4 text-dark">{{ c.student_count }}</div>
+                  <div class="text-muted small" style="font-size: 11px;">Enrolled Students</div>
+                </div>
+                <div class="col-6">
+                  <div class="fw-bold fs-4 text-dark">{{ c.assignment_count }}</div>
+                  <div class="text-muted small" style="font-size: 11px;">Active Tasks</div>
+                </div>
+              </div>
+
+              <!-- Course-Specific Separated Action Buttons -->
+              <div class="d-grid gap-2">
+                <div class="d-flex gap-2">
+                  <a href="{% url 'teacher_assignments' %}?course={{ c.course_id }}" class="btn btn-sm btn-light border flex-grow-1" title="View only assignments of this course">
+                    <i class="bi bi-folder2 me-1 text-teal"></i> Course Tasks ({{ c.assignment_count }})
+                  </a>
+                  <a href="{% url 'teacher_submissions' %}?course={{ c.course_id }}" class="btn btn-sm btn-light border flex-grow-1" title="View only submissions for this course">
+                    <i class="bi bi-file-earmark-check me-1 text-teal"></i> Submissions
+                  </a>
+                </div>
+                <div class="d-flex gap-2">
+                  <a href="{% url 'teacher_students' %}?course={{ c.course_id }}" class="btn btn-sm btn-light border flex-grow-1" title="View students enrolled in this course">
+                    <i class="bi bi-people me-1 text-teal"></i> Students ({{ c.student_count }})
+                  </a>
+                  <a href="{% url 'teacher_assignment_add' %}?course={{ c.course_id }}" class="btn btn-sm btn-sams-primary flex-grow-1" title="Add a task specifically for this course">
+                    <i class="bi bi-plus-lg me-1"></i> + New Task
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    {% else %}
+      <div class="col-12 text-center py-5">
+        <div class="card card-sams p-5">
+          <i class="bi bi-journal-x fs-1 text-muted d-block mb-3"></i>
+          <h5 class="fw-bold text-dark">No Courses Assigned</h5>
+          <p class="text-muted small mb-0">The system administrator has not mapped any courses to your faculty profile yet.</p>
+        </div>
+      </div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

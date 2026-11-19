@@ -1,0 +1,179 @@
+{% extends "app_base.html" %}
+
+{% block title %}Manage Assignments - SAMS Faculty{% endblock %}
+{% block page_title %}Faculty Course Assignments{% endblock %}
+
+{% block content %}
+<div class="container-fluid px-0">
+  <!-- Header Bar -->
+  <div class="card card-sams p-4 mb-4" style="background: linear-gradient(135deg, rgba(79,70,229,0.08) 0%, rgba(67,56,202,0.04) 100%); border-left: 4px solid var(--c-teacher-primary);">
+    <div class="d-flex flex-wrap align-items-center justify-content-between gap-3">
+      <div>
+        <h4 class="fw-bold mb-1 display-font text-dark">Coursework Tasks Directory</h4>
+        <p class="text-muted mb-0 small">Create task prompts, upload reference materials, configure strict deadlines, and review student submission rosters.</p>
+      </div>
+      <div class="d-flex gap-2">
+        <a href="{% url 'teacher_assignment_add' %}{% if selected_course_id %}?course={{ selected_course_id }}{% endif %}" class="btn btn-sams-primary">
+          <i class="bi bi-plus-circle me-1"></i> Create New Assignment
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Course Tabs (Separates Course-wise Tasks!) -->
+  <div class="d-flex flex-wrap align-items-center gap-2 mb-3">
+    <span class="fw-bold small text-muted text-uppercase me-2" style="font-size: 11px;">Subject Filter:</span>
+    <a href="?{% if search_q %}q={{ search_q }}{% endif %}"
+       class="badge-filter-pill {% if not selected_course_id %}active{% endif %}">
+      <i class="bi bi-grid-fill"></i> All Subjects ({{ total_count }})
+    </a>
+    {% for c in courses %}
+      <a href="?course={{ c.course_id }}{% if search_q %}&q={{ search_q }}{% endif %}"
+         class="badge-filter-pill {% if selected_course_id == c.course_id|stringformat:'s' %}active{% endif %}">
+        <i class="bi bi-book"></i> {{ c.course_name }} (Sem {{ c.semester }})
+      </a>
+    {% endfor %}
+  </div>
+
+  <!-- Search Bar -->
+  <div class="card card-sams p-3 mb-4">
+    <form method="GET" class="row g-2 align-items-center justify-content-between">
+      {% if selected_course_id %}
+        <input type="hidden" name="course" value="{{ selected_course_id }}">
+      {% endif %}
+      <div class="col-md-6">
+        <div class="input-group">
+          <span class="input-group-text bg-white border-end-0"><i class="bi bi-search text-muted"></i></span>
+          <input type="text" name="q" value="{{ search_q }}" class="form-control border-start-0" placeholder="Search assignment title or description...">
+        </div>
+      </div>
+      <div class="col-md-3 d-flex gap-2">
+        <button type="submit" class="btn btn-sams-primary w-100">
+          <i class="bi bi-search me-1"></i> Filter Tasks
+        </button>
+        {% if search_q or selected_course_id %}
+          <a href="{% url 'teacher_assignments' %}" class="btn btn-light border">Reset</a>
+        {% endif %}
+      </div>
+    </form>
+  </div>
+
+  <!-- Assignments Table Card -->
+  <div class="card card-sams">
+    <div class="card-header-sams">
+      <div class="d-flex align-items-center gap-2">
+        <i class="bi bi-folder2-open text-teal fs-5"></i>
+        <h6 class="mb-0 fw-bold">Published Tasks ({{ page_obj.paginator.count }})</h6>
+      </div>
+    </div>
+    <div class="table-responsive">
+      <table class="table table-hover align-middle mb-0">
+        <thead class="table-light small text-uppercase">
+          <tr>
+            <th class="ps-4">Assignment</th>
+            <th>Course</th>
+            <th>Deadline</th>
+            <th>Max Marks</th>
+            <th>Submissions</th>
+            <th>Attached Brief</th>
+            <th class="text-end pe-4">Actions</th>
+          </tr>
+        </thead>
+        <tbody class="small">
+          {% if page_obj %}
+            {% for a in page_obj %}
+              <tr>
+                <td class="ps-4 py-3">
+                  <div class="fw-bold text-dark fs-6">{{ a.title }}</div>
+                  <div class="text-muted text-truncate" style="max-width: 280px;">{{ a.description|truncatewords:10 }}</div>
+                </td>
+                <td>
+                  <span class="badge bg-light text-dark border mb-1">
+                    {{ a.course_id.course_name }}
+                  </span>
+                  <div class="text-muted" style="font-size: 11px;">Semester {{ a.course_id.semester }}</div>
+                </td>
+                <td>
+                  <div class="fw-semibold {% if a.is_past_due %}text-danger{% else %}text-dark{% endif %}">
+                    {{ a.due_date|date:"d M Y" }}
+                  </div>
+                  <div class="text-muted" style="font-size: 11px;">{{ a.due_date|date:"h:i A" }}</div>
+                  {% if a.is_past_due %}
+                    <span class="badge bg-danger bg-opacity-10 text-danger border border-danger-subtle mt-1" style="font-size: 10px;">Submission Closed</span>
+                  {% else %}
+                    <span class="badge bg-success bg-opacity-10 text-success border border-success-subtle mt-1" style="font-size: 10px;">Open</span>
+                  {% endif %}
+                </td>
+                <td>
+                  <span class="badge bg-light text-dark border fw-bold fs-6">{{ a.max_marks }} M</span>
+                </td>
+                <td>
+                  <a href="{% url 'teacher_assignment_submissions' a.assignment_id %}" class="btn btn-sm btn-teal text-teal border border-teal-subtle bg-teal-subtle text-decoration-none">
+                    <i class="bi bi-people-fill me-1"></i> {{ a.submission_count }} Turned In
+                  </a>
+                </td>
+                <td>
+                  {% if a.file_path %}
+                    <a href="{% url 'download_file' 'assignment' a.assignment_id %}" class="btn btn-sm btn-light border" title="Download brief file">
+                      <i class="bi bi-paperclip me-1 text-teal"></i> Download
+                    </a>
+                  {% else %}
+                    <span class="text-muted small">&mdash;</span>
+                  {% endif %}
+                </td>
+                <td class="text-end pe-4">
+                  <div class="btn-group btn-group-sm">
+                    <a href="{% url 'teacher_assignment_submissions' a.assignment_id %}" class="btn btn-light border" title="View Student Submission Roster & Grade">
+                      <i class="bi bi-eye"></i> Roster
+                    </a>
+                    <a href="{% url 'teacher_assignment_edit' a.assignment_id %}" class="btn btn-light border" title="Edit Assignment">
+                      <i class="bi bi-pencil"></i>
+                    </a>
+                    <a href="{% url 'teacher_assignment_delete' a.assignment_id %}" class="btn btn-light border text-danger" title="Delete Assignment">
+                      <i class="bi bi-trash3"></i>
+                    </a>
+                  </div>
+                </td>
+              </tr>
+            {% endfor %}
+          {% else %}
+            <tr>
+              <td colspan="7" class="text-center py-5 text-muted">
+                <i class="bi bi-folder-x fs-1 d-block mb-2"></i>
+                <h6 class="fw-bold text-dark">No Assignments Found</h6>
+                <p class="small mb-0">No tasks found matching your filter. Click "+ Create New Assignment" to publish a task.</p>
+              </td>
+            </tr>
+          {% endif %}
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Pagination -->
+    {% if page_obj.has_other_pages %}
+      <div class="card-footer bg-white border-top p-3 d-flex justify-content-between align-items-center">
+        <span class="small text-muted">
+          Showing page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+        </span>
+        <ul class="pagination pagination-sm mb-0">
+          {% if page_obj.has_previous %}
+            <li class="page-item">
+              <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if selected_course_id %}&course={{ selected_course_id }}{% endif %}{% if search_q %}&q={{ search_q }}{% endif %}">&laquo;</a>
+            </li>
+          {% endif %}
+          {% for p in page_obj.paginator.page_range %}
+            <li class="page-item {% if p == page_obj.number %}active{% endif %}">
+              <a class="page-link" href="?page={{ p }}{% if selected_course_id %}&course={{ selected_course_id }}{% endif %}{% if search_q %}&q={{ search_q }}{% endif %}">{{ p }}</a>
+            </li>
+          {% endfor %}
+          {% if page_obj.has_next %}
+            <li class="page-item">
+              <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if selected_course_id %}&course={{ selected_course_id }}{% endif %}{% if search_q %}&q={{ search_q }}{% endif %}">&raquo;</a>
+            </li>
+          {% endif %}
+        </ul>
+      </div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

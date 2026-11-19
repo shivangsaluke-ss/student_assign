@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {% extends 'app_base.html' %}
 {% load static %}
 
@@ -33,10 +34,86 @@
             </div>
             <p class="small text-muted-cosmic mb-0">Late submissions will incur a 10% penalty. Ensure all foreign key constraints are clearly defined in the SQL script.</p>
           </div>
+=======
+{% extends "app_base.html" %}
+
+{% block title %}Course Announcements - SAMS Faculty{% endblock %}
+{% block page_title %}Faculty Announcements Broadcast{% endblock %}
+
+{% block content %}
+<div class="container-fluid px-0">
+  <!-- Header Banner -->
+  <div class="card card-sams p-4 mb-4" style="background: linear-gradient(135deg, rgba(15,118,110,0.08) 0%, rgba(14,116,144,0.06) 100%); border-left: 4px solid var(--c-teal);">
+    <div class="d-flex flex-wrap align-items-center justify-content-between gap-3">
+      <div>
+        <h4 class="fw-bold mb-1 display-font text-dark">Broadcast Announcements</h4>
+        <p class="text-muted mb-0 small">Publish notices, deadline updates, and coursework alerts to all students enrolled in your courses.</p>
+      </div>
+      <a href="{% url 'teacher_dashboard' %}" class="btn btn-sams-outline btn-sm">
+        <i class="bi bi-arrow-left me-1"></i> Back to Dashboard
+      </a>
+    </div>
+  </div>
+
+  <div class="row g-4">
+    <!-- Broadcast Form -->
+    <div class="col-lg-7">
+      <div class="card card-sams h-100">
+        <div class="card-header-sams">
+          <div class="d-flex align-items-center gap-2">
+            <i class="bi bi-megaphone text-teal fs-5"></i>
+            <h5 class="mb-0 fw-bold">Create New Announcement</h5>
+          </div>
+        </div>
+        <div class="card-body p-4">
+          <form method="POST" novalidate>
+            {% csrf_token %}
+
+            {% if form.non_field_errors %}
+              <div class="alert alert-danger small mb-3">{{ form.non_field_errors }}</div>
+            {% endif %}
+
+            <div class="mb-3">
+              <label class="form-label fw-semibold small text-muted">TARGET COURSE <span class="text-danger">*</span></label>
+              {{ form.course }}
+              {% if form.course.errors %}
+                <div class="text-danger small mt-1">{{ form.course.errors|first }}</div>
+              {% endif %}
+              <div class="form-text small text-muted">Only students enrolled in this course will receive the notification.</div>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label fw-semibold small text-muted">ANNOUNCEMENT TITLE <span class="text-danger">*</span></label>
+              {{ form.title }}
+              {% if form.title.errors %}
+                <div class="text-danger small mt-1">{{ form.title.errors|first }}</div>
+              {% endif %}
+            </div>
+
+            <div class="mb-4">
+              <label class="form-label fw-semibold small text-muted">ANNOUNCEMENT MESSAGE <span class="text-danger">*</span></label>
+              {{ form.message }}
+              {% if form.message.errors %}
+                <div class="text-danger small mt-1">{{ form.message.errors|first }}</div>
+              {% endif %}
+              <div class="form-text small text-muted">Include important instructions, reference links, or date changes.</div>
+            </div>
+
+            <div class="d-flex align-items-center justify-content-between pt-3 border-top">
+              <button type="reset" class="btn btn-light border btn-sm">
+                <i class="bi bi-arrow-counterclockwise me-1"></i> Clear Form
+              </button>
+              <button type="submit" class="btn btn-sams-primary">
+                <i class="bi bi-send-fill me-1"></i> Broadcast Announcement
+              </button>
+            </div>
+          </form>
+>>>>>>> 34f461d5a64b34588d3efb81b7146ce778d049b1
         </div>
       </div>
     </div>
 
+<<<<<<< HEAD
     <div class="col-lg-5">
       <div class="p-4 rounded-4" style="background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08);">
         <h4 class="h6 fw-bold text-white mb-3"><i class="bi bi-send text-info me-2"></i>Post New Announcement</h4>
@@ -57,8 +134,58 @@
             <i class="bi bi-broadcast me-1"></i>Publish Notice
           </button>
         </form>
+=======
+    <!-- Right Column: My Courses Reference & Guidelines -->
+    <div class="col-lg-5">
+      <!-- Active Course Roster -->
+      <div class="card card-sams mb-4">
+        <div class="card-header-sams">
+          <div class="d-flex align-items-center gap-2">
+            <i class="bi bi-journal-bookmark text-teal fs-5"></i>
+            <h6 class="mb-0 fw-bold">Eligible Courses ({{ courses.count }})</h6>
+          </div>
+        </div>
+        <div class="card-body p-0">
+          {% if courses %}
+            <ul class="list-group list-group-flush small">
+              {% for c in courses %}
+                <li class="list-group-item d-flex align-items-center justify-content-between py-3 px-4">
+                  <div>
+                    <div class="fw-bold text-dark">{{ c.course_name }}</div>
+                    <span class="text-muted" style="font-size: 11px;">Semester {{ c.semester }} &bull; Course ID #{{ c.course_id }}</span>
+                  </div>
+                  <span class="badge bg-teal bg-opacity-10 text-teal border border-teal-subtle">
+                    {{ c.enrollments.count }} Enrolled
+                  </span>
+                </li>
+              {% endfor %}
+            </ul>
+          {% else %}
+            <div class="p-4 text-center text-muted small">
+              <i class="bi bi-journal-x fs-2 d-block mb-2"></i>
+              No courses assigned to your profile yet.
+            </div>
+          {% endif %}
+        </div>
+      </div>
+
+      <!-- Quick Tips Card -->
+      <div class="card card-sams p-4" style="background-color: #f8fafc;">
+        <h6 class="fw-bold text-dark d-flex align-items-center gap-2 mb-3">
+          <i class="bi bi-info-circle text-teal"></i> Best Practices
+        </h6>
+        <ul class="text-muted small ps-3 mb-0" style="line-height: 1.8;">
+          <li>Announcements are instantly visible to enrolled students on their dashboard alerts.</li>
+          <li>For assignment revisions or extensions, update the assignment deadline directly in <a href="{% url 'teacher_assignments' %}" class="text-teal">Manage Tasks</a>.</li>
+          <li>Ensure announcements specify task names clearly so students can easily cross-reference them.</li>
+        </ul>
+>>>>>>> 34f461d5a64b34588d3efb81b7146ce778d049b1
       </div>
     </div>
   </div>
 </div>
 {% endblock %}
+<<<<<<< HEAD
+=======
+
+>>>>>>> 34f461d5a64b34588d3efb81b7146ce778d049b1

@@ -1,11 +1,18 @@
 """
+<<<<<<< HEAD
 Django settings for Student Assignment Management System (SAMS).
+=======
+Django settings for sams_project project.
+Student Assignment Management System (SAMS)
+Production & Deployment Ready
+>>>>>>> 34f461d5a64b34588d3efb81b7146ce778d049b1
 """
 
 from pathlib import Path
 import os
 from dotenv import load_dotenv
 import pymysql
+<<<<<<< HEAD
 
 pymysql.install_as_MySQLdb()
 
@@ -16,12 +23,47 @@ load_dotenv(BASE_DIR / '.env')
 SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-sams-gtu-bca-sem5-minor-project-key-2026')
 DEBUG = os.getenv('DEBUG', 'True').lower() in ('true', '1', 'yes')
 
+=======
+import dj_database_url
+
+pymysql.install_as_MySQLdb()
+
+# Build paths inside the project like this: BASE_DIR / 'subdir'.
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+# Load environment variables from .env
+load_dotenv(BASE_DIR / '.env')
+
+# Security settings
+SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-sams-gtu-bca-sem5-minor-project-key-2026')
+
+DEBUG = os.getenv('DEBUG', 'False').lower() in ('true', '1', 'yes')
+
+# Host configuration
+>>>>>>> 34f461d5a64b34588d3efb81b7146ce778d049b1
 allowed_hosts_raw = os.getenv('ALLOWED_HOSTS', '*')
 if allowed_hosts_raw.strip() == '*':
     ALLOWED_HOSTS = ['*']
 else:
     ALLOWED_HOSTS = [h.strip() for h in allowed_hosts_raw.split(',') if h.strip()]
 
+<<<<<<< HEAD
+=======
+# CSRF Trusted Origins for cloud deployments (Render, Railway, PythonAnywhere, custom domains)
+csrf_origins_raw = os.getenv('CSRF_TRUSTED_ORIGINS', '')
+if csrf_origins_raw:
+    CSRF_TRUSTED_ORIGINS = [o.strip() for o in csrf_origins_raw.split(',') if o.strip()]
+else:
+    CSRF_TRUSTED_ORIGINS = [
+        'http://127.0.0.1',
+        'http://localhost',
+        'https://*.onrender.com',
+        'https://*.railway.app',
+        'https://*.pythonanywhere.com',
+        'https://*.vercel.app',
+    ]
+
+>>>>>>> 34f461d5a64b34588d3efb81b7146ce778d049b1
 # Application definition
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -29,8 +71,14 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+<<<<<<< HEAD
     'django.contrib.staticfiles',
     'sams_app',
+=======
+    'whitenoise.runserver_nostatic',
+    'django.contrib.staticfiles',
+    'sams_app.apps.SamsAppConfig',
+>>>>>>> 34f461d5a64b34588d3efb81b7146ce778d049b1
 ]
 
 MIDDLEWARE = [
@@ -65,6 +113,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'sams_project.wsgi.application'
 
+<<<<<<< HEAD
 # Database Configuration (MySQL as primary, robust check)
 db_engine = os.getenv('DB_ENGINE', 'django.db.backends.mysql')
 db_name = os.getenv('DB_NAME', 'sams_db')
@@ -113,6 +162,71 @@ else:
             'NAME': BASE_DIR / 'db.sqlite3',
         }
     }
+=======
+# Database Configuration
+# Priority:
+# 1. DATABASE_URL environment variable (Render, Railway, Heroku, Supabase, Neon)
+# 2. Local/Remote MySQL via DB_* environment variables
+# 3. Automatic fallback to SQLite (db.sqlite3)
+
+database_url = os.getenv('DATABASE_URL')
+if database_url:
+    DATABASES = {
+        'default': dj_database_url.config(
+            default=database_url,
+            conn_max_age=600,
+            conn_health_checks=True,
+        )
+    }
+else:
+    db_engine = os.getenv('DB_ENGINE', 'django.db.backends.mysql')
+    db_name = os.getenv('DB_NAME', 'sams_db')
+    db_user = os.getenv('DB_USER', 'root')
+    db_password = os.getenv('DB_PASSWORD', '')
+    db_host = os.getenv('DB_HOST', '127.0.0.1')
+    db_port = os.getenv('DB_PORT', '3306')
+
+    use_mysql = False
+    if 'mysql' in db_engine:
+        try:
+            test_conn = pymysql.connect(
+                host=db_host,
+                user=db_user,
+                password=db_password,
+                port=int(db_port),
+                connect_timeout=2
+            )
+            with test_conn.cursor() as cursor:
+                cursor.execute(f"CREATE DATABASE IF NOT EXISTS `{db_name}` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;")
+            test_conn.close()
+            use_mysql = True
+        except Exception as e:
+            print(f"[SAMS NOTICE] MySQL connection attempt returned: {e}. Falling back to SQLite backend.")
+            use_mysql = False
+
+    if use_mysql:
+        DATABASES = {
+            'default': {
+                'ENGINE': 'django.db.backends.mysql',
+                'NAME': db_name,
+                'USER': db_user,
+                'PASSWORD': db_password,
+                'HOST': db_host,
+                'PORT': db_port,
+                'OPTIONS': {
+                    'charset': 'utf8mb4',
+                    'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+                }
+            }
+        }
+    else:
+        DATABASES = {
+            'default': {
+                'ENGINE': 'django.db.backends.sqlite3',
+                'NAME': BASE_DIR / 'db.sqlite3',
+            }
+        }
+>>>>>>> 34f461d5a64b34588d3efb81b7146ce778d049b1
 
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
@@ -128,11 +242,16 @@ TIME_ZONE = 'Asia/Kolkata'
 USE_I18N = True
 USE_TZ = True
 
+<<<<<<< HEAD
 # Static files (CSS, JavaScript, Images)
+=======
+# Static files (CSS, JavaScript, Images) with WhiteNoise production compression
+>>>>>>> 34f461d5a64b34588d3efb81b7146ce778d049b1
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / 'static']
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
+<<<<<<< HEAD
 # Media Files (User uploads)
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
@@ -140,9 +259,45 @@ MEDIA_ROOT = BASE_DIR / 'media'
 # File Upload Settings
 DATA_UPLOAD_MAX_MEMORY_SIZE = 10 * 1024 * 1024  # 10 MB
 FILE_UPLOAD_MAX_MEMORY_SIZE = 10 * 1024 * 1024  # 10 MB
+=======
+STORAGES = {
+    "default": {
+        "BACKEND": "django.core.files.storage.FileSystemStorage",
+    },
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedStaticFilesStorage",
+    },
+}
+
+# Media files (Submissions, attachments)
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
+
+# File upload limits (10 MB max)
+MAX_UPLOAD_SIZE = 10 * 1024 * 1024  # 10 MB in bytes
+ALLOWED_UPLOAD_EXTENSIONS = ['pdf', 'doc', 'docx', 'zip', 'jpg', 'png']
+>>>>>>> 34f461d5a64b34588d3efb81b7146ce778d049b1
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_URL = '/login/'
+<<<<<<< HEAD
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
+=======
+LOGIN_REDIRECT_URL = '/login-redirect/'
+LOGOUT_REDIRECT_URL = '/'
+
+MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
+
+# Production Security Headers (when DEBUG=False)
+if not DEBUG:
+    SECURE_BROWSER_XSS_FILTER = True
+    SECURE_CONTENT_TYPE_NOSNIFF = True
+    X_FRAME_OPTIONS = 'DENY'
+    # Optional SSL redirect toggle from environment
+    if os.getenv('SECURE_SSL_REDIRECT', 'False').lower() in ('true', '1'):
+        SECURE_SSL_REDIRECT = True
+        SESSION_COOKIE_SECURE = True
+        CSRF_COOKIE_SECURE = True
+>>>>>>> 34f461d5a64b34588d3efb81b7146ce778d049b1

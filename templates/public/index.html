@@ -1,0 +1,248 @@
+{% extends "base.html" %}
+
+{% block title %}SAMS - Student Assignment Management System | Submit Smart. Grade Faster.{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="/static/css/hero.css">
+{% endblock %}
+
+{% block navbar %}
+<!-- Landing hero provides its own custom top navigation in desktop mode and responsive fallbacks -->
+{% endblock %}
+
+{% block content %}
+<!-- HERO FRAME: Desktop 1440x1280 scaling with viewport width -->
+<section class="hero-frame" id="hero">
+  <div class="hero-scene-overlay"></div>
+
+  <!-- Nav Logo at (31, 23) -->
+  <a href="{% url 'home' %}" class="hero-nav-logo">
+    <svg class="hero-cap-icon" viewBox="0 0 24 24">
+      <path d="M12 3L1 9L12 15L21 10.09V17H23V9M5 13.18V17.18C5 19.5 8.13 21.36 12 21.36C15.87 21.36 19 19.5 19 17.18V13.18L12 17L5 13.18Z"/>
+    </svg>
+    <span class="hero-nav-logo-text">SAMS</span>
+  </a>
+
+  <!-- Translucent Sage Pill at (443, 13) 546x50 -->
+  <nav class="hero-nav-pill">
+    <a href="{% url 'home' %}" class="hero-nav-link">Home</a>
+    <span class="hero-nav-dot">·</span>
+    <a href="{% url 'about' %}" class="hero-nav-link">About</a>
+    <span class="hero-nav-dot">·</span>
+    <a href="{% url 'modules' %}" class="hero-nav-link">Modules</a>
+    <span class="hero-nav-dot">·</span>
+    <a href="{% url 'diagrams' %}" class="hero-nav-link">Diagrams</a>
+  </nav>
+
+  <!-- White Login Pill at (1311, 14) 105x45 -->
+  <a href="{% url 'login' %}" class="hero-nav-login">Login</a>
+
+  <!-- Centered Hero Copy -->
+  <h2 class="hero-kicker">STUDENT ASSIGNMENT</h2>
+  
+  <h1 class="hero-headline">
+    <span class="hero-headline-1">SUBMIT SMART.</span>
+    <span class="hero-headline-2">GRADE FASTER.</span>
+  </h1>
+
+  <p class="hero-subline">
+    One portal for admins, teachers and students to create, submit and grade assignments online.
+  </p>
+
+  <!-- Mobile button container -->
+  <div class="hero-buttons-wrap-mobile">
+    <!-- CTA Button 1: White Login Pill (550, 617) 144x59 -->
+    <a href="{% url 'login' %}" class="hero-btn-login">Login</a>
+
+    <!-- CTA Button 2: Translucent Mint Explore Modules (707, 619) 184x58 -->
+    <a href="#modules-section" class="hero-btn-modules">
+      <span>Explore Modules</span>
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="5" y1="12" x2="19" y2="12"></line>
+        <polyline points="12 5 19 12 12 19"></polyline>
+      </svg>
+    </a>
+  </div>
+
+  <!-- Modules Row Title & Link (y = 866) -->
+  <h3 class="hero-modules-title" id="modules-section">MODULES</h3>
+  <a href="{% url 'modules' %}" class="hero-modules-link">view all modules &rsaquo;</a>
+
+  <!-- Mobile Swipeable Wrap for Cards -->
+  <div class="hero-cards-swipe-wrap">
+    <!-- Card 1: Admin at x=133, y=913 (378x273) -->
+    <a href="{% url 'admin_login' %}" class="hero-card hero-card-admin">
+      <div class="hero-card-img-wrap">
+        <img src="/static/img/cards/admin_card.svg" alt="Admin Portal" class="hero-card-img">
+      </div>
+      <div class="hero-card-body">
+        <div>
+          <h4 class="hero-card-title">Admin</h4>
+          <p class="hero-card-desc">Course allocations, faculty registries, student enrolments and academic submission analytics.</p>
+        </div>
+        <div class="hero-card-btn-arrow">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+            <polyline points="12 5 19 12 12 19"></polyline>
+          </svg>
+        </div>
+      </div>
+    </a>
+
+    <!-- Card 2: Teacher at x=531, y=913 (378x273) -->
+    <a href="{% url 'teacher_login' %}" class="hero-card hero-card-teacher">
+      <div class="hero-card-img-wrap">
+        <img src="/static/img/cards/teacher_card.svg" alt="Teacher Portal" class="hero-card-img">
+      </div>
+      <div class="hero-card-body">
+        <div>
+          <h4 class="hero-card-title">Teacher</h4>
+          <p class="hero-card-desc">Create assignments, track live submissions, evaluate solutions and award marks with remarks.</p>
+        </div>
+        <div class="hero-card-btn-arrow">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+            <polyline points="12 5 19 12 12 19"></polyline>
+          </svg>
+        </div>
+      </div>
+    </a>
+
+    <!-- Card 3: Student at x=929, y=913 (378x273) -->
+    <a href="{% url 'student_login' %}" class="hero-card hero-card-student">
+      <div class="hero-card-img-wrap">
+        <img src="/static/img/cards/student_card.svg" alt="Student Portal" class="hero-card-img">
+      </div>
+      <div class="hero-card-body">
+        <div>
+          <h4 class="hero-card-title">Student</h4>
+          <p class="hero-card-desc">Access coursework, upload files before deadlines, resubmit anytime and review faculty grades.</p>
+        </div>
+        <div class="hero-card-btn-arrow">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+            <polyline points="12 5 19 12 12 19"></polyline>
+          </svg>
+        </div>
+      </div>
+    </a>
+  </div>
+</section>
+
+<!-- CHAPTERS-STYLE OVERVIEW SECTION -->
+<section class="py-5 bg-white border-top">
+  <div class="container py-4">
+    <div class="text-center max-w-700 mx-auto mb-5">
+      <span class="badge bg-light text-teal px-3 py-2 rounded-pill fw-semibold border mb-2">Modern Academic Workflow</span>
+      <h2 class="display-font fs-1 mb-3">Re-inventing Assignment Submissions</h2>
+      <p class="text-muted lead fs-6">Say goodbye to misplaced physical papers and cluttered chat groups. SAMS provides structured lifecycle management from prompt publication to returned grades.</p>
+    </div>
+
+    <!-- Live System Statistics -->
+    <div class="row g-4 mb-5">
+      <div class="col-6 col-md-3">
+        <div class="stat-card">
+          <div class="stat-icon primary"><i class="bi bi-book"></i></div>
+          <div>
+            <div class="stat-value">{{ courses_count }}</div>
+            <div class="stat-label">Active Courses</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="stat-card">
+          <div class="stat-icon success"><i class="bi bi-mortarboard"></i></div>
+          <div>
+            <div class="stat-value">{{ students_count }}</div>
+            <div class="stat-label">Enrolled Students</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="stat-card">
+          <div class="stat-icon warning"><i class="bi bi-person-workspace"></i></div>
+          <div>
+            <div class="stat-value">{{ teachers_count }}</div>
+            <div class="stat-label">Faculty Members</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="stat-card">
+          <div class="stat-icon info"><i class="bi bi-file-earmark-check"></i></div>
+          <div>
+            <div class="stat-value">{{ submissions_count }}</div>
+            <div class="stat-label">Submissions Processed</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Chapters Grid -->
+    <div class="row g-4 align-items-stretch">
+      <div class="col-lg-4">
+        <div class="card card-sams h-100 p-4 border-0">
+          <div class="d-flex align-items-center gap-3 mb-3">
+            <span class="rounded-circle d-flex align-items-center justify-content-center fw-bold text-white" style="width: 36px; height: 36px; background: var(--c-deep-teal);">01</span>
+            <h4 class="mb-0 fs-5 display-font">Role-Based Segregation</h4>
+          </div>
+          <p class="text-muted small">Strict decorator-enforced permissions ensure Admins, Teachers, and Students only view authorized resources. Any unauthorized URL attempt returns a hardened 403 Forbidden page.</p>
+          <ul class="list-unstyled small text-muted mt-auto pt-3 border-top">
+            <li class="mb-1"><i class="bi bi-check2 text-success me-2"></i>Dedicated left sidebar dashboards</li>
+            <li class="mb-1"><i class="bi bi-check2 text-success me-2"></i>Automatic redirection on login</li>
+            <li><i class="bi bi-check2 text-success me-2"></i>Secure password hashing</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="col-lg-4">
+        <div class="card card-sams h-100 p-4 border-0">
+          <div class="d-flex align-items-center gap-3 mb-3">
+            <span class="rounded-circle d-flex align-items-center justify-content-center fw-bold text-white" style="width: 36px; height: 36px; background: var(--c-teal);">02</span>
+            <h4 class="mb-0 fs-5 display-font">5-Stage Status Lifecycle</h4>
+          </div>
+          <p class="text-muted small">Assignments travel through transparent stages: <strong>Pending</strong> &rarr; <strong>Submitted</strong> &rarr; <strong>Late</strong> &rarr; <strong>Evaluated</strong> &rarr; <strong>Returned</strong>, visible via color-coded badges to both students and teachers.</p>
+          <ul class="list-unstyled small text-muted mt-auto pt-3 border-top">
+            <li class="mb-1"><i class="bi bi-check2 text-success me-2"></i>Automatic deadline late detection</li>
+            <li class="mb-1"><i class="bi bi-check2 text-success me-2"></i>Multi-format uploads (PDF/DOCX/ZIP)</li>
+            <li><i class="bi bi-check2 text-success me-2"></i>Strict 10MB server validation</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="col-lg-4">
+        <div class="card card-sams h-100 p-4 border-0">
+          <div class="d-flex align-items-center gap-3 mb-3">
+            <span class="rounded-circle d-flex align-items-center justify-content-center fw-bold text-white" style="width: 36px; height: 36px; background: var(--c-cyan);">03</span>
+            <h4 class="mb-0 fs-5 display-font">Analytics &amp; Grading</h4>
+          </div>
+          <p class="text-muted small">Faculty review submissions in real-time, inspect files, allocate marks within maximum bounds, and issue constructive feedback that updates the student gradebook instantly.</p>
+          <ul class="list-unstyled small text-muted mt-auto pt-3 border-top">
+            <li class="mb-1"><i class="bi bi-check2 text-success me-2"></i>Course submission rate metrics</li>
+            <li class="mb-1"><i class="bi bi-check2 text-success me-2"></i>Average marks &amp; late distributions</li>
+            <li><i class="bi bi-check2 text-success me-2"></i>Instant notification bells</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- QUICK ACTION CALL TO ACTION -->
+<section class="py-5" style="background: linear-gradient(135deg, #0B3C49 0%, #0F766E 100%);">
+  <div class="container text-center text-white py-4">
+    <h2 class="display-font text-white fs-1 mb-3">Ready to experience SAMS?</h2>
+    <p class="text-white-50 lead fs-6 max-w-600 mx-auto mb-4">Log in with demo accounts for Admin, Faculty, or Student, or register a new student account to try out assignments.</p>
+    <div class="d-flex justify-content-center gap-3 flex-wrap">
+      <a href="{% url 'login' %}" class="btn btn-light px-4 py-2 fw-semibold rounded-pill" style="color: var(--c-teal);">Open Login Portal</a>
+      <a href="{% url 'register' %}" class="btn btn-outline-light px-4 py-2 fw-semibold rounded-pill">Create Student Account</a>
+      <a href="{% url 'database' %}" class="btn btn-outline-light px-4 py-2 fw-semibold rounded-pill">View 8-Table MySQL Schema</a>
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<!-- Hero Entrance Animation via WAAPI -->
+<script src="/static/js/hero_animation.js"></script>
+{% endblock %}

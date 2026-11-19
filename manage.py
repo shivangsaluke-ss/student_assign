@@ -3,6 +3,10 @@
 import os
 import sys
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 34f461d5a64b34588d3efb81b7146ce778d049b1
 def main():
     """Run administrative tasks."""
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'sams_project.settings')
@@ -16,5 +20,9 @@ def main():
         ) from exc
     execute_from_command_line(sys.argv)
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 34f461d5a64b34588d3efb81b7146ce778d049b1
 if __name__ == '__main__':
     main()
